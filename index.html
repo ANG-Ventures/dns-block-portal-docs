@@ -1,7 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DNS Block Portal — Docs</title>
-<style>:root {
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNS Block Portal — Docs</title><style>:root {
   color-scheme: light dark;
   --bg: #fafafa;
   --fg: #1a1a1a;
@@ -189,9 +186,7 @@ summary { cursor: pointer; font-weight: 600; }
 .badge.muted { background: var(--code-bg); color: var(--muted); border-color: var(--border); }
 .badge.review { background: #ede9fe; color: #6b21a8; border-color: #c4b5fd; }
 @media (prefers-color-scheme: dark) { .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; } }
-</style></head>
-<body><div class="layout"><nav><h3>Documents</h3><ol class="docs-toc">
-<li class="top"><a href="#doc-prd">PRD (historical)</a></li>
+</style></head><body><div class="layout"><nav><h3>Documents</h3><ol class="docs-toc"><li class="top"><a href="#doc-prd">PRD (historical)</a></li>
 <li class="top"><a href="#doc-ops-index">Operations · Index</a></li>
 <li class="top"><a href="#doc-ops-arch">Operations · Architecture</a></li>
 <li class="top"><a href="#doc-ops-runbook">Operations · Runbook</a></li>
@@ -202,30 +197,14 @@ summary { cursor: pointer; font-weight: 600; }
 <li class="top"><a href="#doc-L3">L3 — HAProxy → nftables migration</a></li>
 <li class="top"><a href="#doc-L4">L4 — Multi-domain mdca support</a></li>
 <li class="top"><a href="#doc-L5">L5 — Portal cert trust enrollment</a></li>
-<li class="top"><a href="#doc-L5r">L5 review — senior verdict</a></li>
+<li class="top"><a href="#doc-L5r">L5 review (v1) — senior verdict</a></li>
 <li class="top"><a href="#doc-L6">L6 — Portal session persistence</a></li>
-<li class="top"><a href="#doc-L6r">L6 review — senior verdict</a></li>
+<li class="top"><a href="#doc-L6r">L6 review (v1) — senior verdict</a></li>
 <li class="top"><a href="#doc-L7">L7 — Unified allowlist UI</a></li>
-<li class="top"><a href="#doc-L7r">L7 review — senior verdict</a></li>
+<li class="top"><a href="#doc-L7r">L7 review (v1) — senior verdict</a></li>
 <li class="top"><a href="#doc-L8">L8 — Post-unblock cache busting</a></li>
-<li class="top"><a href="#doc-verdict">Consolidated review verdict L5/L6/L7</a></li>
-</ol></nav>
-<main id="top">
-<div class="hero">
-<h1>DNS Block Portal</h1>
-<div class="meta">PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 senior review artifacts (with revisions applied)</div>
-<div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div>
-<div class="badges">
-<span class="badge shipped">✅ Phases 5C/5D/5E</span>
-<span class="badge shipped">✅ Wave-2/3</span>
-<span class="badge shipped">✅ L1 cert custody</span>
-<span class="badge shipped">✅ L8 success page</span>
-<span class="badge review">📋 L5/L6/L7 v2 (review revisions applied)</span>
-</div></div>
-<div class="content">
-<section class="doc" id="doc-prd">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">PRD (historical)</h2><div class="doc-badge"><span class="badge muted">📚 Historical record</span></div></header>
-  <section id="prd-dns-block-portal--product-requirements-historical"
+<li class="top"><a href="#doc-verdict">Consolidated v1 verdict L5/L6/L7</a></li>
+<li class="top"><a href="#doc-rereview">v2 re-review (all 3) — final</a></li></ol></nav><main id="top"><div class="hero"><h1>DNS Block Portal</h1><div class="meta">PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 review artifacts + v2 re-review</div><div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div><div class="badges"><span class="badge shipped">✅ Phases 5C/5D/5E</span><span class="badge shipped">✅ Wave-2/3</span><span class="badge shipped">✅ L1 cert custody</span><span class="badge shipped">✅ L8 success page</span><span class="badge review">📋 L5/L6/L7 v2 re-reviewed (APPROVE)</span></div></div><div class="content"><section class="doc" id="doc-prd"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">PRD (historical)</h2><div class="doc-badge"><span class="badge muted">📚 Historical record</span></div></header><section id="prd-dns-block-portal--product-requirements-historical"
 class="level3">
 <h3>DNS Block Portal — Product Requirements (historical)</h3>
 <blockquote>
@@ -2617,11 +2596,7 @@ route/source behavior is proven.</li>
 </section>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-ops-index">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Index</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
-  <section id="ops-index-dns--index" class="level3">
+</section><section class="doc" id="doc-ops-index"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Index</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header><section id="ops-index-dns--index" class="level3">
 <h3>DNS — Index</h3>
 <blockquote>
 <p>Top-level entry for the home DNS system. Use this to find the right
@@ -2804,11 +2779,7 @@ user_rules snapshots (private; 03:00 PDT)</li>
 </ul>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-ops-arch">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Architecture</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
-  <section id="ops-arch-dns--architecture" class="level3">
+</section><section class="doc" id="doc-ops-arch"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Architecture</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header><section id="ops-arch-dns--architecture" class="level3">
 <h3>DNS — Architecture</h3>
 <blockquote>
 <p>Current state as of Phase 5E (2026-05-27). Historical phase records:
@@ -3096,11 +3067,7 @@ B)</li>
 "Recovery playbook".</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-ops-runbook">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Runbook</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
-  <section id="ops-runbook-dns--operations" class="level3">
+</section><section class="doc" id="doc-ops-runbook"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Runbook</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header><section id="ops-runbook-dns--operations" class="level3">
 <h3>DNS — Operations</h3>
 <blockquote>
 <p>The runbook. Day-to-day commands + recovery from breakage. Entry
@@ -3470,11 +3437,7 @@ wrapper, git-tracked snapshots)</li>
 <p>Full PRD record: <code>DNS Block Portal - PRD</code>.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-ops-watchers">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Watcher Catalog</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
-  <section id="ops-watchers-dns-block-portal--watcher-catalog"
+</section><section class="doc" id="doc-ops-watchers"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Watcher Catalog</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header><section id="ops-watchers-dns-block-portal--watcher-catalog"
 class="level3">
 <h3>DNS Block Portal — Watcher Catalog</h3>
 <p><strong>Last updated:</strong> 2026-05-27 (post-Phase 5E)
@@ -4073,11 +4036,7 @@ the watchers" — documented in
 Config".</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L1">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Portal cert custody</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
-  <section id="L1-l1--portal-caddy-cert-custody" class="level3">
+</section><section class="doc" id="doc-L1"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Portal cert custody</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header><section id="L1-l1--portal-caddy-cert-custody" class="level3">
 <h3>L1 — Portal Caddy cert custody</h3>
 <p><strong>Status:</strong> ✅ SHIPPED 2026-05-27 (Wave-3, same session
 as everything else). <strong>Why:</strong> trusted devices visiting
@@ -4274,11 +4233,7 @@ fingerprint.</li>
 </ol>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L1r">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Rotation playbook</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
-  <section id="L1r-l1-pki-rotation-playbook" class="level3">
+</section><section class="doc" id="doc-L1r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Rotation playbook</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header><section id="L1r-l1-pki-rotation-playbook" class="level3">
 <h3>L1 PKI rotation playbook</h3>
 <blockquote>
 <p>When and how to rotate the DNS Portal PKI. Companion to:
@@ -4413,11 +4368,7 @@ from <code>PINNED_ROOT_FP</code>, it alerts to Discord
 <p>So you'll know within 5 minutes of any drift.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L2">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L2 — Portal UX polish</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (speculative)</span></div></header>
-  <section id="L2-l2--portal-ux-polish" class="level3">
+</section><section class="doc" id="doc-L2"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L2 — Portal UX polish</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (speculative)</span></div></header><section id="L2-l2--portal-ux-polish" class="level3">
 <h3>L2 — Portal UX polish</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative. <strong>Why
 now:</strong> the portal block page is functional but generic ("Blocked.
@@ -4527,11 +4478,7 @@ and should land <em>after</em> L1 (cert custody) so each user's
 experience starts from a green padlock.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L3">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L3 — HAProxy → nftables migration</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (not recommended)</span></div></header>
-  <section id="L3-l3--haproxy--nftables-migration" class="level3">
+</section><section class="doc" id="doc-L3"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L3 — HAProxy → nftables migration</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (not recommended)</span></div></header><section id="L3-l3--haproxy--nftables-migration" class="level3">
 <h3>L3 — HAProxy → nftables migration</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative — HAProxy
 works, this is a "could we make it simpler" exercise. <strong>Why
@@ -4666,11 +4613,7 @@ still get TCP-reject (not 200) for non-mdca SNI.</label></li>
 <p>None. Independent migration.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L4">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L4 — Multi-domain mdca support</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (when needed)</span></div></header>
-  <section id="L4-l4--multi-domain-mdca-support" class="level3">
+</section><section class="doc" id="doc-L4"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L4 — Multi-domain mdca support</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (when needed)</span></div></header><section id="L4-l4--multi-domain-mdca-support" class="level3">
 <h3>L4 — Multi-domain mdca support</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative — only needed
 if Ace stands up a second public hostname behind the same WAN
@@ -4796,11 +4739,7 @@ public hostname routes to NPM, not portal.</label></li>
 </ul>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L5">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — Portal cert trust enrollment</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied</span></div></header>
-  <section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
+</section><section class="doc" id="doc-L5"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — Portal cert trust enrollment</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE</span></div></header><section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
 <h3>L5 — Portal cert trust enrollment UX</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
 sees a browser security warning on
@@ -5050,11 +4989,7 @@ fingerprint</label></li>
 "test trust" probe doesn't trigger the cache issue.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L5r">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
-  <section id="L5r-l5--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L5r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L5r-l5--senior-review-2026-05-27" class="level3">
 <h3>L5 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L5-portal-cert-trust-enrollment.md</code>
@@ -5298,11 +5233,7 @@ guidance for small low-risk docs). Model self-disclosed as
 Opus-required gate.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L6">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — Portal session persistence</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied</span></div></header>
-  <section id="L6-l6--portal-session-persistence" class="level3">
+</section><section class="doc" id="doc-L6"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — Portal session persistence</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE</span></div></header><section id="L6-l6--portal-session-persistence" class="level3">
 <h3>L6 — Portal session persistence</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
 has to keep re-entering the admin secret on each block page.
@@ -5447,28 +5378,42 @@ social-engineer the user into allowlisting an unintended domain. Today's
 spec just trusts the query param.</p>
 <p><strong>Implementation (Option A from review — simpler):</strong></p>
 <ol type="1">
-<li>Each blocked-SNI portal Caddy response includes a redirect with a
-signed token:
-<pre><code>Location: https://blocked.local.ace/?domain=doubleclick.net&amp;t=&lt;token&gt;
-t = base64url(hmac_sha256(secret=DNS_ADMIN_SESSION_SECRET, message=&quot;domain:doubleclick.net:&lt;expiry_unix&gt;&quot;))</code></pre></li>
-<li>The expiry is 5 minutes from issuance
-(<code>&lt;expiry_unix&gt;</code> is encoded in the token via second
-HMAC field or appended <code>&amp;exp=&lt;unix&gt;</code> validated by
-the same HMAC).</li>
-<li><code>blocked.local.ace</code> handler:
+<li>Each blocked-SNI portal Caddy response includes a redirect with both
+<code>exp</code> and <code>t</code> as URL params, where <code>t</code>
+is the HMAC of the full <code>domain + exp</code> payload (so neither
+can be tampered independently):
+<pre><code>exp   = now_unix() + 300                     # 5-min validity
+payload = f&quot;domain:{domain}:{exp}&quot;           # the HMAC input
+t     = base64url(hmac_sha256(
+          secret=DNS_ADMIN_SESSION_SECRET,
+          message=payload,
+        ))
+Location: https://blocked.local.ace/?domain={domain}&amp;exp={exp}&amp;t={t}</code></pre></li>
+<li><code>blocked.local.ace</code> handler validates by
+<strong>re-deriving</strong> the HMAC from URL params, not by trusting
+them:
 <ul>
-<li>Parses <code>domain</code>, <code>exp</code>, <code>t</code>.</li>
-<li>Recomputes HMAC for <code>domain + exp</code>. Compare in constant
-time.</li>
-<li>Rejects if mismatch
-(<code>400 Bad Request: invalid redirect token</code>).</li>
-<li>Rejects if <code>exp &lt; now()</code>
-(<code>400 Bad Request: expired redirect token</code>).</li>
+<li>Extract <code>domain</code>, <code>exp</code>, <code>t</code> from
+the URL.</li>
+<li>Re-compute
+<code>expected_t = base64url(hmac_sha256(SECRET, f"domain:{domain}:{exp}"))</code>.</li>
+<li>Constant-time compare <code>t</code> vs <code>expected_t</code>. If
+mismatch → <code>400 Bad Request: invalid redirect token</code>.</li>
+<li>Reject if <code>int(exp) &lt; now_unix()</code> →
+<code>400 Bad Request: expired redirect token</code>.</li>
+<li>The <code>exp</code> is INSIDE the HMAC input — attacker cannot
+replay an old token with a future <code>exp</code> because the HMAC
+would mismatch.</li>
 </ul></li>
-<li>Direct navigation to <code>/?domain=X</code> without <code>t</code>
-→ ignore <code>domain</code>, render the generic admin form (no domain
-prefilled).</li>
+<li>Direct navigation to <code>/?domain=X</code> without
+<code>t</code>+<code>exp</code> → ignore <code>domain</code>, render the
+generic admin form (no domain prefilled).</li>
 </ol>
+<p>This means an attacker can NOT craft a working <code>?domain=</code>
+URL because they don't have <code>DNS_ADMIN_SESSION_SECRET</code>. They
+cannot extend expiry on a captured token because <code>exp</code> is
+HMAC-protected. The token is single-purpose (only valid for the original
+SNI's redirect chain) and expires fast.</p>
 <p>This means an attacker can NOT craft a working <code>?domain=</code>
 URL because they don't have <code>DNS_ADMIN_SESSION_SECRET</code>. The
 token is single-purpose (only valid for the original SNI's redirect
@@ -5495,16 +5440,28 @@ Acceptable for an admin session; preserves privacy in audit logs.</li>
 <p>Long-lived cookies need a kill switch.</p>
 <p><strong>Implementation:</strong></p>
 <ol type="1">
-<li>Add a prominent <code>[Log out]</code> button at the bottom of every
-portal page (block page + allowlist + setup) that POSTs to
-<code>/admin/logout</code> and clears the cookie.</li>
-<li>Add admin action <code>POST /admin/sessions/revoke-all</code> that
-bumps a <code>DNS_ADMIN_SESSION_GENERATION</code> counter (a new env var
-or sqlite key). The session cookie HMAC includes this counter; bumping
-it invalidates every cookie ever issued.</li>
-<li>Update <code>docs/longterm/L1-rotation.md</code>-style runbook
+<li><p>Add a prominent <code>[Log out]</code> button at the bottom of
+every portal page (block page + allowlist + setup) that POSTs to
+<code>/admin/logout</code> and clears the cookie.</p></li>
+<li><p>Add admin action <code>POST /admin/sessions/revoke-all</code>
+that bumps a <code>DNS_ADMIN_SESSION_GENERATION</code> counter stored in
+<code>devices.sqlite</code> table
+<code>admin_session_meta(key TEXT PRIMARY KEY, value INTEGER NOT NULL)</code>.
+Sqlite (not env var) so revoke takes effect immediately without a
+container restart. The session cookie HMAC payload includes this counter
+(<code>payload = f"{sid}:{exp}:{gen}"</code>); bumping the counter →
+next cookie validation re-derives expected HMAC with new
+<code>gen</code> → mismatch → cookie invalid.</p></li>
+<li><p><strong>L6.5 + secret rotation interaction:</strong> if the
+operator rotates <code>DNS_ADMIN_SESSION_SECRET</code>, L6.5 sessions
+survive because they're stored by fingerprint hash (input = platform +
+mobile + IP), not by cookie HMAC. Re-derivation uses the new secret +
+same inputs → same hash bucket → session row still found. Cookie-based
+sessions (L6.1) do NOT survive secret rotation (and that's correct —
+secret rotation is a panic-button intentional revoke).</p></li>
+<li><p>Update <code>docs/longterm/L1-rotation.md</code>-style runbook
 entry: "if you suspect a device with a session cookie is compromised,
-run revoke-all."</li>
+run revoke-all."</p></li>
 </ol>
 </section>
 </section>
@@ -5637,11 +5594,7 @@ redirect. But L6.1 + L6.2 ship independently and improve
 untrusted-device UX too (one warning instead of one-per-domain).</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L6r">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
-  <section id="L6r-l6--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L6r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L6r-l6--senior-review-2026-05-27" class="level3">
 <h3>L6 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L6-portal-session-persistence.md</code>
@@ -5893,11 +5846,7 @@ effort, not a blocker.</li>
 </table>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L7">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — Unified allowlist UI</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied (L7a/L7b split)</span></div></header>
-  <section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
+</section><section class="doc" id="doc-L7"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — Unified allowlist UI</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE (L7a/L7b split)</span></div></header><section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
 class="level3">
 <h3>L7 — Unified allowlist UI (one page, all CRUD)</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
@@ -5974,6 +5923,14 @@ Non-permanent gets an <code>expires_at</code> row in
 <li>Client filter:
 <code>All clients | This device | aces-mbp | aces-iphone…</code></li>
 <li>Search box: client-side filter.</li>
+<li><strong>Default filter is <code>All clients</code></strong> (NOT
+"This device"). This fixes a discoverability bug surfaced 2026-05-27:
+the legacy <code>/allowlist</code> defaults to "this device only" and
+the "Show all clients →" link is easy to miss, so a
+<code>@@||doubleclick.net^$client=aces-mbp</code> rule was invisible
+from any non-MacBook view. L7a makes the filter selection explicit and
+visible, with <code>All clients</code> as the default so household-admin
+views are not surprising.</li>
 </ul></li>
 <li><p><strong>Per-row Remove</strong>:</p>
 <ul>
@@ -6188,11 +6145,7 @@ snapshot)</label></li>
 AJAX call from a long-lived session.</p>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L7r">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
-  <section id="L7r-l7--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L7r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L7r-l7--senior-review-2026-05-27" class="level3">
 <h3>L7 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L7-portal-allowlist-ui.md</code> (alias for
@@ -6456,11 +6409,7 @@ three)</td>
 </table>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-L8">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L8 — Post-unblock cache busting</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
-  <section id="L8-l8--post-unblock-cache-busting" class="level3">
+</section><section class="doc" id="doc-L8"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L8 — Post-unblock cache busting</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header><section id="L8-l8--post-unblock-cache-busting" class="level3">
 <h3>L8 — Post-unblock cache busting</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong>
 After unblocking a domain via the portal, the redirect lands on the
@@ -6787,11 +6736,7 @@ href="https://www.chromium.org/developers/design-documents/dns-prefetching/">htt
 </ul>
 </section>
 </section>
-
-</section>
-<section class="doc" id="doc-verdict">
-  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Consolidated review verdict L5/L6/L7</h2><div class="doc-badge"><span class="badge review">📝 Summary</span></div></header>
-  <section id="verdict-l5--l6--l7--consolidated-senior-review-verdict"
+</section><section class="doc" id="doc-verdict"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Consolidated v1 verdict L5/L6/L7</h2><div class="doc-badge"><span class="badge review">📝 Summary</span></div></header><section id="verdict-l5--l6--l7--consolidated-senior-review-verdict"
 class="level3">
 <h3>L5 / L6 / L7 — Consolidated Senior Review Verdict</h3>
 <p><strong>Date:</strong> 2026-05-27 <strong>Reviewer:</strong> Forge
@@ -7006,15 +6951,371 @@ then L5. Total ~2 work days with required changes integrated.</p>
 </ul>
 </section>
 </section>
-
-</section></div></main></div>
-<script>
-document.querySelectorAll('pre').forEach(function(pre) {
-  var btn = document.createElement('button'); btn.className = 'copy-btn'; btn.textContent = 'Copy';
-  btn.addEventListener('click', function() {
-    var code = pre.querySelector('code'); var text = code ? code.textContent : pre.textContent;
-    navigator.clipboard.writeText(text).then(function() { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 1500); });
-  });
-  pre.appendChild(btn);
-});
-</script></body></html>
+</section><section class="doc" id="doc-rereview"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">v2 re-review (all 3) — final</h2><div class="doc-badge"><span class="badge review">📝 v2 verdict</span></div></header><section id="rereview-l5--l6--l7-v2--narrow-re-review-2026-05-27"
+class="level3">
+<h3>L5 / L6 / L7 v2 — Narrow Re-Review (2026-05-27)</h3>
+<p><strong>Reviewer:</strong> Forge local, all default lenses focused on
+the v2 deltas <strong>Model:</strong>
+<code>claude-api-proxy/claude-opus-4-7</code>
+<strong>Inputs:</strong></p>
+<ul>
+<li>v1 reviews: <code>reviews/L{5,6,7}-review-2026-05-27.md</code></li>
+<li>v2 specs (post-revision): <code>L{5,6,7}-*.md</code> with new
+"Review revisions (2026-05-27)" sections + updated Done definitions</li>
+</ul>
+<p><strong>Scope:</strong> verify each v1 finding is addressed; surface
+any new issues introduced by the v2 revisions.</p>
+<section id="rereview-verdict-summary" class="level4">
+<h4>Verdict summary</h4>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>v1 verdict</th>
+<th>v2 verdict</th>
+<th>Net delta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L5</td>
+<td>APPROVE WITH CHANGES (3)</td>
+<td><strong>APPROVE</strong></td>
+<td>All 3 v1 changes addressed cleanly; no new issues</td>
+</tr>
+<tr>
+<td>L6</td>
+<td>APPROVE WITH CHANGES (3)</td>
+<td><strong>APPROVE WITH CHANGES</strong> (1 new minor)</td>
+<td>All 3 v1 changes addressed; one new clarification needed</td>
+</tr>
+<tr>
+<td>L7</td>
+<td>APPROVE WITH CHANGES (3)</td>
+<td><strong>APPROVE</strong></td>
+<td>All 3 v1 changes addressed cleanly; no new issues</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rereview-l5-v2--approve" class="level4">
+<h4>L5 v2 — APPROVE</h4>
+<section id="rereview-v1-finding-closure" class="level5">
+<h5>v1-finding closure</h5>
+<table>
+<thead>
+<tr>
+<th>v1 #</th>
+<th>v1 finding</th>
+<th>v2 fix</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td><code>/setup</code> access policy not specified</td>
+<td>"Untrusted source → 403 with operator-contact message"; HAProxy
+<code>/24</code> is the gate</td>
+<td>✅ Solid. The 403 message is user-friendly.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Security threat model for <code>/setup</code></td>
+<td>Explicit CSP header, no third-party assets, only <code>.crt</code>
+files served (never key)</td>
+<td>✅ Solid. CSP is correctly scoped; <code>data:</code> for
+screenshots is justified.</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>"Test trust" probe SNI underspecified</td>
+<td>Dedicated synthetic <code>trust-probe.invalid</code> rewritten by
+AGH; audit log entry on probe</td>
+<td>✅ Solid. RFC 6761 reserved TLD is the right choice; audit log
+enables success-metric tracking.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rereview-new-issues" class="level5">
+<h5>New issues</h5>
+<p>None. The v2 spec adds implementation detail without expanding scope
+or introducing new attack surfaces.</p>
+</section>
+<section id="rereview-minor-polish-suggestions-not-required"
+class="level5">
+<h5>Minor polish suggestions (NOT required)</h5>
+<ul>
+<li>Spec mentions Apple Developer signing for <code>.mobileconfig</code>
+as "follow-up issue" but doesn't track it anywhere. Add a one-line note
+in the spec pointing to a future issue ID OR explicitly defer to L2 (UX
+polish).</li>
+<li>The done-definition manual gate ("Ace installs on 2 devices") is
+good but doesn't define what "failure" looks like. Suggest: "If green
+padlock doesn't appear within 5 min on either device, treat as failed
+install and follow <code>docs/longterm/L1-rotation.md</code>
+recovery."</li>
+</ul>
+<p><strong>Verdict: APPROVE.</strong> Ship when scheduled.</p>
+</section>
+</section>
+<section id="rereview-l6-v2--approve-with-changes" class="level4">
+<h4>L6 v2 — APPROVE WITH CHANGES</h4>
+<section id="rereview-v1-finding-closure-1" class="level5">
+<h5>v1-finding closure</h5>
+<table>
+<thead>
+<tr>
+<th>v1 #</th>
+<th>v1 finding</th>
+<th>v2 fix</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Open-redirect via unsigned <code>?domain=</code></td>
+<td>HMAC-signed token with 5-min expiry, constant-time compare, 400 on
+tamper</td>
+<td>✅ Solid. Option A (HMAC) was the simpler choice and is correctly
+implemented.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>L6.5 fingerprint privacy footnote wrong</td>
+<td>Daily-rotating salt; sessions re-prompt once per day on
+rollover</td>
+<td>✅ Acceptable. One-prompt-per-day adds friction but it's L6.5
+(fallback only).</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>30-day cookie revoke story</td>
+<td><code>[Log out]</code> button +
+<code>POST /admin/sessions/revoke-all</code> endpoint +
+session-generation counter</td>
+<td>✅ Solid. Generation counter is the standard pattern.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rereview-new-issues-1" class="level5">
+<h5>New issues</h5>
+<p><strong>RR1 (minor, clarification only):</strong> The HMAC token spec
+says:</p>
+<pre><code>t = base64url(hmac_sha256(secret=DNS_ADMIN_SESSION_SECRET, message=&quot;domain:doubleclick.net:&lt;expiry_unix&gt;&quot;))</code></pre>
+<p>…and that exp is "encoded in the token via second HMAC field or
+appended <code>&amp;exp=&lt;unix&gt;</code> validated by the same HMAC."
+This is ambiguous about whether <code>exp</code> lives
+<strong>inside</strong> the HMAC-protected payload or is just appended
+to the URL. <strong>If <code>exp</code> is in the URL but not in the
+HMAC input, the attacker can replay an old expired token with a future
+<code>exp</code>.</strong></p>
+<p><strong>Clarify:</strong> the HMAC input MUST be the full string
+<code>"domain:&lt;sni&gt;:&lt;exp&gt;"</code> AND the server MUST
+re-derive expected HMAC from <code>domain</code> AND <code>exp</code> in
+the URL. So <code>exp</code> is "in the URL AND in the HMAC input" —
+both. The v2 spec is <em>probably</em> meaning this but the prose is
+ambiguous. Fix by restating:</p>
+<blockquote>
+<p>The server-side handler MUST extract <code>domain</code> and
+<code>exp</code> from the URL, recompute
+<code>expected_t = hmac_sha256(SECRET, f"domain:{domain}:{exp}")</code>,
+and constant-time compare with the URL's <code>t</code>. If either
+<code>domain</code> or <code>exp</code> is tampered, the HMAC will
+mismatch and the request is rejected with 400.</p>
+</blockquote>
+<p><strong>Recommendation:</strong> add this clarification before
+merging L6.1. ~5 min edit.</p>
+</section>
+<section id="rereview-minor-polish-not-required" class="level5">
+<h5>Minor polish (NOT required)</h5>
+<ul>
+<li>The session-revoke story (R3) doesn't say where the
+<code>DNS_ADMIN_SESSION_GENERATION</code> counter lives. Two options:
+env var (requires container restart on bump) or sqlite key (no restart).
+Spec should pick: sqlite is better UX. Suggest: "stored in
+<code>devices.sqlite</code> table
+<code>admin_session_meta(key=generation, value=&lt;int&gt;)</code>;
+bumped via POST endpoint; checked on every session-cookie
+validation."</li>
+<li>The L6.5 daily salt rotation creates a question: what if the
+operator rotates <code>DNS_ADMIN_SESSION_SECRET</code> (per L1-style
+rotation)? All fingerprints become invalid simultaneously. Spec should
+call out that L6.5 sessions DO survive secret rotation iff the new
+secret is used for HMAC going forward (sessions stored by fingerprint,
+not by cookie HMAC — so re-derivation uses new secret + same fingerprint
+inputs = same hash bucket, session row still found).</li>
+</ul>
+<p><strong>Verdict: APPROVE WITH CHANGES.</strong> Add the HMAC
+clarification (RR1) before merge. Minor polish optional.</p>
+</section>
+</section>
+<section id="rereview-l7-v2--approve" class="level4">
+<h4>L7 v2 — APPROVE</h4>
+<section id="rereview-v1-finding-closure-2" class="level5">
+<h5>v1-finding closure</h5>
+<table>
+<thead>
+<tr>
+<th>v1 #</th>
+<th>v1 finding</th>
+<th>v2 fix</th>
+<th>Quality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Split L7a (allow-only) from L7b (block)</td>
+<td>Clean split; L7a done def + L7b separate done def; L7b deferred
+indefinitely</td>
+<td>✅ Solid. Split is clean; L7b is well-scoped if/when needed.</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Rule provenance tracking</td>
+<td>sqlite table + bootstrap migration + UI annotation + extra-confirm
+for manual deletes</td>
+<td>✅ Solid. Schema is sensible (5 columns, primary key on rule_text).
+Bootstrap handles existing rules.</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Undo window tuning</td>
+<td>15s instead of 5s; failure path defined ("manually re-add" link);
+manual-rule deletes skip Undo</td>
+<td>✅ Solid. 15s is the right number for safety-wrapper latency under
+load.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="rereview-new-issues-2" class="level5">
+<h5>New issues</h5>
+<p>None. L7a is now cleanly scoped, the security-risky L7b is deferred,
+and the schema additions are minimal.</p>
+</section>
+<section id="rereview-minor-polish-not-required-1" class="level5">
+<h5>Minor polish (NOT required)</h5>
+<ul>
+<li>The rule_provenance bootstrap "any user_rule not in table →
+<code>unknown</code>" is correct but the spec doesn't say what happens
+to the table when a rule is deleted from AGH out-of-band (via local-dns
+skill or AGH UI). Suggest a periodic reconciliation job (or
+run-at-portal-startup) that deletes provenance rows for rules no longer
+in AGH. Otherwise the table grows monotonically.</li>
+<li><code>Mobile responsive (stacked layout on &lt;600px width)</code>
+is in the done def but the spec doesn't include design details.
+Acceptable — vanilla CSS, the existing block page is already responsive,
+just reuse the pattern.</li>
+<li>Discoverability bug from the doubleclick incident (default
+<code>/allowlist</code> view hides other-device rules) is implicitly
+addressed by L7a's new filter row
+(<code>All clients | This device | aces-mbp | ...</code>). <strong>Spec
+should explicitly call this out</strong> as "fixes the
+device-scoped-rule visibility surprise" so the implementer doesn't
+accidentally preserve the surprising default.</li>
+</ul>
+<p><strong>Verdict: APPROVE.</strong> Ship L7a when scheduled. L7b stays
+deferred.</p>
+</section>
+</section>
+<section id="rereview-consolidated-changes" class="level4">
+<h4>Consolidated changes</h4>
+<p>For Ace to apply before merging any of the three:</p>
+<ol type="1">
+<li><strong>L6:</strong> add HMAC clarification block (RR1, ~5 min edit)
+— the new <code>?domain=&amp;exp=&amp;t=</code> must be unambiguous:
+server re-derives HMAC over <code>domain + exp</code>, both
+protected.</li>
+<li><strong>L6 (polish):</strong> specify where
+<code>DNS_ADMIN_SESSION_GENERATION</code> counter lives (recommend:
+<code>devices.sqlite</code>).</li>
+<li><strong>L7 (polish):</strong> call out that the new filter row fixes
+the "other-device rules hidden in default view" surprise that surfaced
+today via the doubleclick incident.</li>
+</ol>
+<p>None of these block implementation; all can land in the same PR that
+ships the feature.</p>
+</section>
+<section id="rereview-reviewer-coverage" class="level4">
+<h4>Reviewer coverage</h4>
+<table>
+<thead>
+<tr>
+<th>Lens</th>
+<th>L5 v2</th>
+<th>L6 v2</th>
+<th>L7 v2</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All clear</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All reuse existing infra</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>L6 has RR1 clarification; L5/L7 clean</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>No new infra</td>
+</tr>
+<tr>
+<td>DevOps/SRE</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All have rollback story</td>
+</tr>
+<tr>
+<td>Implementation</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>Patterns established</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>Test coverage spec'd</td>
+</tr>
+<tr>
+<td>Frontend/UX</td>
+<td>—</td>
+<td>—</td>
+<td>✓</td>
+<td>L7 only</td>
+</tr>
+</tbody>
+</table>
+<p>Re-review followed prd-review-pipeline skill §5 (narrow re-review
+focused on prior blockers). No subagent (each delta &lt;100 lines new
+content per spec). Model <code>claude-api-proxy/claude-opus-4-7</code>.
+No Opus-required gate.</p>
+</section>
+</section>
+</section></div></main></div><script>document.querySelectorAll('pre').forEach(function(pre) { var btn = document.createElement('button'); btn.className = 'copy-btn'; btn.textContent = 'Copy'; btn.addEventListener('click', function() { var c = pre.querySelector('code'); var t = c ? c.textContent : pre.textContent; navigator.clipboard.writeText(t).then(function() { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 1500); }); }); pre.appendChild(btn); });</script></body></html>
