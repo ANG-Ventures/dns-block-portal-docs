@@ -1,0 +1,2700 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DNS Block Portal — PRD</title>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #fafafa;
+  --fg: #1a1a1a;
+  --muted: #6b7280;
+  --accent: #1f6feb;
+  --card: #ffffff;
+  --border: #e5e7eb;
+  --code-bg: #f3f4f6;
+  --kbd-bg: #f9fafb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1419;
+    --fg: #e8eaed;
+    --muted: #9aa0a6;
+    --accent: #8ab4f8;
+    --card: #1a1f26;
+    --border: #232831;
+    --code-bg: #0f1419;
+    --kbd-bg: #232831;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Text", Roboto, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  background: var(--bg);
+  color: var(--fg);
+}
+.layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 2.5rem;
+  padding: 2rem 1.5rem 6rem;
+}
+nav {
+  position: sticky;
+  top: 1.5rem;
+  align-self: start;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  border-right: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+nav h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+nav ol { list-style: none; padding: 0; margin: 0; }
+nav li { margin: 0.15rem 0; }
+nav a { color: var(--fg); text-decoration: none; opacity: 0.85; }
+nav a:hover { opacity: 1; color: var(--accent); }
+nav .indent-1 { padding-left: 0.85rem; opacity: 0.75; }
+nav .indent-2 { padding-left: 1.7rem; opacity: 0.65; font-size: 0.83rem; }
+main { min-width: 0; }
+.hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+}
+.hero h1 { margin: 0 0 0.35rem; font-size: 1.8rem; }
+.hero .meta { color: var(--muted); font-size: 0.9rem; }
+.hero .badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.85rem; }
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--code-bg);
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+}
+.badge.shipped { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+.badge.live { background: #dbeafe; color: #1e40af; border-color: #93c5fd; }
+.badge.spec { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+@media (prefers-color-scheme: dark) {
+  .badge.shipped { background: #064e3b; color: #d1fae5; border-color: #047857; }
+  .badge.live { background: #1e3a8a; color: #dbeafe; border-color: #1d4ed8; }
+  .badge.spec { background: #78350f; color: #fef3c7; border-color: #b45309; }
+}
+.content h1, .content h2, .content h3, .content h4 {
+  margin-top: 2.2rem;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+  scroll-margin-top: 2rem;
+}
+.content h1 { font-size: 1.7rem; border-bottom: 2px solid var(--border); padding-bottom: 0.4rem; }
+.content h2 { font-size: 1.35rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35rem; }
+.content h3 { font-size: 1.1rem; color: var(--accent); }
+.content h4 { font-size: 0.98rem; }
+.content p, .content li { line-height: 1.7; }
+.content blockquote {
+  border-left: 4px solid var(--accent);
+  background: var(--card);
+  margin: 1rem 0;
+  padding: 0.75rem 1.1rem;
+  border-radius: 0 8px 8px 0;
+  color: var(--muted);
+}
+.content code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: var(--kbd-bg);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+.content pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  font-size: 0.86em;
+  line-height: 1.55;
+}
+.content pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: 1em;
+}
+.content table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.92em;
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.content th, .content td {
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+.content th { background: var(--card); font-weight: 600; }
+.content a { color: var(--accent); text-decoration: none; }
+.content a:hover { text-decoration: underline; }
+.content hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+.content ul, .content ol { padding-left: 1.4rem; }
+.content li { margin: 0.2rem 0; }
+.content img { max-width: 100%; border-radius: 8px; }
+details { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.9rem; margin: 0.8rem 0; }
+summary { cursor: pointer; font-weight: 600; }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  nav { position: static; max-height: none; border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+}
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  background: var(--kbd-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  color: var(--fg);
+}
+.content pre { position: relative; }
+.content pre:hover .copy-btn { opacity: 1; }
+
+</style>
+</head>
+<body>
+<div class="layout">
+<nav><h3>Contents</h3><ol>
+<li class="indent-1"><a href="#prd-tldr">TL;DR</a></li>
+<li class="indent-1"><a href="#prd-current-status">Current Status</a></li>
+<li class="indent-1"><a href="#prd-goals">Goals</a></li>
+<li class="indent-1"><a href="#prd-non-goals">Non-goals</a></li>
+<li class="indent-1"><a href="#prd-architecture">Architecture</a></li>
+<li class="indent-2"><a href="#prd-why-use-a-dns-proxy-and-front-door">Why use a DNS proxy and front-door</a></li>
+<li class="indent-2"><a href="#prd-tls-requirement">TLS requirement</a></li>
+<li class="indent-1"><a href="#prd-per-device-unblock-semantics">Per-device unblock semantics</a></li>
+<li class="indent-1"><a href="#prd-unblock-everywhere">"Unblock everywhere"</a></li>
+<li class="indent-1"><a href="#prd-logging--alerts">Logging &amp; alerts</a></li>
+<li class="indent-2"><a href="#prd-audit-jsonl">Audit JSONL</a></li>
+<li class="indent-2"><a href="#prd-discord">Discord</a></li>
+<li class="indent-1"><a href="#prd-ux">UX</a></li>
+<li class="indent-2"><a href="#prd-block-page-layout">Block page layout</a></li>
+<li class="indent-2"><a href="#prd-mobile">Mobile</a></li>
+<li class="indent-1"><a href="#prd-components--code-locations">Components &amp; code locations</a></li>
+<li class="indent-1"><a href="#prd-build-phases">Build phases</a></li>
+<li class="indent-2"><a href="#prd-phase-2--portalproxy-code-1-evening">Phase 2 — Portal/proxy code (1 evening)</a></li>
+<li class="indent-2"><a href="#prd-phase-3--frigate-deployment-1-evening">Phase 3 — Frigate deployment (1 evening)</a></li>
+<li class="indent-2"><a href="#prd-phase-4--real-certs-1-evening">Phase 4 — Real certs (1 evening)</a></li>
+<li class="indent-2"><a href="#prd-phase-5--polish-1-evening">Phase 5 — Polish (1 evening)</a></li>
+<li class="indent-1"><a href="#prd-remaining-portalproxy-path">Remaining portal/proxy path</a></li>
+<li class="indent-1"><a href="#prd-end-to-end-test-plan">End-to-end test plan</a></li>
+<li class="indent-1"><a href="#prd-open-questions">Open questions</a></li>
+<li class="indent-1"><a href="#prd-github-source-of-truth-plan">GitHub source-of-truth plan</a></li>
+<li class="indent-1"><a href="#prd-resilience-plan">Resilience Plan</a></li>
+<li class="indent-2"><a href="#prd-incident-that-triggered-this-section">Incident that triggered this section</a></li>
+<li class="indent-2"><a href="#prd-design-rule">Design rule</a></li>
+<li class="indent-2"><a href="#prd-required-steady-state">Required steady-state</a></li>
+<li class="indent-2"><a href="#prd-preflight-before-any-live-dns-change">Preflight before any live DNS change</a></li>
+<li class="indent-2"><a href="#prd-failure-behavior">Failure behavior</a></li>
+<li class="indent-2"><a href="#prd-monitoring">Monitoring</a></li>
+<li class="indent-2"><a href="#prd-resilience-system-options">Resilience system options</a></li>
+<li class="indent-2"><a href="#prd-recommended-order">Recommended order</a></li>
+<li class="indent-1"><a href="#prd-decision-log">Decision log</a></li>
+<li class="indent-1"><a href="#prd-references">References</a></li>
+<li class="indent-1"><a href="#prd-battle-scar-macos-443-binding">Battle scar: macOS :443 binding</a></li>
+<li class="indent-2"><a href="#prd-what-happened">What happened</a></li>
+<li class="indent-2"><a href="#prd-decision">Decision</a></li>
+<li class="indent-2"><a href="#prd-lessons">Lessons</a></li>
+<li class="indent-2"><a href="#prd-new-target-topology">New target topology</a></li>
+<li class="indent-2"><a href="#prd-why-ha-n100">Why HA N100</a></li>
+<li class="indent-2"><a href="#prd-implementation-shape">Implementation shape</a></li>
+<li class="indent-2"><a href="#prd-alert-plan">Alert plan</a></li>
+<li class="indent-2"><a href="#prd-roadmap-gates">Roadmap gates</a></li>
+<li class="indent-2"><a href="#prd-2026-05-16-1730-pdt-progress">2026-05-16 17:30 PDT progress</a></li>
+<li class="indent-2"><a href="#prd-2026-05-16-1827-pdt-progress">2026-05-16 18:27 PDT progress</a></li>
+<li class="indent-2"><a href="#prd-2026-05-17-0105-pdt-progress">2026-05-17 01:05 PDT progress</a></li>
+<li class="indent-2"><a href="#prd-2026-05-17-0150-pdt-prep">2026-05-17 01:50 PDT prep</a></li>
+<li class="indent-2"><a href="#prd-north-star">North star</a></li>
+<li class="indent-2"><a href="#prd-why-this-is-appealing">Why this is appealing</a></li>
+<li class="indent-2"><a href="#prd-operating-modes">Operating modes</a></li>
+<li class="indent-2"><a href="#prd-proposed-config-shape">Proposed config shape</a></li>
+<li class="indent-2"><a href="#prd-feasibility-notes">Feasibility notes</a></li>
+<li class="indent-2"><a href="#prd-recommendation">Recommendation</a></li>
+<li class="indent-2"><a href="#prd-working-decision">Working decision</a></li>
+<li class="indent-2"><a href="#prd-ha100-feasibility-gates">HA100 feasibility gates</a></li>
+<li class="indent-2"><a href="#prd-spec-holes-to-close">Spec holes to close</a></li>
+<li class="indent-2"><a href="#prd-where-ace-is-needed">Where Ace is needed</a></li>
+<li class="indent-1"><a href="#prd-phase-5c-status--closed-2026-05-25-pdt">Phase 5C Status — Closed 2026-05-25 PDT</a></li>
+<li class="indent-2"><a href="#prd-live-chain-post-2026-05-27-cutover">Live chain (post-2026-05-27 cutover)</a></li>
+<li class="indent-2"><a href="#prd-components-shipped">Components shipped</a></li>
+<li class="indent-2"><a href="#prd-verification">Verification</a></li>
+<li class="indent-2"><a href="#prd-known-observations-not-blocking">Known observations (not blocking)</a></li>
+<li class="indent-2"><a href="#prd-why">Why</a></li>
+<li class="indent-2"><a href="#prd-what-shipped">What shipped</a></li>
+<li class="indent-2"><a href="#prd-live-verification-2026-05-27">Live verification (2026-05-27)</a></li>
+<li class="indent-2"><a href="#prd-failure-modes--mitigations">Failure modes &amp; mitigations</a></li>
+<li class="indent-2"><a href="#prd-rollback">Rollback</a></li>
+<li class="indent-2"><a href="#prd-closes">Closes</a></li>
+<li class="indent-2"><a href="#prd-why-phase-5d-exists">Why Phase 5D exists</a></li>
+<li class="indent-2"><a href="#prd-v1v2v3-lessons">v1/v2/v3 lessons</a></li>
+<li class="indent-2"><a href="#prd-v31-architecture">v3.1 architecture</a></li>
+<li class="indent-2"><a href="#prd-required-gates-before-production">Required gates before production</a></li>
+<li class="indent-2"><a href="#prd-security-model-summary">Security model summary</a></li>
+<li class="indent-2"><a href="#prd-open-build-decisions">Open build decisions</a></li>
+<li class="indent-2"><a href="#prd-estimated-effort">Estimated effort</a></li>
+</ol></nav>
+
+<main>
+<div class="hero">
+  <h1>DNS Block Portal — Product Requirements</h1>
+  <div class="meta">Historical phase record · Project: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div>
+  <div class="badges">
+    <span class="badge shipped">✅ Phase 5C closed 2026-05-25</span>
+    <span class="badge live">🟢 Phase 5D live 2026-05-27</span>
+    <span class="badge live">🟢 Phase 5E live 2026-05-27</span>
+    <span class="badge shipped">✅ Wave-2 shipped 2026-05-27</span>
+    <span class="badge shipped">✅ Wave-3 shipped 2026-05-27</span>
+    <span class="badge shipped">✅ L1 cert custody shipped 2026-05-27</span>
+    <span class="badge shipped">✅ L8 success page shipped 2026-05-27</span>
+    <span class="badge spec">📋 L5, L6, L7 specs ready</span>
+  </div>
+</div>
+
+<div class="content">
+<section id="prd-dns-block-portal--product-requirements-historical"
+class="level2">
+<h2>DNS Block Portal — Product Requirements (historical)</h2>
+<blockquote>
+<p>📍 <strong>This doc is now the historical phase record.</strong>
+Current operational docs are in
+<code>Engineering/Network &amp; DNS/</code>:</p>
+<ul>
+<li><code>DNS — Index</code> (start
+here)</li>
+<li><code>DNS —
+Architecture</code></li>
+<li><code>DNS —
+Operations</code></li>
+</ul>
+<p>This PRD is preserved because the <strong>phase records</strong>
+(5A/5B/5C/5D/5E + Wave-2/3) document decisions and alternatives that
+aren't in the current-state docs. Useful when you need to understand WHY
+something is the way it is. Skip to "Phase 5C Status" or later for
+shipping records; the early sections (Architecture, UX, Build phases)
+describe the original NextDNS-blocklist-rewrite design that was
+SUPERSEDED by the AGH-blocklist + WAN-sinkhole architecture shipped in
+5D/5E.</p>
+</blockquote>
+<section id="prd-tldr" class="level3">
+<h3>TL;DR</h3>
+<p>When AdGuard Home or NextDNS blocks a domain, the user currently sees
+NextDNS's static "blocked" page (or a generic
+<code>ERR_CONNECTION_RESET</code>, depending on the layer). There is no
+way to self-service unblock without SSHing into the gateway or asking
+Forge to run a command.</p>
+<p>This project replaces that experience with a <strong>first-party
+block page hosted on the LAN</strong> that offers three actions per
+block:</p>
+<ol type="1">
+<li><strong>Unblock on this device</strong> — 5min / 1hr / permanent.
+AGH per-client rule.</li>
+<li><strong>Unblock everywhere</strong> — 5min / 1hr / permanent. AGH +
+NextDNS allowlist.</li>
+<li><strong>Explain</strong> — show which blocklist / CNAME chain caught
+it.</li>
+</ol>
+<p>All unblocks are logged to JSONL + announced to Discord
+<code>#alerts</code> in real time, with a daily digest to
+<code>#adguard-setup</code> and a rate-limit-tripwire alert for
+suspicious activity.</p>
+</section>
+<section id="prd-current-status" class="level3">
+<h3>Current Status</h3>
+<p><strong>LIVE in production on HA100-primary</strong> since 2026-05-17
+23:44 PDT.</p>
+<ul>
+<li>AGH on HA100 (<code>192.168.1.208:53</code>) upstreams to the
+front-door (<code>192.168.1.208:5354</code>).</li>
+<li>Front-door routes to the blockpage DNS proxy
+(<code>192.168.1.208:5380</code>) while healthy; falls open to direct
+NextDNS DoH when the proxy is unreachable (within ~6 s).</li>
+<li>Blockpage Caddy listens on <code>0.0.0.0:9443</code>; an iptables
+DNAT redirect on the host nat table sends
+<code>192.168.1.5:443 -&gt; 192.168.1.5:9443</code> so the blockpage
+owns the second IP's <code>:443</code> without disturbing NPM on
+<code>192.168.1.208:443</code>.</li>
+<li>Caddy internal CA root
+(<code>CN=Caddy Local Authority - 2026 ECC Root</code>, SHA-256
+<code>9E:EF:CB:33:77:96:9E:22:79:85:30:10:A8:A7:CC:C5:93:8E:9E:67:8C:91:E1:F2:B6:93:47:E7:03:38:4A:07</code>,
+valid through 2036-03-26) is the trust root. Backed up to
+<code>op://Engineering/HA100 Blockpage CA root</code>.</li>
+<li>Mac Studio trusts the root in System keychain; iPhone still pending
+(H100-8).</li>
+<li>Portal action mode is <code>live</code>. Clicking a 5 min unblock on
+Chrome creates a real AGH <code>user_rules</code> entry scoped to the
+client.</li>
+<li>Front-door state-change alerts post to Discord
+<code>#alerts</code>.</li>
+<li>Reboot drill: passed. Second IP and addon <code>boot</code> flags
+persist; addons come back up clean.</li>
+</ul>
+<p><strong>Open follow-ups (not blocking the live
+deployment):</strong></p>
+<ul>
+<li>iPhone DNS bypass: PIA VPN on the iPhone routes DNS through its own
+tunnel, so AGH never sees the queries. Mitigation options in
+<code>~/.openclaw/workspace/skills/local-dns/references/iphone-bypass-traps.md</code>
+(configure PIA to honor LAN DNS, or auto-disconnect at home, or both).
+Also disable per-Wi-Fi "Limit IP Address Tracking" and Safari "Advanced
+Tracking and Fingerprinting Protection".</li>
+<li>H100-7d auto-revert: LIVE since 2026-05-18 (add-on v0.1.16).</li>
+<li>H100-8 iPhone trust: profile installed and trusted; the bypass above
+is what's left for full E2E.</li>
+<li>L10 HSTS canary suite: spec'd at
+<code>~/Projects/dns-block-portal/tests/manual/L10_HSTS_CANARY.md</code>,
+ready to walk on each device.</li>
+<li>L13 watchdogs: 4 of 9 sub-instruments LIVE on Mac Studio as of
+2026-05-18 02:00-02:05 PDT (config-drift, prolonged-degradation,
+user_rules-audit, DNAT-existence).</li>
+<li>Webhook rotation: handled by Ace 2026-05-18.</li>
+</ul>
+<p><strong>Where the ground truth lives:</strong></p>
+<ul>
+<li>Repo: <code>~/Projects/dns-block-portal/</code> (GitHub
+<code>ANG-Ventures/dns-block-portal</code>).</li>
+<li>Project agent doc:
+<code>~/Projects/dns-block-portal/AGENTS.md</code> (read this first in a
+fresh session).</li>
+<li>Production architecture spec:
+<code>~/Projects/dns-block-portal/docs/HA100-PRIMARY-DEEP-DIVE.md</code>.</li>
+<li>Operator runbook:
+<code>~/Projects/dns-block-portal/docs/OPERATIONS.md</code>.</li>
+<li>Troubleshooting (every failure mode hit during the build):
+<code>~/Projects/dns-block-portal/docs/TROUBLESHOOTING.md</code>.</li>
+<li>Emergency rollback:
+<code>ssh root@192.168.1.208 -p 22222 'sh /share/dns-block-portal/rollback.sh'</code>.</li>
+<li>DNAT design + lifecycle:
+<code><code>DNS Block Portal - HA100 DNAT Path</code></code>.</li>
+</ul>
+</section>
+<section id="prd-goals" class="level3">
+<h3>Goals</h3>
+<ul>
+<li><strong>Primary:</strong> "I clicked a link, got blocked, and within
+10 seconds I'm on the real page" — no SSH, no agent intervention, works
+from Ace's phone in the kitchen.</li>
+<li><strong>Secondary:</strong> Audit trail — every unblock is captured
+with <code>who / what / when / where / why-blocked</code>, so we can
+spot patterns (e.g., a single device whitelisting 20 trackers in a day →
+malware suspect).</li>
+<li><strong>Tertiary:</strong> Pave the way for proper internal TLS
+across the homelab via <code>step-ca</code> (HA UI, Frigate UI, this
+portal, etc. all served with trusted certs).</li>
+</ul>
+</section>
+<section id="prd-non-goals" class="level3">
+<h3>Non-goals</h3>
+<ul>
+<li><strong>Not</strong> a NextDNS replacement. NextDNS remains the
+blocklist source of truth.</li>
+<li><strong>Not</strong> a public-internet service. Portal binds to LAN
+only.</li>
+<li><strong>Not</strong> a generic admin panel. No "edit blocklists," no
+"see all queries." Those live in AGH / NextDNS native UIs.</li>
+<li><strong>Not</strong> for Kitty's devices in Phase 1 (her devices
+won't have the root CA installed initially; she'll see cert warnings but
+still hit the page).</li>
+</ul>
+</section>
+<section id="prd-architecture" class="level3">
+<h3>Architecture</h3>
+<pre><code>LAN client → store.yeelight.com
+              │
+              ▼
+       AdGuard Home (192.168.1.208:53)
+         ├─ cache
+         ├─ custom allow/deny rules
+         ├─ persistent-client identity
+         └─ upstream → DNS front-door (HA N100, 192.168.1.208:5354)
+                         ├─ healthy → selected dns-block-proxy
+                         │             └─ NextDNS DoH profile 13b946
+                         │                  ├─ normal answer → proxy passes through
+                         │                  └─ blocked answer → proxy rewrites A/AAAA to portal IP
+                         └─ degraded → direct NextDNS DoH profile 13b946
+                         │
+                         ▼
+       Browser opens https://store.yeelight.com/ against portal :443
+                         │
+                         ▼
+       FastAPI portal on selected blockpage host
+         ├─ identifies blocked domain from Host header / SNI target
+         ├─ identifies client from HTTP source IP
+         ├─ enriches with AGH querylog + NextDNS logs
+         └─ renders action buttons
+                         │
+       user clicks &quot;Unblock this device, 1hr&quot;
+                         │
+                         ▼
+       FastAPI:
+         1. local-dns allow &lt;domain&gt; --scope adguard --device &lt;client&gt; --duration 1h
+         2. Append audit JSONL
+         3. Post Discord #alerts one-liner
+         4. Reverter sweep removes expired rules later
+         5. Redirect browser to original domain</code></pre>
+<section id="prd-why-use-a-dns-proxy-and-front-door" class="level4">
+<h4>Why use a DNS proxy and front-door</h4>
+<p>NextDNS does not let us customize its block page beyond toggling it
+on/off. AGH can rewrite domains to a portal, but doing that directly
+would require moving blocklist authority into AGH, which contradicts the
+current architecture.</p>
+<p>The proxy and front-door keep the responsibilities clean:</p>
+<ul>
+<li>AGH remains the LAN entrypoint and client-identity layer.</li>
+<li>NextDNS remains the blocklist and security authority.</li>
+<li>The selected blockpage proxy only changes responses that NextDNS has
+already classified as blocked.</li>
+<li>The HA N100 front-door chooses proxy vs direct NextDNS and fails
+open when the proxy is unhealthy.</li>
+<li>If the custom portal path fails, DNS resolution survives and users
+fall back to stock NextDNS behavior.</li>
+<li>Routine project/doc/build updates do not post to
+<code>#announcements</code>; DNS operational transitions still post to
+<code>#alerts</code>, and script errors still post to
+<code>#logs</code>.</li>
+</ul>
+</section>
+<section id="prd-tls-requirement" class="level4">
+<h4>TLS requirement</h4>
+<p>For HTTPS sites, the browser believes it is connecting to the
+original blocked hostname, e.g. <code>store.yeelight.com</code>, even
+though DNS points that hostname to the portal. A self-signed certificate
+for <code>blocked.local.ace</code> does not produce a clean UX; it
+produces a scary warning for the original domain.</p>
+<p>Good UX requires an internal CA trusted by the devices that should
+see the portal. The portal then serves dynamic certificates whose SAN
+matches the blocked hostname.</p>
+<ul>
+<li><strong>Build phase:</strong> code can run with a self-signed cert
+for local smoke tests.</li>
+<li><strong>Real MVP:</strong> internal CA + trusted device enrollment
+for Ace's primary devices.</li>
+<li><strong>Fallback:</strong> if cert work is incomplete, blocked sites
+still fall back to NextDNS's standard block page or a browser warning
+depending on route.</li>
+</ul>
+<p>Browser extensions (Option C in the design discussion) are explicitly
+out-of-scope because they don't work on iOS Safari, iOS Chrome, or iOS
+Brave (all forced to WebKit and disallowed from extending it). The
+portal must work on mobile, so it has to be a real page.</p>
+</section>
+</section>
+<section id="prd-per-device-unblock-semantics" class="level3">
+<h3>Per-device unblock semantics</h3>
+<p>NextDNS allowlist is <strong>global</strong> — there is no
+NextDNS-native way to allow a domain for one device. Per-device unblock
+is therefore an <strong>AdGuard Home concern</strong>:</p>
+<ol type="1">
+<li>Portal receives "unblock this device" click.</li>
+<li>Resolves client source IP → AGH persistent-client name (e.g.
+<code>192.168.1.45</code> → <code>aces-iphone</code>). Persistent
+clients are configured in the AGH UI; this list must be kept
+current.</li>
+<li>Adds rule: <code>@@||store.yeelight.com^$client=aces-iphone</code>
+to AGH custom rules via the <code>local-dns</code> skill.</li>
+<li>NextDNS continues to block the domain for every other device — AGH
+answers first for the iPhone only.</li>
+<li>If duration ≠ permanent, schedule auto-removal at T+duration.</li>
+</ol>
+<p>If the client IP doesn't resolve to a persistent client, the portal
+blocks device-scoped self-service unblock and asks for the device to be
+added as an AGH persistent client first. Explicit IP/CIDR rules remain
+possible as an operator-only emergency path, but the portal should not
+silently rely on volatile DHCP IPs.</p>
+</section>
+<section id="prd-unblock-everywhere" class="level3">
+<h3>"Unblock everywhere"</h3>
+<p>Calls <code>local-dns allow &lt;domain&gt; --scope both</code>:</p>
+<ul>
+<li>Adds <code>@@||&lt;domain&gt;^</code> to AGH custom rules.</li>
+<li>Posts to NextDNS allowlist API
+(<code>POST /profiles/13b946/allowlist</code>).</li>
+<li>AGH cache flush.</li>
+</ul>
+<p>Wildcards are rejected by NextDNS; portal pre-validates and shows an
+inline error if the user tries to allow <code>*.tracker.com</code>.</p>
+</section>
+<section id="prd-logging--alerts" class="level3">
+<h3>Logging &amp; alerts</h3>
+<section id="prd-audit-jsonl" class="level4">
+<h4>Audit JSONL</h4>
+<p>Path: <code>~/.openclaw/workspace/memory/dns-unblocks.jsonl</code>.
+Append-only.</p>
+<div class="sourceCode" id="prd-cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="prd-cb2-1"><a href="#prd-cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="prd-cb2-2"><a href="#prd-cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;ts&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-15T16:00:00Z&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-3"><a href="#prd-cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;action&quot;</span><span class="fu">:</span> <span class="st">&quot;unblock&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-4"><a href="#prd-cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scope&quot;</span><span class="fu">:</span> <span class="st">&quot;device&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-5"><a href="#prd-cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;domain&quot;</span><span class="fu">:</span> <span class="st">&quot;store.yeelight.com&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-6"><a href="#prd-cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;client&quot;</span><span class="fu">:</span> <span class="st">&quot;aces-iphone&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-7"><a href="#prd-cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;client_ip&quot;</span><span class="fu">:</span> <span class="st">&quot;192.168.1.45&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-8"><a href="#prd-cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;duration&quot;</span><span class="fu">:</span> <span class="st">&quot;1h&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-9"><a href="#prd-cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;expires_at&quot;</span><span class="fu">:</span> <span class="st">&quot;2026-05-15T17:00:00Z&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-10"><a href="#prd-cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;blocked_by&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;hagezi-multi-pro&quot;</span><span class="ot">,</span> <span class="st">&quot;oisd&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="prd-cb2-11"><a href="#prd-cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;cname_chain&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;store.yeelight.com&quot;</span><span class="ot">,</span> <span class="st">&quot;yeelight-cdn.example.com&quot;</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="prd-cb2-12"><a href="#prd-cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;actor_ip&quot;</span><span class="fu">:</span> <span class="st">&quot;192.168.1.45&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-13"><a href="#prd-cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;user_agent&quot;</span><span class="fu">:</span> <span class="st">&quot;Mozilla/5.0 (iPhone; ...)&quot;</span><span class="fu">,</span></span>
+<span id="prd-cb2-14"><a href="#prd-cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;via&quot;</span><span class="fu">:</span> <span class="st">&quot;portal&quot;</span></span>
+<span id="prd-cb2-15"><a href="#prd-cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="prd-discord" class="level4">
+<h4>Discord</h4>
+<ul>
+<li><strong>Per-unblock alert → <code>#alerts</code>
+(<code>1480528231286181948</code>)</strong>. Real-time, one-liner.
+<em>(Ace's preference 2026-05-15: alerts → #alerts, not #logs, because
+unblocks are something he actively wants to know about.)</em></li>
+<li><strong>Historical record → <code>#logs</code>
+(<code>1480525090331561984</code>)</strong>. Same event, written by the
+<code>local-dns</code> skill's existing audit echo.</li>
+<li><strong>Daily digest → <code>#adguard-setup</code>
+(<code>1496863936463769731</code>)</strong> at 8am, summarizing
+yesterday's unblocks.</li>
+<li><strong>Rate-limit tripwire → <code>#alerts</code></strong>. If a
+single client triggers &gt;5 unblocks in &lt;10 min, post a warning.
+Possible malware / compromised browser.</li>
+</ul>
+</section>
+</section>
+<section id="prd-ux" class="level3">
+<h3>UX</h3>
+<section id="prd-block-page-layout" class="level4">
+<h4>Block page layout</h4>
+<pre><code>┌──────────────────────────────────────────────────────┐
+│  🚫  Blocked by your home DNS                        │
+│                                                      │
+│  store.yeelight.com                                  │
+│                                                      │
+│  Blocked by: hagezi-multi-pro, oisd                  │
+│  CNAME chain: store.yeelight.com → yeelight-cdn.…    │
+│  Device: aces-iphone (192.168.1.45)                  │
+│                                                      │
+│  ┌────────────────────────┐  ┌─────────────────────┐ │
+│  │  Unblock on this device │  │ Unblock everywhere  │ │
+│  │  [5m] [1h] [permanent] │  │ [5m] [1h] [perm]    │ │
+│  └────────────────────────┘  └─────────────────────┘ │
+│                                                      │
+│  [ Tell me why ]   [ Cancel — keep blocked ]         │
+└──────────────────────────────────────────────────────┘</code></pre>
+<p>Action confirmation slides over with: "✓ Unblocked for 1 hour.
+Redirecting…"</p>
+</section>
+<section id="prd-mobile" class="level4">
+<h4>Mobile</h4>
+<p>Mobile-first CSS. iOS Safari is the primary target since it's where
+workarounds are hardest.</p>
+</section>
+</section>
+<section id="prd-components--code-locations" class="level3">
+<h3>Components &amp; code locations</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Location</th>
+<th>Tech</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend service</td>
+<td><code>~/.openclaw/workspace/Projects/dns-block-portal/</code> (then
+deployed to Frigate N100)</td>
+<td>FastAPI + uvicorn</td>
+</tr>
+<tr>
+<td>DNS proxy</td>
+<td>same project</td>
+<td>asyncio UDP DNS + NextDNS DoH</td>
+</tr>
+<tr>
+<td>AGH/NextDNS integration</td>
+<td>reuses <code>~/.openclaw/workspace/skills/local-dns/</code></td>
+<td>Python (this skill)</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td><code>dns-block-portal/static/</code></td>
+<td>static HTML + minimal JS, no framework</td>
+</tr>
+<tr>
+<td>Auto-revert daemon</td>
+<td>systemd timer on Frigate reading
+<code>dns-unblocks.jsonl</code></td>
+<td>Python</td>
+</tr>
+<tr>
+<td>Daily digest</td>
+<td>Forge cron (8am)</td>
+<td>Python via Forge's <code>cron</code> runtime</td>
+</tr>
+<tr>
+<td>Tripwire monitor</td>
+<td>Forge cron (every 5 min, tail mode)</td>
+<td>Python via Forge's <code>cron</code> runtime</td>
+</tr>
+<tr>
+<td>Cert authority</td>
+<td>internal CA, likely <code>step-ca</code></td>
+<td>smallstep</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="prd-build-phases" class="level3">
+<h3>Build phases</h3>
+<section
+id="prd-phase-1--local-dns-skill-white_check_mark-done-2026-05-15"
+class="level4">
+<h4>Phase 1 — <code>local-dns</code> skill ✅ DONE (2026-05-15)</h4>
+<p>Built and distributed to Forge, Bastion, Skynet. Provides
+allow/deny/lookup/recent-blocks/why-blocked/cname-trace/query/status/cache-clear/blocklists,
+audit JSONL, Discord <code>#logs</code> echo, NextDNS wildcard preempt,
+AGH safe set_rules wrapper.</p>
+</section>
+<section id="prd-phase-2--portalproxy-code-1-evening" class="level4">
+<h4>Phase 2 — Portal/proxy code (1 evening)</h4>
+<ul>
+<li>Build FastAPI portal and UDP DNS proxy locally.</li>
+<li>Proxy forwards to NextDNS DoH and rewrites only NextDNS blockpage
+answers.</li>
+<li>Page renders, action buttons call <code>local-dns</code>, audit
+JSONL, <code>#alerts</code> echo.</li>
+<li>Reverter and tripwire run as explicit commands.</li>
+<li>No live AGH upstream change until smoke tests pass.</li>
+</ul>
+</section>
+<section id="prd-phase-3--frigate-deployment-1-evening" class="level4">
+<h4>Phase 3 — Frigate deployment (1 evening)</h4>
+<ul>
+<li>Install project on Frigate N100 (<code>192.168.1.176</code>).</li>
+<li>Run portal on <code>:443</code> and proxy on <code>:5353</code>
+under systemd.</li>
+<li>Point AGH upstream primary at <code>192.168.1.176:5353</code>.</li>
+<li>Keep AGH secondary upstream pointed directly at NextDNS for failure
+fallback.</li>
+</ul>
+</section>
+<section id="prd-phase-4--real-certs-1-evening" class="level4">
+<h4>Phase 4 — Real certs (1 evening)</h4>
+<ul>
+<li>Stand up internal CA.</li>
+<li>Root CA installed on: Ace iPhone, Mac Studio, ACE-PC, MBP.</li>
+<li>Portal serves dynamic certs for blocked hostnames.</li>
+<li>Cert warnings gone.</li>
+</ul>
+</section>
+<section id="prd-phase-5--polish-1-evening" class="level4">
+<h4>Phase 5 — Polish (1 evening)</h4>
+<ul>
+<li>Finalize all persistent-client mappings (every household device
+named).</li>
+<li>Time-limited unblocks (5m/1h/24h) with auto-revert tested
+end-to-end.</li>
+<li>Pretty page styling, dark-mode, mobile-tuned.</li>
+<li>Kitty's devices: invite + install profile (if she wants in).</li>
+<li>Idle gauges in <code>#adguard-setup</code>: blocks/hr, unblocks/wk,
+top blocked domains.</li>
+</ul>
+</section>
+</section>
+<section id="prd-remaining-portalproxy-path" class="level3">
+<h3>Remaining portal/proxy path</h3>
+<p>Current state: the portal/proxy code has passed local and Frigate
+non-routing tests, AGH persistent clients are active for the four Phase
+1 fixed-IP devices, and all live DNS routing remains off.</p>
+<ol type="1">
+<li><p><strong>Proxy hardening</strong></p>
+<ul>
+<li>Implemented and tested locally: <code>AAAA</code> NODATA behavior,
+<code>NXDOMAIN</code> pass-through, malformed packet handling, upstream
+timeout <code>SERVFAIL</code>, DNS ID preservation, and TCP DNS
+framing/listener support.</li>
+<li>Implemented and tested on Frigate: direct UDP/TCP <code>dig</code>
+canaries from L3.</li>
+<li>Keep failure bounded: proxy timeout must return a fast failure to
+AGH so AGH can use its direct NextDNS fallback.</li>
+</ul></li>
+<li><p><strong>Portal action testability</strong></p>
+<ul>
+<li>Implemented: <code>DNS_PORTAL_ACTION_MODE=dry-run</code> is the
+default, <code>/unblock</code> and <code>/why</code> can be tested
+without changing AGH or NextDNS policy, and tests cover invalid-domain
+rejection, unknown-device rejection, known persistent-client success,
+everywhere unblock command shape, and audit JSONL shape.</li>
+<li>Implemented: dry-run coverage for auto-revert, daily digest, and
+tripwire; dry-run prints intended Discord payloads instead of
+posting.</li>
+<li>Implemented: portal and auto-revert both support routing live
+<code>local-dns</code> calls back to Forge via
+<code>LOCAL_DNS_SKILL_HOST</code>.</li>
+<li>Verified 2026-05-16: local and Frigate test suites pass
+(<code>25 passed</code> each); disabled direct rewrite script still
+exits safely; Frigate non-routing proxy/portal smoke passed; final
+Frigate listener check showed nothing on <code>:443</code>,
+<code>:5353</code>, or <code>:8443</code>.</li>
+<li>Remaining: persist and test Frigate service environment values
+(<code>LOCAL_DNS_SKILL_HOST</code>, <code>LOCAL_DNS_SSH_KEY</code>)
+without enabling services yet.</li>
+</ul></li>
+<li><p><strong>Device/client correctness</strong></p>
+<ul>
+<li>Resolved for Phase 1 on 2026-05-16: AGH persistent-client mappings
+were created and verified for Ace iPhone, MacBook Pro, ACE-PC, and Mac
+Studio.</li>
+<li>Verified mappings: <code>192.168.1.9</code> -&gt;
+<code>aces-iphone</code>, <code>192.168.1.88</code> -&gt;
+<code>aces-mbp</code>, <code>192.168.1.78</code> -&gt;
+<code>ace-pc</code>, <code>192.168.1.18</code> -&gt;
+<code>aces-mac-studio</code>.</li>
+<li>AGH backup before mutation:
+<code>~/.openclaw/workspace/memory/local/agh-clients-backup-20260516-070953Z/</code>;
+verified after snapshot:
+<code>~/.openclaw/workspace/memory/local/agh-clients-after-20260516-071305Z.json</code>.</li>
+<li>MacBook Air remains intentionally excluded until UniFi reports
+<code>use_fixedip: true</code> and the matching AGH persistent client
+exists.</li>
+<li>Confirm source IP seen by portal maps to the same client identity
+used by AGH custom rules.</li>
+<li>Unknown clients should be blocked from self-service device unblocks
+until mapped, not silently allowed by volatile IP.</li>
+<li><code>local-dns</code> now fails closed for named
+<code>--device</code> allow/deny mutations unless that AGH persistent
+client exists; explicit IP/CIDR remains possible for emergency use
+only.</li>
+</ul></li>
+<li><p><strong>Certificate path</strong></p>
+<ul>
+<li>Build the internal CA / dynamic cert path before calling the UX
+real. Without this, browsers show a cert warning for the original
+blocked hostname.</li>
+<li>Enroll the root CA on Ace's primary devices.</li>
+<li>Test HSTS-heavy sites separately; the portal must present a cert
+valid for the original hostname.</li>
+</ul></li>
+<li><p><strong>Controlled live gate</strong></p>
+<ul>
+<li>Only after dry-run and Frigate smoke gates pass: start proxy
+manually, put AGH upstream primary to Frigate proxy and secondary to
+direct NextDNS, test with direct <code>dig @192.168.1.208</code> first,
+then one sacrificial client.</li>
+<li>Kill the proxy during the test and verify AGH falls back to direct
+NextDNS rather than causing a DNS outage.</li>
+<li>Restore AGH upstreams immediately after the test window.</li>
+</ul></li>
+</ol>
+</section>
+<section id="prd-end-to-end-test-plan" class="level3">
+<h3>End-to-end test plan</h3>
+<p>The detailed command-level test plan lives in the repo:
+<code>~/Projects/dns-block-portal/TESTING.md</code>.</p>
+<p>Validation ladder:</p>
+<ol type="1">
+<li><strong>L0 static safety gates</strong> — <code>pytest</code>,
+disabled rewrite script exits safely, no unexpected listeners, no DNS
+mutations.</li>
+<li><strong>L1 unit coverage</strong> — NextDNS block detection, normal
+pass-through, portal response synthesis, <code>AAAA</code> NODATA,
+<code>NXDOMAIN</code>, DNS ID preservation, malformed packets, upstream
+timeout <code>SERVFAIL</code>, and TCP framing.</li>
+<li><strong>L2 local smoke</strong> — direct local proxy
+<code>dig</code> canaries for normal, blocked, invalid, and
+<code>AAAA</code> queries.</li>
+<li><strong>L3 Frigate non-routing smoke</strong> — tests and direct
+proxy/portal checks on <code>192.168.1.176</code> with no AGH upstream
+change.</li>
+<li><strong>L4 portal action dry-run</strong> — implemented for
+<code>/unblock</code>, <code>/why</code>, audit shape, reverter, digest,
+tripwire, and remote <code>local-dns</code> command shape without live
+policy mutation.</li>
+<li><strong>L5 controlled AGH upstream test</strong> — short maintenance
+window, proxy first / direct NextDNS second, direct
+<code>dig @192.168.1.208</code> before client traffic.</li>
+<li><strong>L6 device E2E</strong> — MacBook Pro, ACE-PC, iPhone, and
+Mac Studio each prove block page, explanation, device unblock, redirect,
+other-device-still-blocked, and expiry/re-block.</li>
+<li><strong>L7 audit/alert/revert</strong> — exactly one audit row per
+action, real-time <code>#alerts</code>, daily digest to
+<code>#adguard-setup</code>, tripwire cooldown, idempotent
+reverter.</li>
+<li><strong>L8 failure injection</strong> — proxy down, portal down,
+Frigate down, simulated NextDNS timeout. Resolution must survive even if
+filtering/portal UX degrades.</li>
+<li><strong>L9 rollback drill</strong> — stop services, restore direct
+NextDNS upstream behavior, verify DNS and block behavior, confirm
+services are not accidentally enabled.</li>
+</ol>
+<p>MVP is not "live" until L0-L7 pass, L8 proves proxy failure does not
+break resolution, and L9 has been executed once.</p>
+</section>
+<section id="prd-open-questions" class="level3">
+<h3>Open questions</h3>
+<ol type="1">
+<li><strong>Dynamic cert implementation</strong> — step-ca directly,
+Caddy with on-demand internal certs, or a small Python TLS/SNI
+layer.</li>
+<li><strong>Client attribution</strong> — portal can identify the HTTP
+source IP, while the DNS proxy only sees AGH. Enrichment should
+correlate portal source IP + domain against recent AGH querylog.</li>
+<li><strong>Auto-revert reliability</strong> — if Frigate reboots
+mid-window, expired-but-not-removed rules linger. Mitigation: systemd
+timer sweep every 10 min to reap stale entries from JSONL.</li>
+<li><strong>Mobile cert install flow for Kitty</strong> — UX-y problem.
+Defer to Phase 5.</li>
+<li><strong>Tripwire false positives</strong> — bursty whitelisting
+during setup. Initial policy: warn-only, don't auto-block.</li>
+</ol>
+</section>
+<section id="prd-github-source-of-truth-plan" class="level3">
+<h3>GitHub source-of-truth plan</h3>
+<p>GitHub repo: <code>ANG-Ventures/dns-block-portal</code>.</p>
+<p>Repo responsibilities:</p>
+<ul>
+<li>Source code, tests, deploy templates, and sanitized runbooks.</li>
+<li>CI for unit/dry-run tests and safety checks.</li>
+<li>Issue templates for portal MVP work and DNS reliability work.</li>
+<li>Roadmap docs with acceptance criteria for each remaining gate.</li>
+</ul>
+<p>Obsidian responsibilities:</p>
+<ul>
+<li>Product/architecture decisions.</li>
+<li>Incident notes and battle scars.</li>
+<li>Private planning context that should not be in GitHub.</li>
+</ul>
+<p>Security boundary:</p>
+<ul>
+<li>No credentials, API tokens, SSH private keys, TLS private keys,
+generated local certs, or raw browsing/audit logs in GitHub.</li>
+<li>Credentials stay in 1Password Engineering.</li>
+<li>Generated local cert material is for smoke testing only; the real
+MVP requires internal CA work.</li>
+</ul>
+</section>
+<section id="prd-resilience-plan" class="level3">
+<h3>Resilience Plan</h3>
+<section id="prd-incident-that-triggered-this-section" class="level4">
+<h4>Incident that triggered this section</h4>
+<p>2026-05-15: HA N100 was powered off. AGH at
+<code>192.168.1.208</code> disappeared from the LAN. UniFi DHCP pointed
+clients at <code>.208</code> first, and Tailscale DNS pointed tailnet
+clients only at <code>.208</code>. MBP and ACE-PC lost DNS until
+Tailscale and DHCP were temporarily moved to direct NextDNS/public
+fallback. After HA N100 powered back on, <code>.208</code> answered
+again and normal DNS was restored.</p>
+</section>
+<section id="prd-design-rule" class="level4">
+<h4>Design rule</h4>
+<p>DNS can lose filtering, but it must not lose resolution. In a
+failure, clients should fall back to NextDNS's standard block page or
+unfiltered emergency DNS, not total outage.</p>
+</section>
+<section id="prd-required-steady-state" class="level4">
+<h4>Required steady-state</h4>
+<ul>
+<li>UniFi DHCP DNS: <code>192.168.1.208,45.90.28.215</code>.</li>
+<li>Tailscale DNS: <code>192.168.1.208,45.90.28.215</code>.</li>
+<li>AGH upstream after promotion: HA N100 DNS front-door
+<code>192.168.1.208:5354</code>.</li>
+<li>Front-door degraded resolver: direct NextDNS DoH profile
+<code>13b946</code>.</li>
+<li>No single powered-off homelab box can be the only DNS resolver for a
+critical client path.</li>
+<li>Portal/proxy services are never enabled automatically from this
+repo; live routing is a separate manual gate.</li>
+</ul>
+</section>
+<section id="prd-preflight-before-any-live-dns-change" class="level4">
+<h4>Preflight before any live DNS change</h4>
+<ol type="1">
+<li><code>ping 192.168.1.208</code> succeeds.</li>
+<li><code>dig @192.168.1.208 google.com A</code> succeeds.</li>
+<li><code>dig @192.168.1.208 doubleclick.net A</code> returns
+<code>blockpage.nextdns.io</code>.</li>
+<li><code>dig @45.90.28.215 google.com A</code> succeeds.</li>
+<li>Tailscale API <code>/dns/nameservers</code> returns both
+<code>192.168.1.208</code> and <code>45.90.28.215</code>.</li>
+<li>UniFi DHCP generated config includes
+<code>option:dns-server,192.168.1.208,45.90.28.215</code>.</li>
+<li>If testing proxy:
+<code>dig @192.168.1.176 -p 5353 google.com A</code> returns a normal
+answer and <code>dig @192.168.1.176 -p 5353 doubleclick.net A</code>
+returns portal IP.</li>
+</ol>
+</section>
+<section id="prd-failure-behavior" class="level4">
+<h4>Failure behavior</h4>
+<ul>
+<li>HA N100 down: clients should use direct NextDNS fallback
+(<code>45.90.28.215</code>).</li>
+<li>Frigate/proxy down: AGH should use direct NextDNS fallback
+upstream.</li>
+<li>NextDNS down: only then consider temporary public emergency fallback
+(<code>1.1.1.1</code>) and announce that filtering is degraded.</li>
+<li>Portal down: DNS should still resolve; blocked domains should fall
+back to NextDNS blockpage behavior, not outage.</li>
+</ul>
+</section>
+<section id="prd-monitoring" class="level4">
+<h4>Monitoring</h4>
+<ul>
+<li>Implemented Mac Studio LaunchAgent:
+<code>ai.openclaw.dns-resilience-healthcheck</code>.</li>
+<li>Cadence: every 5 minutes.</li>
+<li>Alert to <code>#alerts</code> on failure/recovery transitions, not
+every healthy run.</li>
+<li>Checks AGH DNS, direct NextDNS, Tailscale DNS fallback, UniFi DHCP
+fallback, and Mac Studio local resolver policy.</li>
+<li>Separate diagnostic snapshot logger:
+<code>ai.openclaw.dns-resilience-snapshot</code>, every 120 seconds,
+logs macOS resolver order and Tailscale state for post-power
+diagnosis.</li>
+<li>Optional: smart plug/UPS reminder for HA N100 and Frigate N100.</li>
+</ul>
+</section>
+<section id="prd-resilience-system-options" class="level4">
+<h4>Resilience system options</h4>
+<p>Alerts are useful, but insufficient: if DNS is broken, Ace may not be
+able to reach Discord to see the alert. The system must take corrective
+action or provide a resolver path that does not depend on AGH being
+alive.</p>
+<section id="prd-r0--current-baseline" class="level5">
+<h5>R0 — Current baseline</h5>
+<p>Status: implemented.</p>
+<ul>
+<li>UniFi DHCP advertises <code>192.168.1.208,45.90.28.215</code>.</li>
+<li>Tailscale DNS advertises
+<code>192.168.1.208,45.90.28.215</code>.</li>
+<li>Direct NextDNS fallback exists if clients honor the second
+resolver.</li>
+</ul>
+<p>Risk: many clients do not fail over cleanly or quickly from resolver
+#1 to resolver #2. This reduces blast radius but does not guarantee
+usability.</p>
+</section>
+<section id="prd-r1--automatic-control-plane-failover" class="level5">
+<h5>R1 — Automatic control-plane failover</h5>
+<p>Status: deferred.</p>
+<p>A small watchdog runs somewhere that does not depend on AGH DNS for
+outbound access. If AGH fails two checks in a row:</p>
+<ol type="1">
+<li>Set Tailscale DNS to <code>45.90.28.215,1.1.1.1</code>.</li>
+<li>Set UniFi DHCP DNS to <code>45.90.28.215,1.1.1.1</code>.</li>
+<li>Announce degraded mode.</li>
+<li>Keep checking AGH.</li>
+<li>After AGH passes N consecutive checks, restore
+<code>192.168.1.208,45.90.28.215</code>.</li>
+</ol>
+<p>Pros: fast for Tailscale clients, low implementation complexity, easy
+rollback.</p>
+<p>Cons: DHCP clients may not update until renewal or network reconnect.
+This is failover automation, not a perfect HA resolver.</p>
+<p>Current decision: do not build this yet. The implemented path is
+fallback plus transition alerting. Mutating UniFi DHCP and Tailscale DNS
+automatically is a stronger intervention than we need until we see
+repeated failures that client fallback does not absorb.</p>
+</section>
+<section id="prd-r2--secondary-lan-resolver" class="level5">
+<h5>R2 — Secondary LAN resolver</h5>
+<p>Status: likely worth doing.</p>
+<p>Run a minimal resolver/proxy on Frigate N100 as a second local DNS
+endpoint. DHCP/Tailscale can advertise:</p>
+<ul>
+<li>Primary: AGH <code>192.168.1.208</code></li>
+<li>Secondary: Frigate resolver <code>192.168.1.176</code></li>
+<li>Tertiary or direct fallback: NextDNS <code>45.90.28.215</code></li>
+</ul>
+<p>The Frigate resolver should forward to NextDNS directly and should
+not depend on AGH.</p>
+<p>Pros: keeps LAN DNS local even when HA N100 is down.</p>
+<p>Cons: client resolver failover is still inconsistent; also requires
+keeping Frigate powered.</p>
+</section>
+<section id="prd-r3--routerfront-door-resolver" class="level5">
+<h5>R3 — Router/front-door resolver</h5>
+<p>Status: possible but higher risk.</p>
+<p>Make UDM-SE (<code>192.168.1.1</code>) the only DNS server advertised
+to clients, and configure its dnsmasq to forward in strict order:</p>
+<ol type="1">
+<li>AGH / portal path</li>
+<li>Frigate resolver</li>
+<li>NextDNS direct</li>
+</ol>
+<p>Pros: clients only know one stable resolver, the gateway. Failover
+happens server-side instead of relying on client resolver behavior.</p>
+<p>Cons: UniFi dnsmasq customization is firmware-fragile. Previous
+audits showed UDM's default dnsmasq path bypasses filtering. This needs
+a careful on-boot config and firmware-update survival testing.</p>
+</section>
+<section id="prd-r4--real-ha-dns-front-door" class="level5">
+<h5>R4 — Real HA DNS front door</h5>
+<p>Status: best technical answer, more work.</p>
+<p>Run two DNS nodes and expose one virtual IP, e.g.
+<code>192.168.1.53</code>, using keepalived/VRRP or equivalent.
+DHCP/Tailscale point to the VIP plus direct NextDNS fallback. If one
+resolver host dies, the other takes over the IP.</p>
+<p>Pros: client behavior is clean because resolver IP does not
+change.</p>
+<p>Cons: HAOS is awkward for keepalived; may require moving the primary
+DNS front door to two normal Linux hosts or containers. Needs careful
+L2/network testing.</p>
+</section>
+</section>
+<section id="prd-recommended-order" class="level4">
+<h4>Recommended order</h4>
+<ol type="1">
+<li>Done: keep UniFi DHCP and Tailscale DNS on
+<code>192.168.1.208,45.90.28.215</code>.</li>
+<li>Done: build HA N100 DNS front-door with fail-open routing.</li>
+<li>Done: add external DNS resilience healthcheck and Mac Studio
+snapshot logging.</li>
+<li>Next: complete cert trust and device E2E without enabling services
+for boot.</li>
+<li>Next: run FD7 failure injection and rollback drill.</li>
+<li>Later: decide whether R1 automatic control-plane failover, R2
+secondary LAN resolver, or R4 virtual IP is still needed after real
+power-cycle evidence.</li>
+</ol>
+</section>
+</section>
+<section id="prd-decision-log" class="level3">
+<h3>Decision log</h3>
+<ul>
+<li>2026-05-15: Phase 1 skill shipped, distributed to all agents.</li>
+<li>2026-05-15: Phase 2 cert strategy = self-signed + warning, not
+step-ca first. Ace OK with one cert warning per device because hostname
+<code>blocked.local.ace</code> is recognizable.</li>
+<li>2026-05-15: Browser-extension approach rejected (no iOS
+support).</li>
+<li>2026-05-15: Per-unblock alerts → <code>#alerts</code>, historical →
+<code>#logs</code>, daily digest → <code>#adguard-setup</code>.</li>
+<li>2026-05-15: Revised architecture after research: keep NextDNS as
+authority and insert a small DNS proxy between AGH and NextDNS instead
+of moving blocklists into AGH.</li>
+<li>2026-05-15: Revised cert decision: self-signed is acceptable for
+smoke tests, but the real MVP needs trusted internal CA because browsers
+validate the original blocked hostname.</li>
+<li>2026-05-15: DNS outage review added a hard resilience rule:
+filtering may degrade, resolution must survive. UniFi DHCP and Tailscale
+DNS must include direct NextDNS fallback.</li>
+<li>2026-05-16: GitHub source-of-truth pass added CI, PR/issue
+templates, security policy, architecture/operations/reliability docs,
+and removed generated cert/key material from current repo tracking. The
+old smoke-test key existed in earlier Git history, so it must never be
+reused for anything beyond disposable local smoke testing.</li>
+<li>2026-05-17: Front-door alerting and external DNS resilience
+healthcheck passed. Mac Studio snapshot logger added for post-power DNS
+diagnosis. Automatic remediation remains deferred.</li>
+<li>2026-05-17: Ace and Forge paused Frigate-first promotion and moved
+back to specification mode. HA100-primary is the preferred target if
+feasibility gates pass; Frigate remains staged as
+fallback/reference.</li>
+</ul>
+</section>
+<section id="prd-references" class="level3">
+<h3>References</h3>
+<ul>
+<li><code>AdGuard Home Setup</code></li>
+<li><code>NextDNS Setup</code></li>
+<li><code>~/.openclaw/workspace/skills/local-dns/SKILL.md</code></li>
+<li>Conversation thread: Discord <code>#adguard-setup</code>, 2026-05-13
+→ 2026-05-15</li>
+</ul>
+</section>
+<section id="prd-battle-scar-macos-443-binding" class="level3">
+<h3>Battle scar: macOS :443 binding</h3>
+<p><strong>Date:</strong> 2026-05-15. <strong>Phase:</strong> 2.5
+wire-up.</p>
+<section id="prd-what-happened" class="level4">
+<h4>What happened</h4>
+<p>After deploying the portal to the Mac Studio at <code>:8443</code>,
+the next step was binding <code>:443</code> so AGH-rewritten blocked
+domains (which always hit <code>https://&lt;host&gt;:443</code>) would
+land on the portal. Two attempts failed:</p>
+<ol type="1">
+<li><p><strong>nginx on Mac Studio <code>*:443</code></strong> — failed:
+<code>bind() to 0.0.0.0:443 failed (48: Address already in use)</code>.
+Investigation showed Tailscale's <code>IPNExtension</code> (PID 12159)
+holds <code>*:443</code>. <code>tailscale serve status</code> confirms
+the active serves:</p>
+<ul>
+<li><code>https://mac-studio-m3u.taila752dd.ts.net</code> proxies
+<code>/</code>, <code>/relay</code>, <code>/skynet</code>,
+<code>/bastion</code> (4 critical inter-agent paths).</li>
+<li><code>https://mac-studio-m3u.taila752dd.ts.net:3459</code> proxies a
+separate service. Mucking with Tailscale Serve risks breaking
+inter-agent communication. Out of scope for this project.</li>
+</ul></li>
+<li><p><strong>Secondary IP <code>192.168.1.20</code> as en0
+alias</strong> — <code>ifconfig en0 alias 192.168.1.20</code> succeeded,
+and nginx bound <code>192.168.1.20:443</code> cleanly (root, no conflict
+with Tailscale's <code>*:443</code>). But local
+<code>curl https://192.168.1.20/health</code> returned
+<code>Host is down</code>. Ping also failed. Likely interaction between
+Tailscale's network-extension billing proxy and macOS secondary-IP
+ARP/routing. Did not have time for deeper kernel-routing debug. Rolled
+back.</p></li>
+</ol>
+</section>
+<section id="prd-decision" class="level4">
+<h4>Decision</h4>
+<p>Move the portal off the Mac Studio. Two evaluated hosts:</p>
+<ul>
+<li><strong>HA N100 (<code>192.168.1.208</code>, where AdGuard
+lives):</strong> Home Assistant OS — appliance-style locked-down Linux.
+No <code>python3</code> outside containers, no systemd, no
+<code>apt</code>. To run the portal there it would have to be packaged
+as a HA add-on (Docker + manifest + add-on store registration). Heavy.
+Tightly coupled to HA's lifecycle.</li>
+<li><strong>Frigate N100 (<code>192.168.1.176</code>):</strong> Ubuntu
+24.04 LTS, Python 3.12, systemd, <code>:443</code> free. Already on the
+LAN, already trusted as a homelab service host. One-time
+<code>sudo apt install python3.12-venv</code> to get the portal venv
+working. This is the path.</li>
+</ul>
+<p><strong>AGH rewrite</strong> updated:
+<code>blocked.local.ace → 192.168.1.176</code>. Audit log entry to that
+effect.</p>
+</section>
+<section id="prd-lessons" class="level4">
+<h4>Lessons</h4>
+<ul>
+<li>Always check what owns a privileged port before promising a deploy
+on it.</li>
+<li>Mac Studio is a busy host (Forge, Bastion, Tailscale Serve, plus dev
+work) — not the right place for a "needs port 443" service. Future
+LAN-facing services should default to a dedicated LAN box (Frigate N100,
+the future portal box, or HA N100 if appliance-style is
+acceptable).</li>
+<li>Secondary IP aliases on macOS interact unpredictably with
+Tailscale's network extension. Avoid as a general workaround.</li>
+</ul>
+<hr />
+</section>
+</section>
+<section id="prd-2026-05-16-superseding-plan--ha-n100-dns-front-door"
+class="level3">
+<h3>2026-05-16 Superseding Plan — HA N100 DNS Front-Door</h3>
+<p>The earlier plan to point AGH directly at the Frigate proxy with
+direct NextDNS as AGH fallback is superseded. The 2026-05-16 controlled
+L5 drill showed that AGH fallback behavior does not satisfy both
+requirements at once:</p>
+<ul>
+<li>Proxy-only upstream rewrote blocked domains to the portal while
+healthy, but AGH timed out after the proxy was killed.</li>
+<li>Proxy plus direct NextDNS in AGH upstreams preserved DNS, but
+blocked canaries returned the stock NextDNS blockpage instead of the
+custom portal while the proxy was healthy.</li>
+</ul>
+<section id="prd-new-target-topology" class="level4">
+<h4>New target topology</h4>
+<pre class="text"><code>LAN / Tailscale clients
+  -&gt; AGH add-on on HA N100 (192.168.1.208:53)
+  -&gt; DNS front-door on HA N100 (192.168.1.208:5354)
+      healthy path:
+        -&gt; Frigate dns-block-proxy (192.168.1.176:5353)
+        -&gt; NextDNS DoH profile 13b946
+        -&gt; if blocked, proxy returns portal IP 192.168.1.176
+      degraded path:
+        -&gt; direct NextDNS DoH profile 13b946
+        -&gt; stock NextDNS behavior
+
+If HA N100 / AGH dies:
+  clients use DHCP/Tailscale fallback 45.90.28.215</code></pre>
+<p>The front-door is not the block-page proxy. It is a DNS router with
+health checks and state-change alerts. It routes to the Frigate proxy
+while healthy and fails open to direct NextDNS when the proxy is
+unhealthy.</p>
+</section>
+<section id="prd-why-ha-n100" class="level4">
+<h4>Why HA N100</h4>
+<ul>
+<li>AGH already lives on HA N100. If HA N100 dies, client-level fallback
+to direct NextDNS is already the recovery path.</li>
+<li>Frigate hosts the custom portal/proxy. If Frigate dies, an HA N100
+front-door can still route directly to NextDNS.</li>
+<li>Putting the front-door on Frigate couples the failover controller to
+the service it is supposed to route around.</li>
+<li>Router/UDM DNS customization is more firmware-fragile than a
+supervised HA-side service.</li>
+</ul>
+</section>
+<section id="prd-implementation-shape" class="level4">
+<h4>Implementation shape</h4>
+<p>Implemented shape: small Python service packaged as a Home Assistant
+local add-on.</p>
+<p>Resolved network gate: AGH reaches the front-door at
+<code>192.168.1.208:5354</code>, not <code>127.0.0.1</code>, because AGH
+runs inside the <code>addon_a0d7b954_adguard</code> container.</p>
+<p>The service should:</p>
+<ul>
+<li>accept UDP and TCP DNS</li>
+<li>keep an internal proxy health state</li>
+<li>forward to <code>192.168.1.176:5353</code> while healthy</li>
+<li>forward directly to NextDNS DoH profile <code>13b946</code> while
+degraded</li>
+<li>alert only on state changes and recoveries</li>
+<li>return bounded <code>SERVFAIL</code> if every upstream path
+fails</li>
+</ul>
+</section>
+<section id="prd-alert-plan" class="level4">
+<h4>Alert plan</h4>
+<p>Discord target: <code>#alerts</code>
+(<code>1480528231286181948</code>).</p>
+<p>Front-door state-change alerts:</p>
+<ul>
+<li><code>⚠️ dns-frontdoor: proxy unhealthy, failing open to direct NextDNS</code></li>
+<li><code>✅ dns-frontdoor: proxy healthy, custom block page restored</code></li>
+<li><code>⚠️ dns-frontdoor: all upstreams failed, returning SERVFAIL</code></li>
+</ul>
+<p>External low-frequency healthcheck alerts:</p>
+<ul>
+<li>AGH DNS fails two consecutive checks</li>
+<li>direct NextDNS fails two consecutive checks</li>
+<li>UniFi DHCP generated DNS config loses <code>192.168.1.208</code> or
+<code>45.90.28.215</code></li>
+<li>Tailscale DNS nameserver list loses <code>192.168.1.208</code> or
+<code>45.90.28.215</code></li>
+<li>Frigate Caddy/portal is down while portal rollout is enabled</li>
+</ul>
+<p>Event/polling decision:</p>
+<ul>
+<li>Front-door alerts are event/state-change based from the service
+itself.</li>
+<li>External DNS healthchecks must be low-frequency polling because DNS
+failures do not reliably emit events.</li>
+<li>Heartbeats are allowed only for local process liveness, not noisy
+status pings.</li>
+</ul>
+</section>
+<section id="prd-roadmap-gates" class="level4">
+<h4>Roadmap gates</h4>
+<ol type="1">
+<li>Done: document and approve topology.</li>
+<li>Done: prove AGH add-on can reach a HA N100 front-door service.</li>
+<li>Done: build front-door service with UDP/TCP, health state, fail-open
+routing, and alert state machine.</li>
+<li>Done: package as HA local add-on.</li>
+<li>Done: run non-routing direct front-door smoke tests.</li>
+<li>Done: run AGH <code>test_upstream_dns</code> against the
+front-door.</li>
+<li>Done: run controlled AGH live window: AGH -&gt; front-door, proxy
+healthy, proxy killed, proxy recovered, rollback.</li>
+<li>Next: complete root CA trust on iPhone, Mac Studio, MacBook Pro, and
+ACE-PC.</li>
+<li>Next: run device E2E on all Phase 1 devices.</li>
+<li>Next: run failure injection and rollback drill before enabling any
+service at boot.</li>
+<li>Next reliability gate: build proper IPv6 AGH listener + ULA DNS so
+LAN clients can keep IPv6 without depending on public/GUA router DNS
+ahead of AdGuard.</li>
+</ol>
+<p>Canonical repo spec:
+<code>~/Projects/dns-block-portal/docs/DNS-FRONTDOOR-PRD.md</code>.</p>
+</section>
+<section id="prd-2026-05-16-1730-pdt-progress" class="level4">
+<h4>2026-05-16 17:30 PDT progress</h4>
+<p>The current ship path is now past the non-routing front-door
+gates.</p>
+<p>What changed:</p>
+<ul>
+<li>AGH LAN DNS binding was repaired. AGH was healthy internally but
+only bound to internal/loopback addresses, so LAN queries to
+<code>192.168.1.208:53</code> failed. The AGH config was backed up on HA
+N100 and restarted with LAN binding restored.</li>
+<li>Final DNS healthcheck is green:
+<ul>
+<li>AGH <code>192.168.1.208</code> resolves.</li>
+<li>Direct NextDNS <code>45.90.28.215</code> resolves.</li>
+<li>UniFi DHCP still advertises
+<code>192.168.1.208,45.90.28.215</code>.</li>
+<li>Tailscale DNS still advertises
+<code>192.168.1.208,45.90.28.215</code>.</li>
+</ul></li>
+<li>HA N100 local front-door add-on <code>local_dns-frontdoor</code>
+v0.1.1 is installed, <code>boot: manual</code>, host network.</li>
+<li>Healthy front-door smoke passed: <code>doubleclick.net</code>
+through <code>192.168.1.208:5354</code> returned Frigate portal IP
+<code>192.168.1.176</code> while the temporary Frigate proxy was
+running.</li>
+<li>Fail-open smoke passed: after stopping the temporary Frigate proxy,
+front-door returned stock NextDNS behavior while normal DNS still
+resolved.</li>
+<li>Recovery smoke passed: after restarting the temporary Frigate proxy,
+front-door returned to portal-IP rewrites.</li>
+<li>AGH upstream dry gate passed: AGH <code>test_upstream_dns</code>
+returned OK for <code>192.168.1.208:5354</code>.</li>
+</ul>
+<p>Current safety state:</p>
+<ul>
+<li>AGH upstream was <strong>not</strong> changed; it remains direct
+NextDNS <code>https://dns.nextdns.io/13b946</code>.</li>
+<li>Front-door add-on was stopped after the smoke.</li>
+<li>Temporary Frigate proxy was stopped after the smoke.</li>
+<li>Frigate portal/Caddy are running but disabled for boot.</li>
+</ul>
+<p>Next gate: approved FD5 live window. In that window only, AGH changes
+from direct NextDNS to the HA N100 front-door, we prove healthy portal
+rewrite, proxy-kill fail-open, proxy recovery, and rollback.</p>
+</section>
+<section id="prd-2026-05-16-1827-pdt-progress" class="level4">
+<h4>2026-05-16 18:27 PDT progress</h4>
+<p>FD5 passed.</p>
+<p>What happened:</p>
+<ul>
+<li>AGH was temporarily changed from direct NextDNS to the HA N100
+front-door: <code>192.168.1.208:5354</code>.</li>
+<li>Healthy path through AGH worked:
+<ul>
+<li><code>google.com</code> resolved normally.</li>
+<li><code>doubleclick.net</code> returned portal IP
+<code>192.168.1.176</code>.</li>
+</ul></li>
+<li>Frigate proxy kill worked:
+<ul>
+<li>front-door moved to <code>degraded</code></li>
+<li><code>google.com</code> still resolved through AGH</li>
+<li><code>doubleclick.net</code> returned stock NextDNS behavior
+(<code>blockpage.nextdns.io</code> / <code>149.248.211.216</code>)</li>
+</ul></li>
+<li>Frigate proxy recovery worked:
+<ul>
+<li>front-door returned to <code>healthy</code></li>
+<li>after clearing AGH cache, <code>doubleclick.net</code> through AGH
+returned portal IP again</li>
+</ul></li>
+<li>Rollback worked:
+<ul>
+<li>AGH upstream restored to direct NextDNS
+<code>https://dns.nextdns.io/13b946</code></li>
+<li>front-door add-on stopped</li>
+<li>temporary Frigate proxy stopped</li>
+<li>final healthcheck green</li>
+</ul></li>
+</ul>
+<p>Current ship state:</p>
+<ul>
+<li>AGH is healthy and direct-to-NextDNS again.</li>
+<li>HA front-door is installed but stopped,
+<code>boot: manual</code>.</li>
+<li>Frigate proxy is stopped.</li>
+<li>Frigate portal/Caddy are running but disabled for boot.</li>
+<li>The controlled AGH front-door gate is no longer the blocker.</li>
+</ul>
+<p>Remaining blockers for this version:</p>
+<ol type="1">
+<li>Root CA trust enrollment on iPhone, Mac Studio, MacBook Pro, and
+ACE-PC.</li>
+<li>Device E2E: blockpage, explain, device unblock, redirect,
+expiry/re-block, audit, alerts.</li>
+<li>Final promotion decision: whether to enable services at boot and
+keep AGH pointed at the front-door.</li>
+</ol>
+</section>
+<section id="prd-2026-05-17-0105-pdt-progress" class="level4">
+<h4>2026-05-17 01:05 PDT progress</h4>
+<p>The reliability/alerting layer for the front-door path is now
+proven.</p>
+<p>What changed:</p>
+<ul>
+<li>Front-door failover and recovery alerts posted to Discord
+<code>#alerts</code> using the stored webhook:
+<ul>
+<li>proxy unhealthy → fail open to direct NextDNS</li>
+<li>proxy healthy again → custom blockpage restored</li>
+</ul></li>
+<li>The external DNS resilience healthcheck is installed as a real Mac
+Studio LaunchAgent:
+<ul>
+<li>label: <code>ai.openclaw.dns-resilience-healthcheck</code></li>
+<li>plist:
+<code>/Users/alexgierczyk/Library/LaunchAgents/ai.openclaw.dns-resilience-healthcheck.plist</code></li>
+<li>cadence: every 5 minutes</li>
+<li>state: <code>/tmp/openclaw/dns-healthcheck-state.json</code></li>
+</ul></li>
+<li>The healthcheck verifies:
+<ul>
+<li>AGH resolves on <code>192.168.1.208</code></li>
+<li>direct NextDNS resolves on at least one of <code>45.90.28.215</code>
+or <code>45.90.30.215</code> (per-resolver results captured under
+<code>nextdns_resolvers</code>)</li>
+<li>UniFi DHCP still advertises
+<code>192.168.1.208,45.90.28.215</code></li>
+<li>Tailscale DNS still advertises
+<code>192.168.1.208,45.90.28.215</code></li>
+</ul></li>
+<li>Healthcheck alerts are transition-only AND debounced: a failure must
+persist for 2 consecutive runs (10 minutes at the default 5-minute
+cadence) before paging. Repeated identical failures do not spam;
+recoveries only post if a real alert was sent. Tunable via
+<code>DNS_HEALTHCHECK_FAILURE_DEBOUNCE</code> (default <code>2</code>),
+<code>DNS_HEALTHCHECK_DIG_ATTEMPTS</code> (default <code>5</code>,
+retries per resolver), and
+<code>DNS_HEALTHCHECK_NEXTDNS_RESOLVERS</code> (comma-separated NextDNS
+anycast IPs).</li>
+<li>Alert delivery no longer depends on the local OpenClaw gateway. The
+script reads the <code>Discord Webhook: #alerts (DNS Frontdoor)</code>
+item from 1Password and posts directly to Discord.</li>
+<li>A launchd smoke test moved the healthcheck from a synthetic failed
+state back to healthy and <code>#alerts</code> received:
+<code>✅ DNS resilience healthcheck recovered</code>.</li>
+</ul>
+<p>Current safety state:</p>
+<ul>
+<li>AGH is still direct-to-NextDNS. It has not been promoted to the
+front-door yet.</li>
+<li>HA front-door remains installed but stopped,
+<code>boot: manual</code>.</li>
+<li>Frigate proxy remains stopped.</li>
+<li>Frigate portal/Caddy remain staged but disabled for boot.</li>
+<li>Monitoring is the only piece now enabled for boot/cadence.</li>
+</ul>
+<p>Remaining blockers for this version:</p>
+<ol type="1">
+<li>Root CA trust enrollment on iPhone, Mac Studio, MacBook Pro, and
+ACE-PC.</li>
+<li>Device E2E: blockpage, explain, device unblock, redirect,
+expiry/re-block, audit, and alerts.</li>
+<li>Final promotion decision: whether to enable the product services at
+boot and keep AGH pointed at the front-door.</li>
+</ol>
+</section>
+<section id="prd-2026-05-17-0150-pdt-prep" class="level4">
+<h4>2026-05-17 01:50 PDT prep</h4>
+<p>The next automatable prep step is complete.</p>
+<p>What changed:</p>
+<ul>
+<li>Added a dedicated repo runbook for root trust enrollment:
+<code>~/Projects/dns-block-portal/docs/DEVICE-TRUST-RUNBOOK.md</code>.</li>
+<li>Added a dedicated repo runbook for device E2E:
+<code>~/Projects/dns-block-portal/docs/DEVICE-E2E-RUNBOOK.md</code>.</li>
+<li>Added portal webhook alert support for Frigate live mode. If
+<code>DNS_ALERT_WEBHOOK_URL</code> is provided via
+<code>/etc/dns-block-portal/portal.env</code>, portal unblock alerts
+post directly to Discord instead of depending on a local OpenClaw
+gateway.</li>
+<li>The webhook value remains a credential and should be provisioned
+from 1Password item
+<code>Discord Webhook: #alerts (DNS Frontdoor)</code>, not committed to
+Git.</li>
+<li>Added ignore rules so exported cert/profile artifacts under repo
+<code>certs/</code> do not get committed accidentally.</li>
+<li>Verified current preflight:
+<ul>
+<li>Frigate portal service active on <code>127.0.0.1:8080</code>.</li>
+<li>Frigate Caddy active on <code>:443</code>, disabled for boot.</li>
+<li>Frigate proxy inactive.</li>
+<li>Root cert/profile files exist on Frigate.</li>
+<li>Root fingerprint matches the PRD.</li>
+<li>Current AGH path is still direct NextDNS.</li>
+<li>Mac Studio root trust is still not installed.</li>
+<li>Healthcheck remains healthy, including Mac Studio local resolver
+policy.</li>
+</ul></li>
+</ul>
+<p>Manual stop line:</p>
+<ul>
+<li>Trusting the Caddy root on devices still requires hands-on approval
+and GUI/device action.</li>
+<li>Writing the live Frigate portal webhook env file is credential
+deployment and should be done intentionally from the 1Password item
+during activation prep.</li>
+</ul>
+</section>
+<section id="prd-2026-05-17-0150-pdt--healthcheck-noise-suppression"
+class="level4">
+<h4>2026-05-17 01:50 PDT — Healthcheck noise suppression</h4>
+<p>The DNS resilience healthcheck paged <code>#alerts</code> at 01:41
+PDT with <code>nextdns_resolves: false</code>, but direct NextDNS was
+fully healthy: the very next 5-minute run was green, the state file
+self-healed, and a manual <code>dig @45.90.28.215 google.com x5</code>
+succeeded every time. The single failure was a transient
+<code>dig</code> blip — likely a brief anycast/packet-loss hiccup
+against a single NextDNS endpoint. Alex approved hardening ("Agreed
+please implement that"), so the healthcheck is now harder to spook by
+single-shot transients.</p>
+<p>Shipped in <code>dns-block-portal</code> commit <code>07a639b</code>
+(master pushed):</p>
+<ul>
+<li><strong>Secondary NextDNS resolver:</strong> the healthcheck now
+probes both <code>45.90.28.215</code> and <code>45.90.30.215</code>.
+<code>nextdns_resolves</code> is true if either resolver answers. The
+per-resolver result is captured under <code>nextdns_resolvers</code> in
+the JSON output so a single-IP outage is still observable in the log
+without paging.</li>
+<li><strong>More dig retries per resolver:</strong> default
+<code>DIG_ATTEMPTS</code> bumped from 3 to 5. Each attempt still uses
+<code>+time=3 +tries=1</code>.</li>
+<li><strong>Two-run debounce:</strong> a failure must persist for 2
+consecutive runs of the same state before paging. At the default
+5-minute cadence that means at least a 10-minute outage before
+<code>#alerts</code> sees it. The state file now carries
+<code>failure_streak</code>; the alert fires only on the run that
+crosses the threshold, and recovery alerts only fire if a real alert was
+actually sent (so quiet transients also recover quietly).</li>
+<li><strong>Env knobs</strong> (defaults baked into the LaunchAgent,
+override via plist <code>EnvironmentVariables</code>):
+<ul>
+<li><code>DNS_HEALTHCHECK_NEXTDNS_RESOLVERS</code> — comma-separated
+NextDNS anycast IPs (default
+<code>45.90.28.215,45.90.30.215</code>).</li>
+<li><code>DNS_HEALTHCHECK_DIG_ATTEMPTS</code> — retries per resolver per
+run (default <code>5</code>).</li>
+<li><code>DNS_HEALTHCHECK_FAILURE_DEBOUNCE</code> — consecutive
+same-state failures required before paging (default
+<code>2</code>).</li>
+</ul></li>
+</ul>
+<p>Verification (Mac Studio):</p>
+<ul>
+<li><code>pytest tests/test_scripts_dry_run.py</code> → 13 passed (added
+coverage for streak progression, debounce, and dual-resolver
+semantics).</li>
+<li>Live <code>dns-healthcheck.py</code> run: <code>ok: true</code>,
+both NextDNS resolvers up, new state schema written.</li>
+<li><code>launchctl kickstart -k gui/$(id -u)/ai.openclaw.dns-resilience-healthcheck</code>
+clean, fresh <code>ts: 2026-05-17T08:49:50Z</code>, empty stderr
+log.</li>
+<li>Repo docs updated (<code>docs/DNS-FRONTDOOR-PRD.md</code>,
+<code>docs/OPERATIONS.md</code>, <code>README.md</code>).</li>
+</ul>
+<p>Behavior after this change:</p>
+<ul>
+<li>Single transient blip on either NextDNS IP → silent. No alert.</li>
+<li>Both NextDNS IPs down for 10+ minutes (≥2 consecutive runs at
+5-minute cadence) → one alert, then silence until recovery → one
+recovery alert.</li>
+<li>AGH down, UniFi DHCP drift, Tailscale fallback drift, or Mac Studio
+local resolver drift → still alert on the same 2-run debounce.</li>
+</ul>
+<hr />
+</section>
+</section>
+<section id="prd-2026-05-16-future-goal--dual-blockpage-hosts"
+class="level3">
+<h3>2026-05-16 Future Goal — Dual Blockpage Hosts</h3>
+<p>This section is superseded by the 2026-05-17 HA100-primary
+specification pivot below. Dual-host mode remains useful only if Frigate
+stays configured as a fallback/reference after HA100-primary is
+proven.</p>
+<p>The idea: keep Frigate N100 as the practical first blockpage host,
+but leave a clear path for HA N100 to become a second compatible
+blockpage host later. Once both hosts can run the same portal/proxy
+contract, we can choose which one is active.</p>
+<section id="prd-north-star" class="level4">
+<h4>North star</h4>
+<pre class="text"><code>AGH on HA N100
+  -&gt; DNS front-door on HA N100
+      selected blockpage host:
+        option A: Frigate N100 192.168.1.176
+        option B: HA N100 192.168.1.208
+      resolver fail-open:
+        direct NextDNS DoH profile 13b946</code></pre>
+<p>The important part is that direct NextDNS remains the safety valve.
+Switching between Frigate and HA N100 changes where the custom blockpage
+lives. It does not replace resolver-level fail-open.</p>
+</section>
+<section id="prd-why-this-is-appealing" class="level4">
+<h4>Why this is appealing</h4>
+<p>Frigate is the right MVP host because it is ordinary Ubuntu, has
+systemd, has Python, and has a clean path to binding <code>:443</code>.
+It is the fastest way to ship the product.</p>
+<p>HA N100 is attractive later because AGH already lives there. If the
+DNS control plane and a backup blockpage host can both live there
+cleanly, the system gets a nicer operational story:</p>
+<ul>
+<li>Frigate can go down without immediately removing every custom
+blockpage option.</li>
+<li>We can intentionally move the active blockpage host for
+maintenance.</li>
+<li>The front-door can grow into a real policy router instead of a
+one-off proxy selector.</li>
+<li>A future dashboard could show: active host, standby host, health
+state, last switch, and rollback button.</li>
+</ul>
+</section>
+<section id="prd-operating-modes" class="level4">
+<h4>Operating modes</h4>
+<section id="prd-mode-1-frigate-primary" class="level5">
+<h5>Mode 1: Frigate primary</h5>
+<p>This was the pre-pivot ship path. It remains staged as
+fallback/reference.</p>
+<pre class="text"><code>AGH -&gt; HA front-door -&gt; Frigate proxy/portal -&gt; NextDNS</code></pre>
+<p>If Frigate is healthy, blocked domains resolve to the Frigate portal
+IP. If Frigate is unhealthy, the front-door fails open to direct
+NextDNS. Users lose the custom blockpage temporarily, but DNS
+survives.</p>
+</section>
+<section id="prd-mode-2-ha-n100-primary" class="level5">
+<h5>Mode 2: HA N100 primary</h5>
+<p>Future compact mode.</p>
+<pre class="text"><code>AGH -&gt; HA front-door -&gt; HA-hosted proxy/portal -&gt; NextDNS</code></pre>
+<p>This reduces cross-host dependency but couples the custom blockpage
+to HA N100. If HA N100 dies, clients still need DHCP/Tailscale fallback
+to direct NextDNS.</p>
+</section>
+<section id="prd-mode-3-selectable-active-host" class="level5">
+<h5>Mode 3: Selectable active host</h5>
+<p>Future resilient mode.</p>
+<pre class="text"><code>AGH -&gt; HA front-door -&gt; selected blockpage host
+                     -&gt; Frigate or HA N100</code></pre>
+<p>This should start as manual selection, not automatic failover. A
+person chooses <code>frigate</code> or <code>ha_n100</code>, the
+front-door applies that setting, and it posts a state-change alert.
+Automatic host failover can come later only after we prove DNS caching,
+TLS trust, audit continuity, and unblock consistency.</p>
+</section>
+</section>
+<section id="prd-proposed-config-shape" class="level4">
+<h4>Proposed config shape</h4>
+<div class="sourceCode" id="prd-cb9"><pre
+class="sourceCode yaml"><code class="sourceCode yaml"><span id="prd-cb9-1"><a href="#prd-cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">blockpage_primary</span><span class="kw">:</span><span class="at"> frigate</span></span>
+<span id="prd-cb9-2"><a href="#prd-cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">blockpage_hosts</span><span class="kw">:</span></span>
+<span id="prd-cb9-3"><a href="#prd-cb9-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">frigate</span><span class="kw">:</span></span>
+<span id="prd-cb9-4"><a href="#prd-cb9-4" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dns_proxy</span><span class="kw">:</span><span class="at"> 192.168.1.176:5353</span></span>
+<span id="prd-cb9-5"><a href="#prd-cb9-5" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">portal_https</span><span class="kw">:</span><span class="at"> https://192.168.1.176/health</span></span>
+<span id="prd-cb9-6"><a href="#prd-cb9-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">portal_ip</span><span class="kw">:</span><span class="at"> </span><span class="fl">192.168.1.176</span></span>
+<span id="prd-cb9-7"><a href="#prd-cb9-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">ha_n100</span><span class="kw">:</span></span>
+<span id="prd-cb9-8"><a href="#prd-cb9-8" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dns_proxy</span><span class="kw">:</span><span class="at"> 192.168.1.208:5355</span></span>
+<span id="prd-cb9-9"><a href="#prd-cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">portal_https</span><span class="kw">:</span><span class="at"> https://192.168.1.208:9443/health</span></span>
+<span id="prd-cb9-10"><a href="#prd-cb9-10" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">portal_ip</span><span class="kw">:</span><span class="at"> </span><span class="fl">192.168.1.208</span></span></code></pre></div>
+<p>The active host has to be visible and reversible. Silent switching is
+dangerous because clients cache DNS answers, certificates are tied to
+host behavior, and unblocks/audits must land in the expected place.</p>
+</section>
+<section id="prd-shared-contract-both-hosts-must-satisfy"
+class="level4">
+<h4>Shared contract both hosts must satisfy</h4>
+<p>Both hosts need to behave like the same product:</p>
+<ul>
+<li>same <code>/health</code> shape</li>
+<li>same <code>/tls-allow</code> behavior</li>
+<li>same portal unblock API</li>
+<li>same explain behavior</li>
+<li>same audit JSONL schema</li>
+<li>same alert destination semantics</li>
+<li>same persistent-client naming</li>
+<li>same NextDNS block detection</li>
+<li>same dry-run/live safety gates</li>
+<li>same root CA/certificate trust story, or an explicitly documented
+per-host CA story</li>
+</ul>
+<p>The cleanest future version uses one internal CA and identical portal
+behavior on both hosts. The safer intermediate version treats HA N100
+hosting as a lab mode until cert handling and shared state are fully
+tested.</p>
+</section>
+<section id="prd-feasibility-notes" class="level4">
+<h4>Feasibility notes</h4>
+<p>I checked Home Assistant developer docs on 2026-05-16. The HA-hosted
+version is feasible as an add-on/container:</p>
+<ul>
+<li>Home Assistant add-ons are container images managed by
+Supervisor.</li>
+<li>Add-ons can expose network ports, set boot behavior, receive
+environment/options, and define watchdog health checks.</li>
+<li>Add-ons can communicate on HA's internal add-on network by generated
+name or alias.</li>
+<li>The front-door and/or HA-hosted blockpage service should therefore
+be packageable as a HA add-on.</li>
+</ul>
+<p>References:</p>
+<ul>
+<li>Home Assistant add-on overview:
+<code>https://developers.home-assistant.io/docs/add-ons/</code></li>
+<li>Home Assistant add-on configuration:
+<code>https://developers.home-assistant.io/docs/add-ons/configuration/</code></li>
+<li>Home Assistant add-on communication:
+<code>https://developers.home-assistant.io/docs/add-ons/communication/</code></li>
+</ul>
+<p>The risk is not "can it run?" The risk is operational complexity:</p>
+<ul>
+<li>HAOS is not Ubuntu, so no normal systemd service install.</li>
+<li>Binding <code>:443</code> on HA N100 may conflict with HA, ingress,
+or other add-ons.</li>
+<li>AGH itself is an add-on container, so <code>127.0.0.1</code> from
+AGH probably means the AGH container, not the HA host.</li>
+<li>If HA N100 hosts AGH, front-door, and portal, one HA N100 outage
+still removes the local DNS control plane. Direct NextDNS fallback
+remains mandatory.</li>
+</ul>
+</section>
+<section id="prd-recommendation" class="level4">
+<h4>Recommendation</h4>
+<p>Original 2026-05-16 recommendation, now superseded: keep this as a
+future roadmap item and do not block the first release on it.</p>
+<p>The superseded plan was to ship the current version with:</p>
+<ol type="1">
+<li>Frigate as the blockpage host.</li>
+<li>HA N100 front-door as the DNS fail-open controller.</li>
+<li>Direct NextDNS as the degraded resolver path.</li>
+<li>Trusted certs on Phase 1 devices.</li>
+<li>End-to-end device unblock tests.</li>
+</ol>
+<p>Then build dual-host support as MVP+1 once the basic product is
+boring and reliable. This is retained for history, not the active
+recommendation.</p>
+<p>Canonical repo PRD for the consolidated HA100 version:
+<code>~/Projects/dns-block-portal/docs/HA100-CONSOLIDATED-PRD.md</code>.</p>
+<hr />
+</section>
+</section>
+<section id="prd-2026-05-17-specification-pivot--ha100-primary"
+class="level3">
+<h3>2026-05-17 Specification Pivot — HA100 Primary</h3>
+<p>Ace's concern: if AGH and the DNS front-door are already on HA N100,
+finishing a Frigate-first blockpage path may create unnecessary
+cross-host complexity before the product even ships.</p>
+<p>Forge agrees with the direction. Frigate was the fastest place to
+build because it is ordinary Ubuntu with Python, systemd, Caddy, and
+<code>:443</code> available. But operationally, the cleaner product is a
+single HA100 DNS appliance:</p>
+<pre class="text"><code>LAN / Tailscale clients
+  -&gt; AGH add-on on HA N100 (192.168.1.208:53)
+  -&gt; DNS front-door on HA N100 (192.168.1.208:5354)
+      healthy path:
+        -&gt; HA100 dns-block-proxy / portal / TLS add-on
+        -&gt; NextDNS DoH profile 13b946
+        -&gt; if blocked, proxy returns HA100 portal IP
+      degraded path:
+        -&gt; direct NextDNS DoH profile 13b946
+        -&gt; stock NextDNS behavior
+
+If HA N100 / AGH dies:
+  clients use DHCP/Tailscale fallback 45.90.28.215</code></pre>
+<section id="prd-working-decision" class="level4">
+<h4>Working decision</h4>
+<p>Pause Frigate-first promotion. Continue in specification mode. The
+next product target is HA100-primary unless a feasibility gate
+fails.</p>
+<p>Frigate stays useful as:</p>
+<ul>
+<li>a working reference implementation;</li>
+<li>a rollback/fallback path if HAOS blocks product-equivalent
+HTTPS;</li>
+<li>a test comparison for proxy, portal, TLS, alert, and audit
+behavior.</li>
+</ul>
+</section>
+<section id="prd-ha100-feasibility-gates" class="level4">
+<h4>HA100 feasibility gates</h4>
+<ol type="1">
+<li><strong>Add-on layout:</strong> keep
+<code>local_dns-frontdoor</code> separate; spec a HA100 blockpage add-on
+for proxy + portal + TLS unless separate add-ons prove cleaner.</li>
+<li><strong>Product HTTPS:</strong> prove HA100 can serve blocked HTTPS
+on <code>:443</code> for original blocked hostnames, either on
+<code>192.168.1.208</code> or a second stable HA100 LAN IP. High-port
+lab mode is not product-equivalent.</li>
+<li><strong>TLS/CA lifecycle:</strong> record CA owner, subject, SHA256
+fingerprint, private-key path, backup policy, rotation procedure, and
+removal steps before trusting devices.</li>
+<li><strong>State:</strong> audit JSONL, auto-revert state, Caddy cert
+cache, and blocked-domain log must survive add-on restart and HA
+reboot.</li>
+<li><strong>Alerts:</strong> front-door alerts are already proven;
+portal unblock and auto-revert alerts must be proven from the selected
+runtime using an explicit secret path.</li>
+<li><strong>Reboot ordering:</strong> prove AGH, front-door, proxy,
+portal, and TLS terminator start in a sane order after HA restart or
+reboot.</li>
+<li><strong>Rollback:</strong> restoring AGH to direct NextDNS, clearing
+cache, stopping add-ons, and verifying stock NextDNS behavior must
+remain short and rehearsed.</li>
+</ol>
+</section>
+<section id="prd-spec-holes-to-close" class="level4">
+<h4>Spec holes to close</h4>
+<ul>
+<li><strong>Device rollout:</strong> Mac Studio is the canary. Mac
+Studio must pass before any promotion; Mac Studio + iPhone must pass
+before boot/live routing; MBP + ACE-PC pass before closing device
+E2E.</li>
+<li><strong>Browser/device DNS bypass:</strong> check browser secure
+DNS, iCloud Private Relay/VPN, Windows encrypted DNS, IPv6 DNS, and
+whether the device really uses AGH first.</li>
+<li><strong>Canary matrix:</strong> <code>doubleclick.net</code> is not
+enough. Need ordinary blocked tracker, HSTS-heavy domain, CNAME-enriched
+block, stock NextDNS degraded behavior, normal unblocked control, and
+unseen <code>/tls-allow</code> denial.</li>
+<li><strong>Cache behavior:</strong> document AGH cache, browser/OS DNS
+cache, Caddy cert cache, NextDNS/DoH caching, portal rewrite TTL, and
+re-block after auto-revert expiry.</li>
+<li><strong>Real fallback behavior:</strong> investigate HA100/AGH
+powered off, HA100 reboot ordering, direct NextDNS transient/regional
+failure, UniFi DHCP drift, Tailscale DNS drift, and no-DNS access to
+recovery docs.</li>
+<li><strong>CA key risk:</strong> root trust is a durable security
+decision. No silent trust. No multiple trusted roots unless the operator
+explicitly accepts the removal/rotation burden.</li>
+</ul>
+</section>
+<section id="prd-where-ace-is-needed" class="level4">
+<h4>Where Ace is needed</h4>
+<ul>
+<li>Approve and verify any root CA fingerprint before trust.</li>
+<li>Install/trust certificates on iPhone, MacBook Pro, ACE-PC, and Mac
+Studio.</li>
+<li>Operate real browser E2E on iPhone and ACE-PC.</li>
+<li>Approve any live AGH upstream change.</li>
+<li>Approve boot enablement for HA add-ons.</li>
+<li>Confirm final promotion/rollback comfort after evidence is
+collected.</li>
+</ul>
+</section>
+<section id="prd-2026-05-17-0900-pdt--ha100-only-deep-research"
+class="level4">
+<h4>2026-05-17 09:00 PDT — HA100-only deep research</h4>
+<p>Canonical repo spec:
+<code>~/Projects/dns-block-portal/docs/HA100-PRIMARY-DEEP-DIVE.md</code>.</p>
+<p>Forge researched the entirely-HA100 path against current Home
+Assistant add-on docs, Caddy docs, existing repo code, and read-only
+HA100 state.</p>
+<p>Key finding: HA100-primary is architecturally cleaner, but the
+product-mode blocker is real. HA100 currently has Nginx Proxy Manager
+started at boot and mapped to host ports <code>80</code>,
+<code>81</code>, and <code>443</code>. A HA100 blockpage Caddy cannot
+also own primary-IP <code>:443</code> unless that conflict is resolved
+or the blockpage gets a second stable HA100 LAN IP.</p>
+<p>Current HA100 read-only facts:</p>
+<ul>
+<li>Home Assistant OS 17.2, generic x86-64.</li>
+<li>Home Assistant Core 2026.4.4, SSL enabled, port 8123.</li>
+<li>HA100 LAN IP <code>192.168.1.208/24</code> on
+<code>enp2s0</code>.</li>
+<li>AGH add-on is started, <code>boot: auto</code>,
+<code>host_network: true</code>, DNS on <code>53/udp</code>.</li>
+<li>Existing <code>local_dns-frontdoor</code> add-on is installed,
+<code>boot: manual</code>, <code>host_network: true</code>, state under
+<code>/share/dns-frontdoor</code>.</li>
+<li>Nginx Proxy Manager is started, <code>boot: auto</code>, and maps
+<code>80/tcp:80</code>, <code>81/tcp:81</code>,
+<code>443/tcp:443</code>.</li>
+<li>No HA100 proxy/portal/TLS add-on exists yet.</li>
+</ul>
+<p>Recommended HA100-only shape:</p>
+<pre class="text"><code>local_dns-frontdoor
+  -&gt; stays separate; already proven; fail-open controller
+
+local_dns-blockpage
+  -&gt; dns-block-proxy process
+  -&gt; FastAPI portal process
+  -&gt; Caddy process
+  -&gt; persistent /data for Caddy CA/certs, audit, blocked-domain log, reverter state</code></pre>
+<p>Product-port options:</p>
+<ol type="1">
+<li><strong>Reclaim HA100 primary <code>:443</code> from NPM.</strong>
+Cleanest browser UX, but requires deciding whether NPM can
+move/stop.</li>
+<li><strong>Give HA100 a second stable LAN IP.</strong> Cleaner
+coexistence if HAOS/networking supports it; must prove ARP, reboot
+persistence, and Caddy bind behavior.</li>
+<li><strong>Use NPM as TLS front door.</strong> Not recommended unless
+raw TLS/SNI passthrough to Caddy is proven; ordinary reverse proxy TLS
+termination breaks Caddy on-demand TLS for arbitrary blocked
+hostnames.</li>
+<li><strong>High-port only.</strong> Lab-only. DNS cannot tell browsers
+to use <code>:8443</code> for normal
+<code>https://blocked-domain/</code>.</li>
+</ol>
+<p>Decision matrix:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th style="text-align: right;">Product-equivalent</th>
+<th>Risk</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reclaim primary <code>:443</code></td>
+<td style="text-align: right;">yes</td>
+<td>high NPM disruption</td>
+<td>viable only if NPM can move/stop cleanly</td>
+</tr>
+<tr>
+<td>Second HA100 IP</td>
+<td style="text-align: right;">yes</td>
+<td>medium HAOS/network proof</td>
+<td>preferred if persistent second IP works</td>
+</tr>
+<tr>
+<td>NPM raw TLS pass-through</td>
+<td style="text-align: right;">maybe</td>
+<td>high uncertainty</td>
+<td>research only if primary/second-IP fail</td>
+</tr>
+<tr>
+<td>High port</td>
+<td style="text-align: right;">no</td>
+<td>low</td>
+<td>lab-only</td>
+</tr>
+</tbody>
+</table>
+<p>Decision path:</p>
+<ol type="1">
+<li>Inventory what NPM serves today.</li>
+<li>In parallel, research whether HAOS can persist a second static IPv4
+on <code>enp2s0</code>.</li>
+<li>Prefer second HA100 IP if it is stable and supported.</li>
+<li>Use primary <code>:443</code> only if NPM has no critical dependency
+or can move.</li>
+<li>Treat NPM TLS pass-through as fallback research, not mainline.</li>
+<li>Use high-port only for early lab add-on validation.</li>
+</ol>
+<p>Security/spec additions:</p>
+<ul>
+<li>Use <code>/data</code> for persistent add-on state.</li>
+<li>Use <code>/share/dns-block-portal/exports/</code> only for
+operator-visible root cert/profile exports.</li>
+<li>Caddy must use persistent storage, <code>skip_install_trust</code>,
+on-demand TLS restricted by <code>/tls-allow</code>, and local-only/off
+admin API.</li>
+<li>Keep runtime consolidation separate from credential consolidation.
+First HA100-primary should still hand AGH/NextDNS mutations back to
+Forge or a small internal action API.</li>
+<li>Existing troubleshooting revealed add-on options can contain raw
+webhook/API tokens. Do not copy values into docs or chat. Before
+production, rotate any exposed webhook/API tokens and move product
+secrets to a 1Password-backed provisioning procedure or masked HA add-on
+<code>password</code> options.</li>
+</ul>
+<p>HA100 gate sequence:</p>
+<ol type="1">
+<li>Accept the HA100 deep-dive spec.</li>
+<li>Inventory NPM <code>:443</code> dependencies and decide primary
+<code>:443</code> vs second IP vs reject HA100-primary.</li>
+<li>Build high-port lab add-on with no AGH change.</li>
+<li>Decide and document CA lifecycle.</li>
+<li>Run front-door direct smoke against HA100 blockpage.</li>
+<li>Run controlled AGH live window with rollback.</li>
+<li>Mac Studio canary E2E.</li>
+<li>iPhone E2E.</li>
+<li>Reboot/failure drill.</li>
+<li>Promotion only after evidence is recorded.</li>
+</ol>
+<p>Power-cycle resilience gate:</p>
+<ul>
+<li>Before HA100/blockpage boot promotion, integrate
+<code>docs/DNS-POWER-CYCLE-RESILIENCE.md</code>.</li>
+<li>AGH config-drift instrumentation must snapshot
+<code>AdGuardHome.yaml</code> hash and <code>dns.bind_hosts</code>.</li>
+<li>Alert if <code>192.168.1.208</code> disappears from bind hosts or
+AGH is started but LAN <code>:53</code> does not answer.</li>
+<li>Do not auto-repair AGH until a second matching bind-host failure is
+captured.</li>
+<li>Drill order: HA N100 reboot, Mac Studio reboot, combined reboot,
+then full-house restoration only after targeted drills.</li>
+</ul>
+<p>Sources checked:</p>
+<ul>
+<li>Home Assistant add-on/app configuration, communication, and security
+docs.</li>
+<li>Caddy automatic HTTPS, TLS directive, global options/storage/PKI,
+and running/container docs.</li>
+</ul>
+</section>
+<section
+id="prd-2026-05-17-1055-pdt--ha100-second-ip-and-npm-inventory-research"
+class="level4">
+<h4>2026-05-17 10:55 PDT — HA100 second-IP and NPM inventory
+research</h4>
+<p>Ace approved deeper research while staying in planning mode. No
+HA/NPM/DNS state was changed.</p>
+<p>Second-IP findings:</p>
+<ul>
+<li>HAOS current network state: <code>enp2s0</code>, static
+<code>192.168.1.208/24</code>, gateway <code>192.168.1.1</code>, MAC
+<code>84:47:09:3D:3E:77</code>.</li>
+<li><code>ha network update</code> supports repeatable
+<code>--ipv4-address</code> values. This makes a second static IPv4
+plausible through the supported Supervisor/HA CLI path, but it still
+needs a lab proof and reboot proof.</li>
+<li>UniFi Default network DHCP dynamic range is <code>192.168.1.6</code>
+through <code>192.168.1.254</code>.</li>
+<li><code>192.168.1.209</code> is already reserved for Living Room
+Matrix Cube.</li>
+<li><code>192.168.1.206</code> answered ping but was not present in the
+current UniFi client query; avoid it.</li>
+<li><code>192.168.1.2</code> through <code>192.168.1.5</code> had no
+UniFi record and did not answer ping during research. Preferred
+candidate for HA100 blockpage lab IP: <code>192.168.1.5</code>, subject
+to Ace approval and a just-before-change conflict check.</li>
+</ul>
+<p>NPM/DuckDNS findings:</p>
+<ul>
+<li>NPM has one active proxy host:
+<code>mdca.duckdns.org -&gt; https://192.168.1.208:8123</code>.</li>
+<li>NPM has force SSL and WebSockets enabled; HTTP/2 and HSTS are
+disabled.</li>
+<li>NPM has no redirection hosts, dead hosts, or TCP/UDP streams.</li>
+<li>The generated NPM config listens on wildcard <code>80</code> and
+<code>443</code> for IPv4/IPv6, so reclaiming primary <code>:443</code>
+would break <code>mdca.duckdns.org</code> unless migrated.</li>
+<li>NPM is serving an imported custom <code>mdca.duckdns.org</code> cert
+expiring 2026-06-08 13:25:53 UTC.</li>
+<li>The Duck DNS add-on is running/boot-auto and has a newer cert
+expiring 2026-08-05 14:13:19 UTC. NPM is not currently serving that
+newer cert copy.</li>
+</ul>
+<p>SNI dispatcher findings:</p>
+<ul>
+<li>Nginx can technically inspect SNI without terminating TLS via stream
+<code>ssl_preread</code>.</li>
+<li>NPM supports streams/custom stream snippets, but does not expose the
+needed SNI-based <code>:443</code> dispatcher as normal product
+behavior.</li>
+<li>A workable design would put a custom raw <code>:443</code>
+dispatcher in front of both NPM and Caddy: known admin names route to
+NPM on an internal/high port; unknown blocked domains route to Caddy
+with the TLS handshake intact.</li>
+<li>That is fallback architecture, not the mainline. It turns NPM into a
+backend behind custom ingress, which is more fragile than a stable
+second HA100 IP.</li>
+</ul>
+<p>Current recommendation:</p>
+<ol type="1">
+<li>Research/prove the <code>192.168.1.5</code> second-IP path
+first.</li>
+<li>Keep DuckDNS/NPM if the second-IP path works.</li>
+<li>If primary <code>:443</code> must be reclaimed, first migrate
+<code>mdca.duckdns.org</code> to Tailscale, another host/IP, or a
+documented emergency path.</li>
+<li>Treat SNI dispatcher as fallback only if second IP fails and primary
+<code>:443</code> migration is too disruptive.</li>
+</ol>
+</section>
+<section
+id="prd-2026-05-17-1120-pdt--npm--duckdns-certificate-renewal-fix-spec"
+class="level4">
+<h4>2026-05-17 11:20 PDT — NPM / DuckDNS certificate renewal fix
+spec</h4>
+<p>Controlling repo spec:
+<code>~/Projects/dns-block-portal/docs/NPM-DUCKDNS-CERT-RENEWAL.md</code>.</p>
+<p>Read-only findings:</p>
+<ul>
+<li><code>https://mdca.duckdns.org</code> currently terminates at NPM on
+HA100 <code>:443</code>.</li>
+<li>NPM serves an imported custom cert expiring
+<code>2026-06-08 13:25:53 UTC</code>.</li>
+<li>Duck DNS add-on has renewed <code>/ssl/fullchain.pem</code> to a
+cert expiring <code>2026-08-05 14:13:19 UTC</code>.</li>
+<li>Duck DNS logs say the <code>/ssl</code> cert is valid beyond 32
+days, so Duck DNS itself is healthy and skipping renewal correctly.</li>
+<li>NPM custom cert files are under
+<code>/addon_configs/a0d7b954_nginxproxymanager/custom_ssl/npm-1/</code>.</li>
+<li>Current NPM add-on metadata does not expose HA <code>/ssl</code> as
+a direct mount, so simply pointing NPM at
+<code>/ssl/fullchain.pem</code> is not assumed safe for this
+add-on.</li>
+<li>UniFi forwards WAN <code>80</code> and <code>443</code> to
+<code>192.168.1.208</code>, so NPM-managed Let's Encrypt HTTP-01 is
+plausible if we keep DuckDNS public.</li>
+</ul>
+<p>Recommended fix:</p>
+<ol type="1">
+<li>Build read-only served-cert healthcheck first.</li>
+<li>In an approved maintenance window, convert NPM's
+<code>mdca.duckdns.org</code> proxy host from imported custom cert to
+NPM-managed Let's Encrypt.</li>
+<li>Keep Duck DNS add-on running for dynamic DNS and the Home Assistant
+Core <code>/ssl</code> cert.</li>
+<li>Monitor the served cert on <code>192.168.1.208:443</code> rather
+than trusting NPM DB metadata alone.</li>
+<li>Keep DuckDNS-to-NPM cert sync as fallback only, because it copies
+private key material and needs careful backup/restart/verification.</li>
+</ol>
+<p>Open security note:</p>
+<ul>
+<li>NPM logs show public internet scanning against the WAN-exposed host.
+That is expected for a public <code>:443</code> service, but it supports
+the separate argument for eventually considering Tailscale-only admin
+access if Ace is comfortable giving up public DuckDNS convenience.</li>
+</ul>
+<p>Served-cert healthcheck shape:</p>
+<ul>
+<li>Source of truth is the live TLS handshake:
+<code>192.168.1.208:443</code> with SNI
+<code>mdca.duckdns.org</code>.</li>
+<li>It parses the served certificate subject/SAN, issuer, expiry, and
+SHA-256 fingerprint.</li>
+<li>It alerts if the served cert does not cover
+<code>mdca.duckdns.org</code>, looks like a default/dummy cert, has
+fewer than 21 days left, or has fewer than 7 days left for critical
+warning.</li>
+<li>It may compare Duck DNS <code>/ssl</code> and NPM custom
+cert/database metadata for diagnostics, but those are not the pass/fail
+source of truth.</li>
+<li>It should be a separate <code>scripts/cert-healthcheck.py</code> /
+LaunchAgent rather than overloading DNS resolver healthcheck, because
+cert expiry is not a DNS outage and has different thresholds.</li>
+</ul>
+<hr />
+</section>
+</section>
+<section id="prd-phase-5c-status--closed-2026-05-25-pdt" class="level3">
+<h3>Phase 5C Status — Closed 2026-05-25 PDT</h3>
+<p><strong>Status:</strong> ✅ Shipped. Cert custody is in
+production.</p>
+<p><strong>Summary:</strong></p>
+<ul>
+<li><code>dns-portal</code> single-container image (Caddy 2.11.2 +
+FastAPI) replaces the legacy <code>addon_local_dns-blockpage</code> on
+<code>192.168.1.5:443</code>.</li>
+<li>On-demand TLS issued by
+<code>Ace Local Intermediate 2026 → Ace Local Root CA</code>.</li>
+<li>Trusted devices (Root CA installed): green padlock + branded block
+page.</li>
+<li>Untrusted devices: same TLS warning as Phase 4 (no regression).</li>
+<li>AGH <code>blocking_ipv4</code> flipped to <code>192.168.1.5</code>;
+universal block destination unchanged from a routing standpoint.</li>
+<li>External watchdog (<code>scripts/phase5c/portal-watchdog.py</code>,
+launchd, every 300s) alerts on container/Caddy/FastAPI health drift to
+Discord <code>#alerts</code>.</li>
+<li>Legacy <code>addon_local_dns-blockpage</code> fully uninstalled
+(<code>installed=False</code>) at closeout. HA backup
+<code>aa7fc1d2</code> retained as deep-rollback insurance.</li>
+</ul>
+<p><strong>Out of scope (correctly deferred):</strong> per-client DNS
+routing, two-AGH split, VLAN segmentation, AGH v0.108. See Phase 5.2
+closeout §2 for the architectural conclusions that made those
+unreachable on the current stack.</p>
+<p><strong>Branch:</strong> <code>phase5c-execution</code> (merged to
+<code>main</code> at closeout).</p>
+<p><strong>Key commits:</strong></p>
+<ul>
+<li><code>1a044d3</code> — S2 build dns-portal image</li>
+<li><code>b12df03</code> — S2b external watchdog + 23 unit tests</li>
+<li><code>c39107b</code> — preflight (env.example, image transfer,
+rollback dry-run)</li>
+<li><code>b9e6c68</code> — S3 cutover + AGH blocking_ipv4 flip</li>
+<li><code>c11e141</code> — post-cutover ask-hook fix for canonical
+hostnames</li>
+<li><code>37b7b0e</code> — block page footnote copy revision</li>
+</ul>
+<p><strong>Closeout doc:</strong>
+<code>~/Projects/dns-block-portal/docs/phase5c/PHASE-5C-CLOSEOUT.md</code>.</p>
+<p><strong>Phase 5 (original PRD §Phase 5 — Polish):</strong> Items
+remain open and untouched by Phase 5C — that work was reframed away from
+per-client routing and would land as a future phase if Ace wants the
+original polish list (persistent-client mappings, time-limited unblocks,
+dark-mode, Kitty onboarding, idle gauges).</p>
+<hr />
+</section>
+<section
+id="prd-phase-5d--public-ip-block-portal-via-sni-front-door-white_check_mark-live--2026-05-27"
+class="level3">
+<h3>Phase 5D — Public-IP Block Portal via SNI Front Door (✅ LIVE —
+2026-05-27)</h3>
+<p><strong>Status:</strong> ✅ <strong>SHIPPED to production</strong>.
+Live cutover executed <code>2026-05-27T12:40Z</code>. Cellular vantage
+confirmed third-party <code>mdca.duckdns.org</code> still serves through
+the new chain. v3.2 PRD approved through senior-dev pipeline; all gates
+(0, 1, 2, 3) proven on live data.</p>
+<p><strong>Project doc:</strong>
+<code>~/Projects/dns-block-portal/docs/phase5d/PHASE-5D-PROPOSAL-v3.2.md</code>
+<strong>Review pipeline:</strong>
+<code>~/Projects/dns-block-portal/docs/phase5d/reviews/v3.2-gamut-review-summary.md</code>
+<strong>APPLY=1 artifact:</strong>
+<code>~/Projects/dns-block-portal/docs/phase5d/artifacts/20260527T124013Z-gate3-udm-APPLY/</code>
+<strong>Branch:</strong> merged <code>phase5d-v2-execution</code> →
+<code>master</code> (commit <code>50a2252</code>)</p>
+<section id="prd-live-chain-post-2026-05-27-cutover" class="level4">
+<h4>Live chain (post-2026-05-27 cutover)</h4>
+<pre><code>External client
+  -&gt; WAN :443
+  -&gt; UDM port-forward DNAT (rule _id=69b0308d26be5cefc41f0338)
+  -&gt; 192.168.1.5:443
+  -&gt; HA100 kernel DNAT (dns-sni-frontdoor addon, dnat_enabled=true)
+  -&gt; 192.168.1.5:10443 (HAProxy)
+  -&gt; SNI inspection (no TLS termination):
+       sni=mdca.duckdns.org           -&gt; backend npm_mdca   -&gt; 192.168.1.208:443 (NPM) -&gt; HA
+       trusted-source non-mdca SNI    -&gt; backend portal_caddy -&gt; 192.168.1.5:9443 (dns-portal Caddy)
+       untrusted-source non-mdca SNI  -&gt; backend reject_unknown_sni (immediate TCP close)
+       no-SNI                         -&gt; backend reject_no_sni (immediate TCP close)</code></pre>
+</section>
+<section id="prd-components-shipped" class="level4">
+<h4>Components shipped</h4>
+<ul>
+<li><strong><code>dns-sni-frontdoor</code> add-on v0.0.3</strong> (local
+addon on HA100, <code>boot: auto</code>,
+<code>host_network: true</code>, <code>privileged: [NET_ADMIN]</code>).
+Renders + validates HAProxy config, installs/removes kernel PREROUTING
+DNAT, self-heals stale rules on every start regardless of
+<code>dnat_enabled</code> (covers supervisor SIGKILL trap-bypass).</li>
+<li><strong>UDM port-forward</strong> flipped from
+<code>192.168.1.208:443</code> to <code>192.168.1.5:443</code> (UI:
+Settings → Routing → Port Forwarding → "Home Assistant HTTPS (NPM)").
+Rule <code>_id=69b0308d26be5cefc41f0338</code>. Original saved in APPLY
+artifact for rollback.</li>
+<li><strong><code>scripts/phase5d/cutover.sh</code></strong> +
+<strong><code>scripts/phase5d/rollback-cutover.sh</code></strong> with
+<code>APPLY=0</code> (default dry-run),
+<code>PHASE5D_CONFIRM_LIVE_UDM_MUTATION=YES_MUTATE_UDM_WAN_443</code>
+gate for APPLY=1, <code>PHASE5D_UDM_API_INSECURE=1</code> for UDM
+self-signed cert, auto-rollback if UDM dataplane readback doesn't show
+new backend in 60s.</li>
+<li><strong>HAProxy template</strong>
+(<code>ha-addon/dns-sni-frontdoor/haproxy.cfg.template</code>) with
+separate backends and explicit reject counters; per-connection logs with
+captured SNI for auditability.</li>
+<li><strong>386-test suite</strong> covering manifest, behavior, real
+UDM JSON shape, self-signed cert handling, DNAT
+install/remove/self-heal, and HAProxy template routing rules.</li>
+</ul>
+</section>
+<section id="prd-verification" class="level4">
+<h4>Verification</h4>
+<ul>
+<li>UDM controller readback:
+<code>fwd=192.168.1.5, fwd_port="443"</code> (single-field, single-line
+diff).</li>
+<li>UDM dataplane:
+<code>UBIOS_PREROUTING_USER_HOOK -p tcp --dport 443 -j DNAT --to-destination 192.168.1.5:443</code>.</li>
+<li>HA100 PREROUTING:
+<code>192.168.1.5/32 -p tcp --dport 443 -j DNAT --to-destination 192.168.1.5:10443</code>.</li>
+<li>Live third-party WAN probes (Mac LAN + cellular vantage): 200 6004,
+~20-30ms.</li>
+<li>HAProxy log proves full chain:
+<code>src=192.168.1.1 (UDM hairpin) → be=npm_mdca srv=npm sni=mdca.duckdns.org → 9369 bytes</code>.</li>
+<li>NPM <code>.208:443</code> direct: still 200 6004 (untouched).</li>
+<li>386 passed, 4 skipped (full repo suite).</li>
+</ul>
+</section>
+<section id="prd-known-observations-not-blocking" class="level4">
+<h4>Known observations (not blocking)</h4>
+<ul>
+<li><strong>WAN-source identity is collapsed to UDM hairpin
+<code>192.168.1.1</code></strong> at HAProxy (UDM NATs WAN source before
+hairpin). This is why peer-IP unblock is prohibited for public/hairpin
+paths (Gate 1 finding, confirmed in production).</li>
+<li><strong>LAN telemetry pollution at <code>.5:443</code></strong>:
+NewRelic (<code>bam.nr-data.net</code>), Amazon Alexa Minerva
+(<code>*.minerva.devices.a2z.com</code>), Amplitude, Grammarly, Notion
+all hit <code>.5:443</code> from Mac/MacBook/<code>.136</code>/etc. and
+get rejected at HAProxy <code>reject_unknown_sni</code>. Pre-cutover
+they were already being rejected at NPM with TLS alert 112 —
+<strong>same end UX, different rejector, no regression</strong>. Worth a
+follow-up to understand why those hostnames resolve to <code>.5</code>
+(suspect AGH custom rewrite or NextDNS leak).</li>
+<li><strong><code>blocked.local.ace:8443</code> redirects to UDM
+controller UI</strong>: pre-existing NPM default-site fallback that
+proxies unknown <code>:8443</code> traffic to the controller. Not caused
+by Phase 5D. Should be tightened later.</li>
+</ul>
+</section>
+<section
+id="prd-outstanding-follow-ups-not-blocking-the-live-deployment"
+class="level4">
+<h4>Outstanding follow-ups (not blocking the live deployment)</h4>
+<ul>
+<li>AGH <code>blocking_ipv4</code> flip to <code>192.168.1.5</code> so
+blocked DNS lands on the portal Caddy (currently still pointing at
+<code>.208</code>).</li>
+<li>Decommission legacy <code>dns-blockpage</code> add-on (replaced
+end-to-end by <code>dns-sni-frontdoor</code> + <code>dns-portal</code>
+container).</li>
+<li>Multi-vantage third-party probe harness (Gate 4 polish).</li>
+<li>NPM default-site fallback tightening for the <code>:8443</code> UDM
+redirect.</li>
+<li>24-hour soak monitor before declaring Phase 5D fully closed.</li>
+</ul>
+<hr />
+</section>
+</section>
+<section
+id="prd-phase-5e--wan-ip-sinkhole--watcher-white_check_mark-live--2026-05-27"
+class="level3">
+<h3>Phase 5E — WAN-IP Sinkhole + Watcher (✅ LIVE — 2026-05-27)</h3>
+<section id="prd-why" class="level4">
+<h4>Why</h4>
+<p>Phase 5D shipped a working portal but AGH still sinkholed to RFC1918
+IP <code>192.168.1.5</code>, so Brave / Chrome fired a Private Network
+Access (PNA) prompt every time a public page loaded a blocked
+subresource. Phase 5E flips the sinkhole to the public WAN IPv4
+(<code>68.185.70.45</code>) so browsers see public-to-public and skip
+the prompt entirely. The UDM hairpin DNAT chain that Phase 5D shipped
+already routes WAN <code>:443</code> → HAProxy → portal Caddy, so the
+destination still resolves to the real portal block page.</p>
+</section>
+<section id="prd-what-shipped" class="level4">
+<h4>What shipped</h4>
+<ul>
+<li>AGH <code>blocking_ipv4</code> flipped from <code>192.168.1.5</code>
+to <code>68.185.70.45</code>.</li>
+<li><code>dns-sni-frontdoor</code> <code>trusted_portal_sources</code>
+now includes <code>192.168.1.1/32</code> (UDM hairpin source) so LAN
+clients still see the portal after their blocked DNS resolves through
+the WAN-hairpin path.</li>
+<li><code>wan-ip-watcher</code> LaunchAgent on Mac Studio runs every
+60s. Polls a quorum of 3 IPv4-forced public-IP providers, compares to
+AGH state, probes the DNAT chain with TLS handshake
+(SNI=<code>blocked.local.ace</code>), and rewrites AGH
+<code>blocking_ipv4</code> only if the probe passes. Refuses any rewrite
+into RFC1918 / CGNAT / loopback ranges. 1h Discord alert cooldown per
+kind.</li>
+<li>Cutover script:
+<code>scripts/phase5e-agh-cutover.sh --dry-run|--apply</code>.</li>
+<li>Rollback script: <code>scripts/phase5e-agh-rollback.sh</code>
+(restores <code>.5</code>).</li>
+<li>Spec: <code>docs/phase5e/SPEC.md</code>.</li>
+</ul>
+</section>
+<section id="prd-live-verification-2026-05-27" class="level4">
+<h4>Live verification (2026-05-27)</h4>
+<ul>
+<li>LAN canaries:
+<code>dig +short @192.168.1.208 doubleclick.net analytics.google.com googletagmanager.com bam.nr-data.net collector.github.com</code>
+→ all return <code>68.185.70.45</code>.</li>
+<li>LAN HTTPS canary:
+<code>curl --resolve doubleclick.net:443:68.185.70.45 https://doubleclick.net/</code>
+→ <code>code=200 size=4292</code>, body is real portal HTML
+(<code>&lt;title&gt;Blocked · DNS Portal&lt;/title&gt;</code>). Full
+chain: AGH → hairpin → UDM DNAT → HAProxy (<code>src=192.168.1.1</code>
+trusted) → portal Caddy.</li>
+<li>Third-party WAN probes (check-host.net nodes in FR, IL, NL, RS, US,
+BG, KZ): mdca.duckdns.org returns 200 from <code>.45</code>; bare-TCP
+probes against <code>.45:443</code> arrive at HAProxy with real public
+source IPs preserved and get <code>reject_no_sni</code>. No SNAT
+collapse. Security model intact.</li>
+<li>Watcher: <code>launchctl list ai.openclaw.wan-ip-watcher</code>
+reports last-exit=0 every cycle. JSONL log
+<code>memory/wan-ip-watcher.jsonl</code> showing
+<code>status=in_sync</code> rows.</li>
+</ul>
+</section>
+<section id="prd-failure-modes--mitigations" class="level4">
+<h4>Failure modes &amp; mitigations</h4>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Detector</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WAN IP rotates while AGH is stale</td>
+<td>watcher (60s)</td>
+<td>rewrite within next cycle</td>
+</tr>
+<tr>
+<td>WAN IP rotates AND DNAT chain broken on new IP</td>
+<td>watcher probe</td>
+<td>refuse rewrite, alert WARN</td>
+</tr>
+<tr>
+<td>Mac Studio offline (watcher down)</td>
+<td>not detected by watcher itself; dnat-rule-sentinel still catches
+chain breakage</td>
+<td>manual <code>phase5e-agh-rollback.sh</code> from any LAN device
+returns Phase 5D UX</td>
+</tr>
+<tr>
+<td>ipify + fallbacks all blocked</td>
+<td>watcher exits 1, <code>no_wan_ip</code> alert (1h cooldown)</td>
+<td>manual investigation</td>
+</tr>
+<tr>
+<td>AGH API returns 500 on rewrite</td>
+<td>watcher logs + Discord WARN</td>
+<td>retry next cycle</td>
+</tr>
+<tr>
+<td>ISP returns CGNAT IP</td>
+<td>watcher refuses rewrite; <code>forbidden_wan_ip</code> alert</td>
+<td>manual investigation</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="prd-rollback" class="level4">
+<h4>Rollback</h4>
+<p><code>~/Projects/dns-block-portal/scripts/phase5e-agh-rollback.sh</code>
+POSTs <code>192.168.1.5</code> back to AGH and clears cache. The watcher
+LaunchAgent would undo this within 60s if still loaded — so for a
+permanent rollback, also run
+<code>launchctl unload ~/Library/LaunchAgents/ai.openclaw.wan-ip-watcher.plist</code>.</p>
+</section>
+<section id="prd-closes" class="level4">
+<h4>Closes</h4>
+<ul>
+<li>PRD Gate 5 "WAN-IP drift alert".</li>
+<li>The Brave/Chrome PNA permission prompt UX regression Ace flagged at
+2026-05-27 ~07:30 PDT. Confirmed in-browser by Ace: no PNA prompt on
+<code>https://github.com</code> after cutover.</li>
+</ul>
+<hr />
+</section>
+</section>
+<section
+id="prd-wave-2-follow-ups-white_check_mark-shipped--2026-05-27-same-session"
+class="level3">
+<h3>Wave-2 Follow-ups (✅ SHIPPED — 2026-05-27, same session)</h3>
+<ul>
+<li><strong>S2</strong> UDM reboot resilience test — done earlier in
+session. DNAT survived, mdca recovered, no manual intervention.</li>
+<li><strong>M1</strong> Multi-vantage probe harness —
+<code>multivantage-probe.py</code> runs every 5 min via launchd. Checks
+LAN mdca GET, LAN portal canary, check-host.net 3-node TCP probe,
+HAProxy log inspection. Alerts to <code>#alerts</code> on
+regression.</li>
+<li><strong>M2</strong> Legacy addon cleanup —
+<code>dns-blockpage</code> confirmed uninstalled.
+<code>dns-frontdoor</code> stopped + uninstalled (was spamming
+<code>#alerts</code> with bogus failover warnings). HA partial-backup
+<code>pre-m2-dns-frontdoor-removal</code> taken pre-removal.</li>
+<li><strong>M3</strong> <code>:8443</code> redirect — already decided as
+accept-and-document. Closed.</li>
+<li><strong>M6</strong> UDM cert pinning — captured leaf cert + SPKI pin
+to <code>~/.openclaw/state/udm-cert/</code>. Cutover/rollback lib
+extended with <code>PHASE5D_UDM_API_PINNEDPUBKEY</code> +
+<code>PHASE5D_UDM_API_RESOLVE_HOST/_IP</code>. Rollback alias no longer
+uses <code>INSECURE=1</code>. Live API call verified.</li>
+</ul>
+</section>
+<section
+id="prd-wave-3-white_check_mark-shipped--2026-05-27-late-session"
+class="level3">
+<h3>Wave-3 (✅ SHIPPED — 2026-05-27 late session)</h3>
+<ul>
+<li><strong>M5</strong> Portal unblock-flow regression test —
+<code>tests/phase5e/test_portal_unblock_e2e.py</code>. Full happy-path
+against live AGH using RFC 6761 <code>.invalid</code> synthetic domain.
+Snapshot-at-setup, restore-on-teardown discipline.</li>
+<li><strong>Unauth /unblock fix</strong> — deployed
+<code>dns-portal</code> container predated recent auth hardening (had
+been built 2026-05-26 05:44Z, before commit 8da117b). Anyone on the LAN
+could POST <code>/unblock</code> without auth. Container rebuilt +
+redeployed. Verified: unauth → 401, bearer → 200.</li>
+<li><strong>AGH user-rules backup tool</strong> —
+<code>scripts/agh-user-rules-backup.py</code>. Hourly full-list
+snapshots via LaunchAgent. <code>--restore /path --apply</code> for
+one-line recovery. Recovered production user_rules twice this session
+when test bugs wiped them.</li>
+<li><strong>E2E test suite</strong> — <code>tests/phase5e/</code> 22
+tests, all passing in 32s. Covers Phase 5E + M1 + M2 + M5 + M6 + portal
+flow + cert pinning.</li>
+</ul>
+</section>
+<section
+id="prd-l1--portal-cert-custody-white_check_mark-shipped--2026-05-27"
+class="level3">
+<h3>L1 — Portal cert custody (✅ SHIPPED — 2026-05-27)</h3>
+<ul>
+<li>1Password item <code>DNS Portal Local PKI (root+int)</code> is the
+canonical source of truth for the root + intermediate.</li>
+<li><code>deploy/inject-pki.sh</code> is the idempotent recovery tool.
+Dry-run by default, <code>--apply</code> to push,
+<code>--force --apply</code> for PKI rotation.</li>
+<li><code>multivantage-probe.py</code> check E reads the live root
+SHA256 every 5min and alerts on drift.</li>
+<li><code>tests/phase5e/test_pki_continuity.py</code> (7 tests, all
+passing) verifies 1P contents, HA100 disk state, live chain
+validation.</li>
+<li>Rotation playbook at
+<code>~/Projects/dns-block-portal/docs/longterm/L1-rotation.md</code>
+covers intermediate (15min no-downtime), root (~1wk with overlap),
+cold-restore, and Caddy-self-signed-root mishap recovery.</li>
+<li>Manually tested: wiped <code>/share/.../pki/</code> →
+<code>inject-pki.sh --apply</code> → container restart → portal serves
+same root fingerprint → trusted devices keep green padlock.</li>
+</ul>
+<p>Full e2e: 29 tests across <code>tests/phase5e/</code>, all passing in
+~38s.</p>
+<p>M4 (device-by-device trust tightening) <strong>deprecated
+2026-05-27</strong> — the UDM hairpin SNAT to <code>192.168.1.1</code>
+collapses all LAN source identity, so there's no useful per-device
+distinction to enforce at the portal layer. IoT devices don't browse
+blocked content; granular trust would just add ops burden.</p>
+<p>L2/L3/L4 remain speculative future work. No active follow-ups.</p>
+<hr />
+</section>
+<section id="prd-phase-5d--historical-planned-record-pre-cutover"
+class="level3">
+<h3>Phase 5D — Historical PLANNED record (pre-cutover)</h3>
+<p>Below preserved for reference; superseded by the SHIPPED status
+above.</p>
+<section id="prd-why-phase-5d-exists" class="level4">
+<h4>Why Phase 5D exists</h4>
+<p>Phase 5C delivered cert custody for trusted devices but did not solve
+the Brave / Chrome <strong>Private Network Access (PNA) permission
+prompt</strong> that fires whenever a page loads a subresource pointed
+at an RFC1918 IP.</p>
+<p>Example discovered late on 2026-05-25:</p>
+<ul>
+<li><code>github.com</code> loads a blocked analytics endpoint such as
+<code>collector.github.com</code>.</li>
+<li>AGH sinkholes the blocked request to <code>192.168.1.5</code>.</li>
+<li>Brave sees a page fetching a private IP and fires a PNA prompt.</li>
+<li>TLS correctness does not matter for that prompt; the trigger is the
+destination IP class.</li>
+</ul>
+<p>Phase 5D makes blocked domains resolve to the home WAN IPv4 so the
+browser no longer sees a private-IP destination. Caddy still mints
+per-SNI certificates from Ace Local Intermediate 2026, so trusted
+devices still need Ace Local Root CA for green padlocks.</p>
+</section>
+<section id="prd-v1v2v3-lessons" class="level4">
+<h4>v1/v2/v3 lessons</h4>
+<ul>
+<li>Cloudflare Tunnel / <code>blocked.angventures.io</code> is not
+viable for inline blocked-domain HTTPS because the browser SNI remains
+the originally requested blocked domain (<code>doubleclick.net</code>,
+etc.). DNS CNAME rewriting does not change browser Host/SNI.</li>
+<li>Direct <code>WAN :443 -&gt; 192.168.1.5:9443</code> is not viable
+because <code>mdca.duckdns.org</code> already uses the single home WAN
+<code>:443</code> through NPM.</li>
+<li>The accepted v3.1 direction is one public <code>:443</code>
+entrypoint with raw TLS/SNI routing before TLS termination.</li>
+</ul>
+</section>
+<section id="prd-v31-architecture" class="level4">
+<h4>v3.1 architecture</h4>
+<pre><code>Client browser
+   |
+   | DNS: blocked domain -&gt; AGH
+   | AGH returns A=&lt;home WAN IPv4&gt;
+   v
+UDM-SE single public :443 forward
+   |
+   v
+HA100 secondary IP 192.168.1.5:443
+   |
+   | HA100 DNAT to local high port
+   v
+L4 SNI front door on 192.168.1.5:10443
+   |
+   | SNI mdca.duckdns.org
+   |   -&gt; TCP passthrough to NPM on 192.168.1.208:443
+   |
+   | trusted-source non-HA TLS traffic
+   |   -&gt; TCP passthrough to portal Caddy on 192.168.1.5:9443
+   |   -&gt; Caddy ask-policy decides whether SNI is actually blocked
+   |
+   | everything else
+   |   -&gt; reject/drop before FastAPI</code></pre>
+</section>
+<section id="prd-required-gates-before-production" class="level4">
+<h4>Required gates before production</h4>
+<ol type="1">
+<li><strong>Gate 0 L4 spike:</strong> prove Caddy-l4 works in the HA
+add-on environment, or switch to HAProxy. Must prove HA SNI, blocked
+SNI, unblocked SNI fail-closed, and unknown-SNI reject.</li>
+<li><strong>Gate 1 source proof:</strong> capture actual LAN hairpin and
+optional Tailnet source IPs. Do not assume <code>192.168.0.0/16</code>
+or <code>100.64.0.0/10</code>.</li>
+<li><strong>Gate 2 app security:</strong> add app-layer auth and CSRF to
+<code>/unblock</code>, <code>/allowlist</code>, and
+<code>/reblock</code>; prove unauthenticated LAN-style mutations fail
+closed.</li>
+<li><strong>Gate 3 edge staging:</strong> replace the UDM
+<code>:443</code> target with the SNI front door while AGH still returns
+<code>192.168.1.5</code>; verify <code>mdca.duckdns.org</code>,
+blocked-SNI LAN path, unblocked-SNI fail-closed, and external
+non-trusted reject.</li>
+<li><strong>Gate 4 AGH cutover:</strong> flip AGH
+<code>blocking_ipv4</code> to the current home WAN IPv4, read back
+config, clear cache, test browser PNA canaries, and verify blocked AAAA
+behavior.</li>
+<li><strong>Gate 5 watchdog/closeout:</strong> add SNI-front-door
+probes, WAN-IP drift alert, rollback proof, and closeout docs after 24h
+clean telemetry.</li>
+</ol>
+</section>
+<section id="prd-security-model-summary" class="level4">
+<h4>Security model summary</h4>
+<ul>
+<li>Public internet remains allowed to <code>mdca.duckdns.org</code>
+because that is the existing Home Assistant external access route.</li>
+<li>Public internet is not allowed to arbitrary blocked-domain SNI; the
+L4 front door rejects those unless source policy is proven trusted.</li>
+<li>Even trusted LAN/Tailnet sources must authenticate for mutations.
+Source IP is not the auth boundary for <code>/unblock</code>,
+<code>/allowlist</code>, or <code>/reblock</code>.</li>
+<li>Cloudflare Tunnel is retained only as an idle future management
+hook. No Cloudflare cleanup is part of v3.1 launch.</li>
+<li>Root CA remains required for trusted-device green padlocks. Guest
+cert-warning UX is unchanged.</li>
+</ul>
+</section>
+<section id="prd-open-build-decisions" class="level4">
+<h4>Open build decisions</h4>
+<ul>
+<li>Caddy-l4 vs HAProxy after Gate 0.</li>
+<li>Exact <code>TRUSTED_PORTAL_SOURCES</code> after packet capture.</li>
+<li>IPv6 blocked AAAA behavior; preferred v1 is A-only public WAN IPv4
+and NODATA/no synthetic AAAA for blocked IPv6.</li>
+<li>Whether off-LAN Tailnet is in v3.1 launch or deferred until the real
+route/source behavior is proven.</li>
+</ul>
+</section>
+<section id="prd-estimated-effort" class="level4">
+<h4>Estimated effort</h4>
+<ul>
+<li>Gate 0 spike: 45-90 min.</li>
+<li>App auth/CSRF: 60-120 min.</li>
+<li>Scripts/runbook: 60-120 min.</li>
+<li>Production cutover window after Gates 0-2 pass: 90-120 min.</li>
+</ul>
+</section>
+</section>
+</section>
+
+</div>
+</main>
+</div>
+
+<script>
+// Add a "Copy" button to every <pre><code>
+document.querySelectorAll('pre').forEach(function(pre) {
+  var btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.textContent = 'Copy';
+  btn.addEventListener('click', function() {
+    var code = pre.querySelector('code');
+    var text = code ? code.textContent : pre.textContent;
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  pre.appendChild(btn);
+});
+</script>
+</body>
+</html>
