@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DNS Block Portal — Docs (PRD + Specs + Operations)</title>
+<title>DNS Block Portal — Docs (PRD + Specs + Reviews + Operations)</title>
 <style>
 :root {
   color-scheme: light dark;
@@ -194,6 +194,10 @@ summary { cursor: pointer; font-weight: 600; }
 .docs-toc li.top a { font-weight: 600; }
 .docs-toc li:not(.top) { padding-left: 0.85rem; opacity: 0.7; font-size: 0.83rem; }
 .badge.muted { background: var(--code-bg); color: var(--muted); border-color: var(--border); }
+.badge.review { background: #ede9fe; color: #6b21a8; border-color: #c4b5fd; }
+@media (prefers-color-scheme: dark) {
+  .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; }
+}
 
 </style>
 </head>
@@ -211,21 +215,25 @@ summary { cursor: pointer; font-weight: 600; }
 <li class="top"><a href="#doc-L3">L3 — HAProxy → nftables migration</a></li>
 <li class="top"><a href="#doc-L4">L4 — Multi-domain mdca support</a></li>
 <li class="top"><a href="#doc-L5">L5 — Portal cert trust enrollment</a></li>
+<li class="top"><a href="#doc-L5r">L5 review — senior verdict (2026-05-27)</a></li>
 <li class="top"><a href="#doc-L6">L6 — Portal session persistence</a></li>
+<li class="top"><a href="#doc-L6r">L6 review — senior verdict (2026-05-27)</a></li>
 <li class="top"><a href="#doc-L7">L7 — Unified allowlist UI</a></li>
+<li class="top"><a href="#doc-L7r">L7 review — senior verdict (2026-05-27)</a></li>
 <li class="top"><a href="#doc-L8">L8 — Post-unblock cache busting</a></li>
+<li class="top"><a href="#doc-verdict">Consolidated review verdict L5/L6/L7</a></li>
 </ol></nav>
 <main id="top">
 <div class="hero">
   <h1>DNS Block Portal</h1>
-  <div class="meta">Bundled docs · PRD + Operations triad + Watcher catalog + 9 long-term specs (L1–L8 + L1-rotation)</div>
+  <div class="meta">Bundled docs · PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 senior review artifacts</div>
   <div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div>
   <div class="badges">
     <span class="badge shipped">✅ Phases 5C/5D/5E shipped</span>
     <span class="badge shipped">✅ Wave-2/3 shipped</span>
     <span class="badge shipped">✅ L1 cert custody</span>
     <span class="badge shipped">✅ L8 success page</span>
-    <span class="badge spec">📋 L5/L6/L7 specs ready to ship</span>
+    <span class="badge review">📋 L5/L6/L7 reviewed (APPROVE WITH CHANGES)</span>
   </div>
 </div>
 <div class="content">
@@ -4859,7 +4867,7 @@ public hostname routes to NPM, not portal.</label></li>
   <header class="doc-header">
     <a class="doc-back" href="#top">↑ top</a>
     <h2 class="doc-title">L5 — Portal cert trust enrollment</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec ready · ~3.5h</span></div>
+    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
   </header>
   <section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
 <h3>L5 — Portal cert trust enrollment UX</h3>
@@ -5026,11 +5034,264 @@ worked</label></li>
 
 </section>
 
+<section class="doc" id="doc-L5r">
+  <header class="doc-header">
+    <a class="doc-back" href="#top">↑ top</a>
+    <h2 class="doc-title">L5 review — senior verdict (2026-05-27)</h2>
+    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
+  </header>
+  <section id="L5r-l5--senior-review-2026-05-27" class="level3">
+<h3>L5 — Senior Review (2026-05-27)</h3>
+<p><strong>PRD:</strong>
+<code>docs/longterm/L5-portal-cert-trust-enrollment.md</code>
+<strong>Reviewer:</strong> Forge (local, all lenses)
+<strong>Runtime/model:</strong>
+<code>claude-api-proxy/claude-opus-4-7</code> (local main session, no
+subagent — PRD &lt;150 lines, single reviewer adequate per skill
+rules)</p>
+<section id="L5r-verdict" class="level4">
+<h4>Verdict</h4>
+<p><strong>APPROVE WITH CHANGES.</strong> Solid foundation, but ships
+with three latent issues that will bite during real-world install
+testing and could leave a household device in a broken state. None are
+blockers; all are fixable in &lt;30 min.</p>
+</section>
+<section id="L5r-critical-blockers" class="level4">
+<h4>Critical Blockers</h4>
+<p>None.</p>
+</section>
+<section id="L5r-required-changes-must-land-before-implementation"
+class="level4">
+<h4>Required Changes (must land before implementation)</h4>
+<ol type="1">
+<li><p><strong>L5.2 doesn't say what <code>/setup</code> does if the
+user isn't on a trusted source.</strong> Today HAProxy
+<code>reject_unknown_sni</code> is the only gate. If a guest hits
+<code>https://blocked.local.ace/setup</code>, will they (a) get the page
+and download a cert that doesn't help them (a guest installing our root
+CA is dubious anyway), (b) get rejected at HAProxy with no helpful
+message, or (c) get a portal-Caddy 403 page? Add a section "Who can
+access <code>/setup</code>?" — likely answer: only LAN-trusted sources,
+with a clear 403 + "ask the network operator" message for
+guests.</p></li>
+<li><p><strong>No <code>/setup</code> security-against-self
+analysis.</strong> If the page is served on the same hostname as
+<code>/unblock</code>, a malicious script (XSS in <code>/setup</code>)
+could pivot to mutate AGH rules. Today this is mitigated by Bearer auth
+on <code>/unblock</code>, but document the threat model:
+<code>/setup</code> downloads a leaf cert, never a key; no JS embedded
+from third-party sources; CSP recommended at minimum
+<code>default-src 'self'</code>.</p></li>
+<li><p><strong>The "test trust" probe is under-specified.</strong> What
+SNI does it probe? If <code>blocked.local.ace</code>, that doesn't test
+third-party blocked SNIs which is the actual UX surface. If it probes a
+known-blocked third-party SNI, it'll trigger a real HAProxy → portal
+Caddy round trip — fine, but document it explicitly and pick a synthetic
+SNI (e.g. <code>trust-probe.invalid</code>) that AGH rewrites just for
+this purpose so the probe doesn't conflate with real blocking
+signal.</p></li>
+</ol>
+</section>
+<section id="L5r-lens-notes" class="level4">
+<h4>Lens Notes</h4>
+<section id="L5r-product--requirements" class="level5">
+<h5>Product / Requirements</h5>
+<ul>
+<li><strong>User outcome is clear:</strong> trusted devices → green
+padlock with one click.</li>
+<li><strong>Acceptance criteria are good</strong> (the Done definition
+lists checkable items).</li>
+<li><strong>Scope is well-bounded</strong> — L5.5 (Let's Encrypt for the
+portal) is correctly rejected upfront.</li>
+<li><strong>Missing:</strong> what's the success metric? "User clicks
+one button → green padlock" needs a counter — how do we know once this
+ships whether it's reducing the cert-warning friction in practice?
+Suggest: an <code>audit.jsonl</code> event for each successful
+trust-test probe.</li>
+</ul>
+</section>
+<section id="L5r-architecture--systems" class="level5">
+<h5>Architecture / Systems</h5>
+<ul>
+<li><strong>Reuses existing infrastructure cleanly:</strong> Caddy
+<code>/setup</code> route already exists; this just enhances it.</li>
+<li><strong>No new components</strong>; just template + JS
+extension.</li>
+<li><strong>L5.3 (UniFi profile push) is correctly flagged as
+speculative.</strong></li>
+<li><strong>Wikilink reference to
+<code>blocked.local.ace/install-root-ca</code> is solid</strong> — that
+endpoint exists today.</li>
+</ul>
+</section>
+<section id="L5r-security--privacy" class="level5">
+<h5>Security / Privacy</h5>
+<ul>
+<li>⚠️ <strong>L5.2 hands out a cert to anyone who can reach
+<code>/setup</code>.</strong> The cert is the public root, which is fine
+to distribute (it's a public artifact; installing it just signals
+trust). But the install steps it shows expose our local CA topology +
+naming conventions. A LAN-restricted endpoint (HAProxy
+trusted_portal_sources, which we just broadened to <code>/24</code>) is
+the right gate. Document explicitly that <code>/setup</code> should rely
+on the HAProxy front-door for source-restriction, not on portal-app
+auth.</li>
+<li><strong>No risk of leaking the intermediate key</strong> — only
+<code>.crt</code> is downloaded.</li>
+<li><strong>iOS <code>.mobileconfig</code> profile signing:</strong> if
+we sign the profile, the install UX is smoother (no "Unverified Profile"
+warning). Worth noting as a follow-up; not blocking.</li>
+</ul>
+</section>
+<section id="L5r-infrastructure--networking" class="level5">
+<h5>Infrastructure / Networking</h5>
+<ul>
+<li><strong>No PNA risk for <code>/setup</code></strong> — top-level
+navigation, served from <code>blocked.local.ace</code> (private IP).
+Browser doesn't fire PNA on the user initiating the navigation.</li>
+<li><strong>HAProxy trusted_portal_sources is now
+<code>192.168.1.0/24</code></strong> (changed this session) — covers all
+LAN devices. L5.2 won't need any HAProxy config changes.</li>
+</ul>
+</section>
+<section id="L5r-devops--sre--runbook" class="level5">
+<h5>DevOps / SRE / Runbook</h5>
+<ul>
+<li><strong>Recovery story is implicit:</strong> if <code>/setup</code>
+breaks, devices can still install the cert from the 1Password item
+directly (per L1's custody). Spec should say this for the operator.</li>
+<li><strong>No new monitoring needed</strong> — multivantage-probe
+already covers portal health, and a separate
+<code>cert-healthcheck</code> watcher exists.</li>
+</ul>
+</section>
+<section id="L5r-implementation--maintainability" class="level5">
+<h5>Implementation / Maintainability</h5>
+<ul>
+<li><strong>UA-detect is brittle but acceptable</strong> — UA strings
+are stable enough for OS family detection. Sec-CH-UA-Platform is
+cleaner; spec should call out preference order:
+<code>Sec-CH-UA-Platform</code> first, fall back to UA.</li>
+<li><strong>Screenshots as base64 data URIs</strong> is the right call.
+Spec says this. Inline avoids static asset path management.</li>
+<li><strong>Estimate <code>3.5h</code> (Forge revised from 4-6h) is
+right</strong> for a single reviewer with the existing FastAPI template
+patterns.</li>
+</ul>
+</section>
+<section id="L5r-qa--verification" class="level5">
+<h5>QA / Verification</h5>
+<ul>
+<li>⚠️ <strong>No automated test for the install flow.</strong>
+Automated browser cert install isn't really testable (per-OS native
+dialogs). But:
+<ul>
+<li>Test the <code>/setup</code> route returns 200 with the right
+OS-specific HTML (UA-parameterized, like L8's
+test_l8_success_page.py).</li>
+<li>Test that <code>/install-root-ca</code> API endpoint returns the
+cert PEM that matches the 1P-pinned fingerprint.</li>
+<li><strong>Manual gate before declaring "done":</strong> Ace installs
+the cert via <code>/setup</code> on at least 2 devices (1 macOS + 1
+iOS), confirms green padlock. Without this, "shipped" is
+theoretical.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="L5r-open-questions" class="level4">
+<h4>Open Questions</h4>
+<ol type="1">
+<li><strong>Who handles cert REVOKE flow?</strong> If a device gets
+stolen, we have no way to revoke the device's trust of our root. The
+root cert is global trust. (Same problem as today; L5 doesn't address it
+but should acknowledge.)</li>
+<li><strong>iOS <code>.mobileconfig</code> signing</strong> — do we have
+an Apple Developer account to sign profiles? If not, "Unverified
+Profile" warning is unavoidable.</li>
+<li><strong>Should <code>/setup</code> work for unauthenticated
+users?</strong> Currently the page exists but is implicit-trust because
+of HAProxy gate. Explicit would be better.</li>
+</ol>
+</section>
+<section id="L5r-reviewer-coverage" class="level4">
+<h4>Reviewer Coverage</h4>
+<table>
+<thead>
+<tr>
+<th>Lens</th>
+<th>Reviewer</th>
+<th>Runtime/model</th>
+<th>Status</th>
+<th>Artifact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>DevOps/SRE</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Implementation</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+</tbody>
+</table>
+<p>No subagent used (PRD &lt;150 lines, single reviewer per skill
+guidance for small low-risk docs). Model self-disclosed as
+<code>claude-api-proxy/claude-opus-4-7</code> in the runtime header; no
+Opus-required gate.</p>
+</section>
+</section>
+
+</section>
+
 <section class="doc" id="doc-L6">
   <header class="doc-header">
     <a class="doc-back" href="#top">↑ top</a>
     <h2 class="doc-title">L6 — Portal session persistence</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec ready · ~3h (incl. PNA gate)</span></div>
+    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
   </header>
   <section id="L6-l6--portal-session-persistence" class="level3">
 <h3>L6 — Portal session persistence</h3>
@@ -5280,11 +5541,272 @@ untrusted-device UX too (one warning instead of one-per-domain).</p>
 
 </section>
 
+<section class="doc" id="doc-L6r">
+  <header class="doc-header">
+    <a class="doc-back" href="#top">↑ top</a>
+    <h2 class="doc-title">L6 review — senior verdict (2026-05-27)</h2>
+    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
+  </header>
+  <section id="L6r-l6--senior-review-2026-05-27" class="level3">
+<h3>L6 — Senior Review (2026-05-27)</h3>
+<p><strong>PRD:</strong>
+<code>docs/longterm/L6-portal-session-persistence.md</code>
+<strong>Reviewer:</strong> Forge (local, all lenses)
+<strong>Runtime/model:</strong>
+<code>claude-api-proxy/claude-opus-4-7</code></p>
+<section id="L6r-verdict" class="level4">
+<h4>Verdict</h4>
+<p><strong>APPROVE WITH CHANGES.</strong> L6.1's redirect approach is
+sound and the PNA gate is correctly placed. But the spec has two
+security gaps and one ambiguity that need resolution before merge.</p>
+</section>
+<section id="L6r-critical-blockers" class="level4">
+<h4>Critical Blockers</h4>
+<p>None outright, but <strong>#1 below is a near-blocker</strong>: if
+not addressed, L6.1 opens a small open-redirect surface that an attacker
+could leverage for phishing.</p>
+</section>
+<section id="L6r-required-changes" class="level4">
+<h4>Required Changes</h4>
+<ol type="1">
+<li><p><strong>Open-redirect vulnerability in <code>?domain=X</code>
+parameter</strong> — When portal Caddy gets a request for
+SNI=<code>doubleclick.net</code>, it redirects to
+<code>https://blocked.local.ace/?domain=doubleclick.net</code>. The
+<code>?domain</code> param is then displayed on the page (e.g. "Unblock
+doubleclick.net?"). <strong>What if an attacker crafts a link like
+<code>https://blocked.local.ace/?domain=very-trusted-bank.com</code></strong>?
+The portal will show "Unblock very-trusted-bank.com?" even though that
+domain was never actually blocked. A user social-engineered to click
+"Unblock" could be allowlisting a domain they didn't actually visit.</p>
+<p><strong>Fix:</strong> server-side validation. The portal must verify
+the SNI it was redirected FROM by checking a signed token or session
+entry. Two options:</p>
+<ul>
+<li><strong>Option A</strong> (simpler): the original SNI is embedded in
+a HMAC-signed query param, e.g.
+<code>?token=base64(hmac(domain, server_secret))</code>. Portal verifies
+the HMAC before trusting <code>domain</code>. The redirect from the
+SNI-specific portal Caddy embeds the right token.</li>
+<li><strong>Option B</strong> (cleaner but more state): the portal Caddy
+that handles the blocked-SNI request writes a short-lived sqlite row
+(<code>pending_unblock_redirect(sni, expires_at, nonce)</code>) and
+redirects with the nonce. The <code>blocked.local.ace</code> handler
+looks up the nonce to find the real SNI.</li>
+</ul>
+<p>Without this, the spec ships an XSS-adjacent vector.</p></li>
+<li><p><strong>L6.5 fingerprint approach has a privacy footnote that's
+wrong.</strong> The spec says "privacy isn't sent to anything
+third-party; it's local-only." That's true for the hash itself, but
+<strong><code>Sec-CH-UA</code> includes precise browser version which is
+a strong fingerprint</strong> — even if local-only, recording it in
+sqlite + audit logs creates a per-user fingerprint that lives forever.
+Not the same risk as third-party tracking, but worth tightening: hash
+with HMAC + a daily rotating salt so old logs can't be
+back-cross-referenced.</p></li>
+<li><p><strong><code>SESSION_MAX_AGE_SECONDS = 30 * 24 * 3600</code>
+needs an upper bound check.</strong> What happens if the cookie is
+replayed from a stolen device 30 days later? Today's max 30-min cookie
+limits damage. Spec should:</p>
+<ul>
+<li>Add a <code>[Logout]</code> button that's prominent.</li>
+<li>Document the threat-model tradeoff: "30 days assumes you can manage
+device theft via OS-level lock; the cookie has no additional
+revocation."</li>
+<li>Consider an active "session revoke all" admin action
+(<code>POST /admin/sessions/revoke-all</code> that bumps
+<code>DNS_ADMIN_SESSION_SECRET</code>, invalidating every cookie).</li>
+</ul></li>
+</ol>
+</section>
+<section id="L6r-lens-notes" class="level4">
+<h4>Lens Notes</h4>
+<section id="L6r-product--requirements" class="level5">
+<h5>Product / Requirements</h5>
+<ul>
+<li><strong>User outcome:</strong> clear and validated by the actual
+user pain reported 2026-05-27.</li>
+<li><strong>Acceptance criteria are testable</strong> (the PNA gate
+matrix + pytest coverage).</li>
+<li><strong>Done definition is good</strong> (~3h estimate with the gate
+looks right).</li>
+</ul>
+</section>
+<section id="L6r-architecture--systems" class="level5">
+<h5>Architecture / Systems</h5>
+<ul>
+<li><strong>L6.1 is a clean redirect pattern</strong> — well-established
+in web auth (<code>auth.example.com</code> → app.example.com). No new
+infra.</li>
+<li><strong>L6.5 fallback is properly conditional</strong> — only ship
+if L6.1 fails the PNA gate. Good escape hatch.</li>
+<li><strong>Wikilinks to existing
+<code>app/admin_session.py</code></strong> are accurate (verified file
+exists, constants match).</li>
+</ul>
+</section>
+<section id="L6r-security--privacy" class="level5">
+<h5>Security / Privacy</h5>
+<ul>
+<li>⚠️ <strong>Open-redirect issue (see Blocker #1)</strong> is the
+headline risk.</li>
+<li>✅ <code>__Host-</code> cookie prefix is correct usage (Secure, no
+Domain, Path=/).</li>
+<li>✅ <code>SameSite=strict</code> is right for admin session.</li>
+<li>⚠️ <strong>30-day lifetime needs the revoke story</strong> (see
+Required Change #3).</li>
+<li>L6.5 fingerprint: see Required Change #2.</li>
+</ul>
+</section>
+<section id="L6r-infrastructure--networking" class="level5">
+<h5>Infrastructure / Networking</h5>
+<ul>
+<li><strong>PNA test matrix is excellent</strong> — covers all 4 cases ×
+3 browsers. This is the model of how to gate a risky change.</li>
+<li>Recommend adding a fifth case: <strong><code>fetch(...)</code> from
+a public-IP page's JS to
+<code>https://doubleclick.net/api</code></strong> (i.e. a true
+subresource XHR, not just <code>&lt;img&gt;</code>). Some
+implementations treat fetch differently from img. Quick addition.</li>
+</ul>
+</section>
+<section id="L6r-devops--sre--runbook" class="level5">
+<h5>DevOps / SRE / Runbook</h5>
+<ul>
+<li><strong>No new infra to deploy</strong> — pure app-layer
+change.</li>
+<li><strong>Rollback is one config flip</strong> + container restart
+(revert middleware to render-in-place instead of redirect).</li>
+<li><strong>Monitoring gap:</strong> new metric — count
+<code>/admin/login</code> POSTs per hour. A spike would indicate either
+cookie expiry storm OR brute-force attempt. Add to the
+dns-portal-tripwire watcher.</li>
+</ul>
+</section>
+<section id="L6r-implementation--maintainability" class="level5">
+<h5>Implementation / Maintainability</h5>
+<ul>
+<li><strong>FastAPI middleware injection point is clean</strong> — just
+before <code>respond_unblock_success</code> is rendered, check the SNI
+vs <code>DNS_PORTAL_PUBLIC_HOSTNAME</code>.</li>
+<li><strong>Test fixture pattern from L8's
+<code>test_l8_success_page.py</code></strong> can be reused for L6
+tests.</li>
+<li><strong>No new dependencies</strong> — stdlib HMAC + the existing
+CSRF token primitives in <code>app/admin_session.py</code>.</li>
+</ul>
+</section>
+<section id="L6r-qa--verification" class="level5">
+<h5>QA / Verification</h5>
+<ul>
+<li>✅ <strong>Manual test procedure for PNA gate is detailed and
+reproducible.</strong></li>
+<li>✅ <strong>Automated test for redirect mechanics is
+well-scoped.</strong></li>
+<li>⚠️ <strong>Missing test for the open-redirect issue (Blocker
+#1).</strong> Add:
+<ul>
+<li><code>test_unblock_redirect_token_required</code> — try to load
+<code>https://blocked.local.ace/?domain=evil.com</code> without a valid
+token, expect 400.</li>
+<li><code>test_unblock_redirect_token_valid</code> — load with a valid
+token, expect the page to render with <code>evil.com</code> shown.</li>
+<li><code>test_unblock_redirect_token_tampered</code> — load with a
+token from a different domain, expect 400.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="L6r-open-questions" class="level4">
+<h4>Open Questions</h4>
+<ol type="1">
+<li><strong>Multi-user household impact:</strong> L6.4 (per-user
+accounts with WebAuthn) becomes more attractive once we go 30-day
+cookies. Ace has one session shared with Kitty? Spec should call out
+that 30-day single-cookie ≈ shared-admin-session.</li>
+<li><strong><code>?token=</code> over <code>nonce</code>:</strong> which
+approach do we want for the open-redirect fix? Option A is simpler;
+Option B is more robust to server-secret rotation.</li>
+<li><strong>Should the redirect carry the original
+<code>referrer</code></strong> so the portal can show "you came from
+<code>&lt;page that triggered the block&gt;</code>"? Nice-to-have, low
+effort, not a blocker.</li>
+</ol>
+</section>
+<section id="L6r-reviewer-coverage" class="level4">
+<h4>Reviewer Coverage</h4>
+<table>
+<thead>
+<tr>
+<th>Lens</th>
+<th>Reviewer</th>
+<th>Runtime/model</th>
+<th>Status</th>
+<th>Artifact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>DevOps/SRE</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Implementation</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+</section>
+
 <section class="doc" id="doc-L7">
   <header class="doc-header">
     <a class="doc-back" href="#top">↑ top</a>
     <h2 class="doc-title">L7 — Unified allowlist UI</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec ready · ~1 day</span></div>
+    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
   </header>
   <section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
 class="level3">
@@ -5448,6 +5970,279 @@ deprecated or just redirects to <code>/allowlist</code></label></li>
 <h4>Dependencies</h4>
 <p>L6 (session persistence) ships first so we don't re-prompt on every
 AJAX call from a long-lived session.</p>
+</section>
+</section>
+
+</section>
+
+<section class="doc" id="doc-L7r">
+  <header class="doc-header">
+    <a class="doc-back" href="#top">↑ top</a>
+    <h2 class="doc-title">L7 review — senior verdict (2026-05-27)</h2>
+    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
+  </header>
+  <section id="L7r-l7--senior-review-2026-05-27" class="level3">
+<h3>L7 — Senior Review (2026-05-27)</h3>
+<p><strong>PRD:</strong>
+<code>docs/longterm/L7-portal-allowlist-ui.md</code> (alias for
+L7-unified-allowlist-ui.md) <strong>Reviewer:</strong> Forge (local, all
+lenses) <strong>Runtime/model:</strong>
+<code>claude-api-proxy/claude-opus-4-7</code></p>
+<section id="L7r-verdict" class="level4">
+<h4>Verdict</h4>
+<p><strong>APPROVE WITH CHANGES.</strong> The biggest UX win in the
+L5-L8 set. Spec is the most ambitious of the three and correctly so —
+but it bundles a risky destructive operation (<code>||domain^</code>
+block rules) with a UI redesign, which is two specs in one. Split or
+sequence them clearly.</p>
+</section>
+<section id="L7r-critical-blockers" class="level4">
+<h4>Critical Blockers</h4>
+<p>None, but <strong>#1 and #2 below are scope-discipline issues that
+will cause schedule slip if ignored.</strong></p>
+</section>
+<section id="L7r-required-changes" class="level4">
+<h4>Required Changes</h4>
+<ol type="1">
+<li><p><strong>Split L7 into L7a (unified UI for ALLOW rules) and L7b
+(add BLOCK rule capability)</strong>. The current spec mixes:</p>
+<ul>
+<li>Cleaning up the <code>/reblock</code> redirect (low risk, AGH
+already supports it via existing endpoints).</li>
+<li>Adding a <code>Type: Block</code> radio that inserts
+<code>||domain^</code> rules (which can soft-brick AGH if a user types
+<code>||google.com^</code>).</li>
+</ul>
+<p>The blocking case is functionally <strong>a new way to break AGH from
+the portal UI</strong>. Today, the only way to add a <code>||</code>
+rule is via the AGH admin UI or the safety wrapper. The portal has never
+had this capability. Adding it deserves its own threat model,
+confirmation prompts, and probably a separate admin-secret prompt per
+add.</p>
+<p><strong>Recommendation:</strong> ship L7a (unified UI, allow only,
+in-place AJAX) as a single PR. L7b (block rule capability) is its own
+spec with its own gates — e.g. "block rules require a second secret
+entry" or "block rules go through the safety wrapper API, which has the
+shrink-gate."</p></li>
+<li><p><strong>The <code>/api/portal/rule/delete</code> endpoint deletes
+an exact-text match.</strong> That's fine for allow rules added by the
+portal (they have predictable shape). But the allowlist view shows ALL
+<code>@@</code> user_rules, including ones added manually via local-dns
+skill or AGH UI. If a user clicks "Remove" on a manually-added rule,
+they're effectively making the portal a write surface for rules it
+didn't create.</p>
+<p>Today this is desirable (one place to manage everything) but the
+audit trail needs to capture <strong>who</strong> (portal vs manual)
+added each rule originally so the operator knows when the portal deleted
+something it didn't add.</p>
+<p><strong>Fix:</strong> when add via portal, write to
+<code>devices.sqlite</code> with a provenance column. The allowlist view
+annotates each rule with <code>[portal]</code> or <code>[manual]</code>.
+Delete still works for both, but the audit log carries the
+provenance.</p></li>
+<li><p><strong>AJAX toast + Undo is harder than the spec
+suggests.</strong> AGH's <code>set_rules</code> is wholesale-replace, so
+an "Undo" within 5s means re-running the safety wrapper twice in ~5s.
+Safety wrapper takes ~1.5s per call (SSH + snapshot + push + verify).
+Undo within 5s is tight; under load (snapshot system busy) it could
+fail. Spec should:</p>
+<ul>
+<li>Specify the Undo window length (5s is too short — make it 15s).</li>
+<li>Specify what happens if Undo fails (toast with "Click here to
+manually re-add" + the rule prefilled in the add form).</li>
+<li>Skip the Undo if it's a delete-of-a-manually-added rule (because
+re-adding doesn't preserve the manual-add metadata).</li>
+</ul></li>
+</ol>
+</section>
+<section id="L7r-lens-notes" class="level4">
+<h4>Lens Notes</h4>
+<section id="L7r-product--requirements" class="level5">
+<h5>Product / Requirements</h5>
+<ul>
+<li><strong>User outcome:</strong> clear. One page for all allowlist
+management, fewer clicks. Matches Ace's actual ask.</li>
+<li><strong>Acceptance criteria are complete</strong> for L7a
+(allow-only). L7b needs its own.</li>
+<li><strong>Filter row UX is good</strong> — type/client/search covers
+normal usage patterns.</li>
+<li><strong>Missing:</strong> sort order? Time-added would be most
+useful (most recent first). Alphabetical is the current default.</li>
+</ul>
+</section>
+<section id="L7r-architecture--systems" class="level5">
+<h5>Architecture / Systems</h5>
+<ul>
+<li><strong>New REST endpoints
+(<code>/api/portal/rule[/delete|/extend]</code>) are the right
+shape.</strong> Today's <code>/unblock</code> + <code>/reblock</code>
+are HTML-form-coupled.</li>
+<li><strong>Backwards compat is correct:</strong> keep
+<code>/unblock</code> so the block-page flow doesn't break.</li>
+<li>⚠️ <strong><code>/api/portal/rule/extend</code> needs an upper
+bound</strong> — can the user extend by 1000 days? Spec says "popover
+with new duration options" but doesn't list them. Match
+<code>/unblock</code> duration enum: 5m/1h/24h/perm.</li>
+</ul>
+</section>
+<section id="L7r-security--privacy" class="level5">
+<h5>Security / Privacy</h5>
+<ul>
+<li>⚠️ <strong>All new endpoints need Bearer auth</strong> — spec says
+"same as today" but be explicit: each endpoint individually decorated
+with <code>Depends(require_admin_mutation_auth)</code>. Don't rely on a
+global middleware.</li>
+<li><strong>CSRF protection</strong> — new AJAX endpoints need CSRF
+tokens, not just Bearer. Existing pattern in
+<code>app/admin_session.py</code> has <code>generate_csrf_token</code> +
+<code>verify_csrf_token_value</code> — use them.</li>
+<li><strong>Block-rule capability (L7b)</strong> opens a new attack
+surface: XSS on the allowlist page → could insert
+<code>||*.bank.com^</code> to prevent any banking access. Mitigate with:
+confirmation prompt for block rules, no XSS in displayed rule text
+(already escaped today).</li>
+</ul>
+</section>
+<section id="L7r-infrastructure--networking" class="level5">
+<h5>Infrastructure / Networking</h5>
+<ul>
+<li><strong>No new infra.</strong></li>
+<li><strong>No new TLS / cert needs.</strong></li>
+<li><strong>Allowlist endpoint serves at <code>blocked.local.ace</code>,
+same as today</strong> — no new routing.</li>
+</ul>
+</section>
+<section id="L7r-devops--sre--runbook" class="level5">
+<h5>DevOps / SRE / Runbook</h5>
+<ul>
+<li><strong>Operator impact:</strong> the allowlist page becomes the
+primary admin surface. Existing operator paths (local-dns skill, safety
+wrapper) remain available but feel "underneath" the UI.</li>
+<li><strong>Audit trail:</strong> existing JSONL already captures
+<code>action</code>, <code>via</code>, <code>client_ip</code>. Add
+<code>rule_provenance</code> (per Required Change #2).</li>
+<li><strong>Backup:</strong> the daily AGH user_rules snapshot already
+captures whatever the portal writes. No change needed.</li>
+</ul>
+</section>
+<section id="L7r-implementation--maintainability" class="level5">
+<h5>Implementation / Maintainability</h5>
+<ul>
+<li><strong>Vanilla JS (no framework)</strong> — correct call. Spec is
+explicit. Matches the existing portal's plain-HTML style.</li>
+<li><strong>Template extension:</strong> existing
+<code>_format_allowlist_html</code> in <code>app/main.py:1190</code> is
+the right starting point. Refactor to also emit the add form + the
+AJAX-listener wiring.</li>
+<li><strong>1-day estimate seems right for L7a only</strong>. L7b is at
+least +4h for the threat-model work + UI confirmation flows +
+tests.</li>
+</ul>
+</section>
+<section id="L7r-qa--verification" class="level5">
+<h5>QA / Verification</h5>
+<ul>
+<li>✅ <strong>E2E tests list is appropriate</strong> — covers add
+allow, add block, remove, filter, auth.</li>
+<li>⚠️ <strong>Missing tests:</strong>
+<ul>
+<li>Test that AJAX delete updates the page without reload.</li>
+<li>Test that Undo works within the window.</li>
+<li>Test that Undo fails gracefully if window expires.</li>
+<li>Test that filtering survives a delete (filter state persists).</li>
+<li>Test rule-provenance annotation displays correctly.</li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="L7r-open-questions" class="level4">
+<h4>Open Questions</h4>
+<ol type="1">
+<li><strong>L7b: do we actually need block-rule add?</strong> Most users
+will never need to add a <code>||</code> rule via the portal — that's
+what blocklists are for. Maybe drop L7b entirely and keep block-rule
+management in the safety wrapper. Cleaner separation of concerns.</li>
+<li><strong>Mobile responsive?</strong> Spec doesn't say. Portal pages
+are currently simple CSS but the new filter row + per-row actions + add
+form needs thought. Suggest: stacked on &lt;600px width.</li>
+<li><strong>Undo via window vs explicit two-step delete?</strong>
+Two-step ("Are you sure?") is simpler than undo-window but more
+annoying. Spec picked undo; surface this tradeoff for re-decision before
+build.</li>
+</ol>
+</section>
+<section id="L7r-reviewer-coverage" class="level4">
+<h4>Reviewer Coverage</h4>
+<table>
+<thead>
+<tr>
+<th>Lens</th>
+<th>Reviewer</th>
+<th>Runtime/model</th>
+<th>Status</th>
+<th>Artifact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>DevOps/SRE</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Implementation</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>QA / Verification</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file</td>
+</tr>
+<tr>
+<td>Frontend / UX</td>
+<td>Forge local</td>
+<td>claude-api-proxy/claude-opus-4-7</td>
+<td>DONE</td>
+<td>this file (added because L7 is the UI-heaviest spec of the
+three)</td>
+</tr>
+</tbody>
+</table>
 </section>
 </section>
 
@@ -5783,6 +6578,230 @@ detail).</li>
 href="https://www.chromium.org/developers/design-documents/dns-prefetching/">https://www.chromium.org/developers/design-documents/dns-prefetching/</a></li>
 <li>macOS DNS resolver cache:
 <code>dscacheutil -flushcache; killall -HUP mDNSResponder</code>.</li>
+</ul>
+</section>
+</section>
+
+</section>
+
+<section class="doc" id="doc-verdict">
+  <header class="doc-header">
+    <a class="doc-back" href="#top">↑ top</a>
+    <h2 class="doc-title">Consolidated review verdict L5/L6/L7</h2>
+    <div class="doc-badge"><span class="badge review">📝 Summary</span></div>
+  </header>
+  <section id="verdict-l5--l6--l7--consolidated-senior-review-verdict"
+class="level3">
+<h3>L5 / L6 / L7 — Consolidated Senior Review Verdict</h3>
+<p><strong>Date:</strong> 2026-05-27 <strong>Reviewer:</strong> Forge
+(local, all default lenses applied to each spec)
+<strong>Runtime/model:</strong>
+<code>claude-api-proxy/claude-opus-4-7</code> (no subagent — each spec
+is &lt;250 lines, low-risk, well-isolated)</p>
+<section id="verdict-per-spec-verdicts" class="level4">
+<h4>Per-spec verdicts</h4>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Verdict</th>
+<th>Critical</th>
+<th>Required changes</th>
+<th>Estimate impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L5</strong> Portal cert trust enrollment</td>
+<td>APPROVE WITH CHANGES</td>
+<td>0</td>
+<td>3 (<code>/setup</code> access policy, security threat-model,
+test-trust probe SNI)</td>
+<td>+30 min (~4h total)</td>
+</tr>
+<tr>
+<td><strong>L6</strong> Portal session persistence</td>
+<td>APPROVE WITH CHANGES</td>
+<td>0 (1 near-blocker: open-redirect)</td>
+<td>3 (HMAC-token on <code>?domain=</code>, fingerprint salt rotation,
+session revoke story)</td>
+<td>+1h (~4h total)</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Unified allowlist UI</td>
+<td>APPROVE WITH CHANGES</td>
+<td>0</td>
+<td>3 (split L7a/L7b, rule-provenance, Undo window length)</td>
+<td>+2-4h for L7a, defer L7b</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="verdict-common-themes-across-all-three" class="level4">
+<h4>Common themes across all three</h4>
+<section
+id="verdict-1-documentation-maturity-vs-implementation-maturity-gap"
+class="level5">
+<h5>1. Documentation maturity vs implementation maturity gap</h5>
+<p>All three specs are <strong>written like specs</strong> (good): clear
+ask, options, recommendation, done definition. None are written like
+<strong>threat models</strong> (needs improvement): they don't fully
+enumerate "what could go wrong if this ships as-is?"</p>
+<p>The 3 critical findings I surfaced (open-redirect in L6, block-rule
+exposure in L7, <code>/setup</code> access policy in L5) are all "review
+caught something that the spec author didn't think about because they
+were optimizing for UX, not security." Standard finding for UX-driven
+specs.</p>
+</section>
+<section id="verdict-2-existing-patterns-are-reusable" class="level5">
+<h5>2. Existing patterns are reusable</h5>
+<p>All three benefit from:</p>
+<ul>
+<li><code>app/admin_session.py</code> for HMAC + CSRF primitives</li>
+<li><code>tests/phase5e/</code> for the live e2e fixture pattern</li>
+<li><code>scripts/agh-set-user-rules-safe.py</code> for any destructive
+AGH operation</li>
+<li><code>multivantage-probe.py</code> for adding new invariants to
+monitor</li>
+</ul>
+<p>The specs reference these correctly but don't always specify "use the
+existing pattern at X." Adding explicit "use
+<code>&lt;existing helper&gt;</code>" notes would help an implementer
+avoid divergence.</p>
+</section>
+<section id="verdict-3-tests-need-to-grow-alongside-features"
+class="level5">
+<h5>3. Tests need to grow alongside features</h5>
+<p>Current test count: 40 (post-L8). L5/L6/L7 together would add:</p>
+<ul>
+<li>L5: ~6 tests (route returns 200 per OS, install endpoint returns
+matching cert PEM, manual install gate)</li>
+<li>L6: ~10 tests (PNA gate already specified; +3 for the open-redirect
+guards Required Change #1)</li>
+<li>L7a: ~12 tests (CRUD on rules, AJAX delete, Undo window, filter
+persistence, provenance annotation)</li>
+</ul>
+<p>Total: ~28 new tests → suite would land at ~68 if all three ship.
+Healthy growth.</p>
+</section>
+<section id="verdict-4-dependency-chain-confirmed" class="level5">
+<h5>4. Dependency chain confirmed</h5>
+<p>Spec dependency chain (per L5/L6/L7/L8 own dependency notes,
+validated by this review):</p>
+<pre><code>L8 (shipped) ──┐
+               ├─→ L7 (UI lives at /allowlist; depends on L6 cookie scope)
+L6 (gate)  ───┤
+L5 (cert)  ───┘</code></pre>
+<p>L6 must ship first (or at minimum its PNA gate must pass) so L7's
+AJAX-heavy UI doesn't re-prompt for the admin secret on every action. L5
+is independent but most useful AFTER L6 — trusted devices that hit the
+new <code>/allowlist</code> page should get green padlock
+immediately.</p>
+<p><strong>Recommended ship order:</strong> L6 → L7a (with L7b deferred)
+→ L5.</p>
+</section>
+<section id="verdict-5-total-cost-of-ownership" class="level5">
+<h5>5. Total cost-of-ownership</h5>
+<p>If all three ship with the required changes applied:</p>
+<ul>
+<li>Build time: ~3.5h (L5) + 4h (L6) + 6h (L7a) = **~13.5h, two work
+days**</li>
+<li>Test maintenance: ~28 new tests; ~5 min added to full suite run
+(currently 62s → projected ~80s)</li>
+<li>Operational surface: 1 new admin page (<code>/allowlist</code>
+extended), 1 redirect handler, 1 install flow per OS. All co-located in
+<code>app/main.py</code>.</li>
+</ul>
+</section>
+</section>
+<section id="verdict-reviewer-coverage-summary" class="level4">
+<h4>Reviewer Coverage Summary</h4>
+<table>
+<thead>
+<tr>
+<th>Lens</th>
+<th>L5</th>
+<th>L6</th>
+<th>L7</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Product</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All clear user outcomes</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All reuse existing infra</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All have findings (see required changes)</td>
+</tr>
+<tr>
+<td>Infrastructure</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>No new infra in any</td>
+</tr>
+<tr>
+<td>DevOps/SRE</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All ship with rollback story</td>
+</tr>
+<tr>
+<td>Implementation</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All reuse existing patterns</td>
+</tr>
+<tr>
+<td>QA</td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>All have test gaps surfaced</td>
+</tr>
+<tr>
+<td>Frontend/UX</td>
+<td>—</td>
+<td>—</td>
+<td>✓</td>
+<td>L7 only (UI-heaviest)</td>
+</tr>
+</tbody>
+</table>
+<p>All reviews local, single reviewer (per skill rules for &lt;250-line
+specs). No subagent spawned. Model
+<code>claude-api-proxy/claude-opus-4-7</code> self-disclosed in runtime
+header. No Opus-required gate.</p>
+</section>
+<section id="verdict-final-recommendation" class="level4">
+<h4>Final recommendation</h4>
+<p><strong>APPROVE all three with the changes documented in each
+per-spec review.</strong> None block shipping; all should be folded into
+the implementation phase as gates in the Done definition checklists.</p>
+<p>Order: ship L6 first (unblocks L7), then L7a (defer L7b separately),
+then L5. Total ~2 work days with required changes integrated.</p>
+<p>Artifacts:</p>
+<ul>
+<li><code>docs/longterm/reviews/L5-review-2026-05-27.md</code></li>
+<li><code>docs/longterm/reviews/L6-review-2026-05-27.md</code></li>
+<li><code>docs/longterm/reviews/L7-review-2026-05-27.md</code></li>
 </ul>
 </section>
 </section>
