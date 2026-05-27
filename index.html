@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNS Block Portal — Docs</title><style>:root {
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DNS Block Portal — Docs (next-session ready)</title><style>:root {
   color-scheme: light dark;
   --bg: #fafafa;
   --fg: #1a1a1a;
@@ -178,15 +178,22 @@ summary { cursor: pointer; font-weight: 600; }
 .doc:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
 .doc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .doc-title { margin: 0; font-size: 1.6rem; flex: 1 1 auto; }
-.doc-badge { display: flex; gap: 0.4rem; }
+.doc-badge { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .doc-back { font-size: 0.75rem; color: var(--muted); text-decoration: none; padding: 0.25rem 0.55rem; border-radius: 4px; border: 1px solid var(--border); }
 .docs-toc { padding-left: 0.25rem; list-style: none; }
 .docs-toc li.top { margin: 0.45rem 0 0.15rem; }
 .docs-toc li.top a { font-weight: 600; }
 .badge.muted { background: var(--code-bg); color: var(--muted); border-color: var(--border); }
 .badge.review { background: #ede9fe; color: #6b21a8; border-color: #c4b5fd; }
-@media (prefers-color-scheme: dark) { .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; } }
-</style></head><body><div class="layout"><nav><h3>Documents</h3><ol class="docs-toc"><li class="top"><a href="#doc-prd">PRD (historical)</a></li>
+.badge.plan { background: #fef3c7; color: #92400e; border-color: #fbbf24; font-weight: 700; }
+.badge.urgent { background: #fee2e2; color: #991b1b; border-color: #fca5a5; font-weight: 700; }
+@media (prefers-color-scheme: dark) {
+  .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; }
+  .badge.plan { background: #78350f; color: #fef3c7; border-color: #b45309; }
+  .badge.urgent { background: #7f1d1d; color: #fee2e2; border-color: #b91c1c; }
+}
+</style></head><body><div class="layout"><nav><h3>Documents</h3><ol class="docs-toc"><li class="top"><a href="#doc-plan">🎯 Next-Session Ship Plan</a></li>
+<li class="top"><a href="#doc-prd">PRD (historical)</a></li>
 <li class="top"><a href="#doc-ops-index">Operations · Index</a></li>
 <li class="top"><a href="#doc-ops-arch">Operations · Architecture</a></li>
 <li class="top"><a href="#doc-ops-runbook">Operations · Runbook</a></li>
@@ -197,14 +204,212 @@ summary { cursor: pointer; font-weight: 600; }
 <li class="top"><a href="#doc-L3">L3 — HAProxy → nftables migration</a></li>
 <li class="top"><a href="#doc-L4">L4 — Multi-domain mdca support</a></li>
 <li class="top"><a href="#doc-L5">L5 — Portal cert trust enrollment</a></li>
-<li class="top"><a href="#doc-L5r">L5 review (v1) — senior verdict</a></li>
+<li class="top"><a href="#doc-L5r">L5 — review (v1) verdict</a></li>
 <li class="top"><a href="#doc-L6">L6 — Portal session persistence</a></li>
-<li class="top"><a href="#doc-L6r">L6 review (v1) — senior verdict</a></li>
+<li class="top"><a href="#doc-L6r">L6 — review (v1) verdict</a></li>
 <li class="top"><a href="#doc-L7">L7 — Unified allowlist UI</a></li>
-<li class="top"><a href="#doc-L7r">L7 review (v1) — senior verdict</a></li>
+<li class="top"><a href="#doc-L7r">L7 — review (v1) verdict</a></li>
 <li class="top"><a href="#doc-L8">L8 — Post-unblock cache busting</a></li>
-<li class="top"><a href="#doc-verdict">Consolidated v1 verdict L5/L6/L7</a></li>
-<li class="top"><a href="#doc-rereview">v2 re-review (all 3) — final</a></li></ol></nav><main id="top"><div class="hero"><h1>DNS Block Portal</h1><div class="meta">PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 review artifacts + v2 re-review</div><div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div><div class="badges"><span class="badge shipped">✅ Phases 5C/5D/5E</span><span class="badge shipped">✅ Wave-2/3</span><span class="badge shipped">✅ L1 cert custody</span><span class="badge shipped">✅ L8 success page</span><span class="badge review">📋 L5/L6/L7 v2 re-reviewed (APPROVE)</span></div></div><div class="content"><section class="doc" id="doc-prd"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">PRD (historical)</h2><div class="doc-badge"><span class="badge muted">📚 Historical record</span></div></header><section id="prd-dns-block-portal--product-requirements-historical"
+<li class="top"><a href="#doc-L9">L9 — Real client IP via PROXY protocol</a></li>
+<li class="top"><a href="#doc-v1verdict">Consolidated review verdict L5/L6/L7 (v1)</a></li>
+<li class="top"><a href="#doc-rereview">v2 re-review (all 3) — final</a></li></ol></nav><main id="top"><div class="hero"><h1>DNS Block Portal</h1><div class="meta">PRD + Operations triad + Watcher catalog + 10 long-term specs + 4 review artifacts + ship-plan handoff</div><div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 end-of-session · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div><div class="badges"><span class="badge plan">📌 Next-session ship plan at top of sidebar</span><span class="badge shipped">✅ Phases 5C/5D/5E + Wave-2/3 + L1 + L8</span><span class="badge urgent">🆕 L9 spec'd · pre-req for L6/L7</span><span class="badge review">📋 L5/L6/L7 v2 specs ready</span></div></div><div class="content"><section class="doc" id="doc-plan"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">🎯 Next-Session Ship Plan</h2><div class="doc-badge"><span class="badge plan">📌 START HERE</span></div></header><section id="plan-next-session--dns-portal-ship-plan" class="level3">
+<h3>Next Session — DNS Portal Ship Plan</h3>
+<p><strong>Written:</strong> 2026-05-27 (end of session)
+<strong>For:</strong> the next implementation session whenever Ace picks
+this up</p>
+<section id="plan-whats-already-shipped-today-recap" class="level4">
+<h4>What's already shipped today (recap)</h4>
+<ul>
+<li>✅ Phase 5C / 5D / 5E (core architecture LIVE)</li>
+<li>✅ Wave-2 (M1 multivantage probe, M2 legacy addon cleanup, M6 UDM
+cert pinning)</li>
+<li>✅ Wave-3 (M5 portal unblock e2e, container rebuild fixing unauth
+<code>/unblock</code>, <code>agh-user-rules-backup.py</code> snapshot
+tool + git-tracked snapshots)</li>
+<li>✅ L1 (portal cert custody via 1Password)</li>
+<li>✅ L8 (post-unblock success page with countdown +
+auto-redirect)</li>
+</ul>
+</section>
+<section id="plan-whats-specd-and-reviewed-waiting-to-implement"
+class="level4">
+<h4>What's spec'd and reviewed, waiting to implement</h4>
+<p>All four specs below carry
+<code>📋 Spec v2 · re-review: APPROVE</code> badges (or better).
+Senior-review artifacts in <code>docs/longterm/reviews/</code>.</p>
+<section id="plan-ship-in-this-order" class="level5">
+<h5>Ship in this order</h5>
+<section
+id="plan-1-l9--real-client-ip-via-proxy-protocol-bundle-with-l6"
+class="level6">
+<h6>1. L9 — Real client IP via PROXY protocol (bundle with L6)</h6>
+<p>Critical pre-req for L6 + L7 because both depend on the portal app
+knowing the LAN client's real IP. Today every request looks like it came
+from <code>127.0.0.1</code> to the FastAPI app.</p>
+<ul>
+<li><strong>Effort:</strong> ~3h</li>
+<li><strong>Touches:</strong>
+<code>ha-addon/dns-sni-frontdoor/haproxy.cfg.template</code>,
+<code>deploy/entrypoint.sh</code>,
+<code>share/dns-portal/Caddyfile.ha100</code></li>
+<li><strong>Risk:</strong> medium — needs coordinated rebuild of
+dns-sni-frontdoor addon
+<ul>
+<li>dns-portal container</li>
+</ul></li>
+<li><strong>e2e gate:</strong> POST <code>/unblock</code> from Mac
+Studio → audit <code>client_ip == 192.168.1.18</code>,
+<code>client == aces-mac-studio</code></li>
+<li><strong>Spec:</strong>
+<code>docs/longterm/L9-real-client-ip-via-proxy-protocol.md</code></li>
+</ul>
+</section>
+<section id="plan-2-l6--portal-session-persistence" class="level6">
+<h6>2. L6 — Portal session persistence</h6>
+<p>Once L9 is in, the cookie-scope fix becomes trivial. PNA gate must
+run first (manual test in Brave + Chrome + Firefox).</p>
+<ul>
+<li><strong>Effort:</strong> ~3h (incl. PNA verification matrix)</li>
+<li><strong>Touches:</strong> <code>app/main.py</code> (redirect
+middleware), <code>app/admin_session.py</code> (30-day MAX_AGE,
+generation counter), <code>devices.sqlite</code></li>
+<li><strong>Required changes from review:</strong> HMAC-signed
+<code>?domain=&amp;exp=&amp;t=</code> token, generation counter in
+sqlite, daily-rotating salt if L6.5 ships</li>
+<li><strong>Spec:</strong>
+<code>docs/longterm/L6-portal-session-persistence.md</code></li>
+<li><strong>Review:</strong>
+<code>docs/longterm/reviews/L6-review-2026-05-27.md</code></li>
+</ul>
+</section>
+<section id="plan-3-l7a--unified-allowlist-ui-allow-only-l7b-deferred"
+class="level6">
+<h6>3. L7a — Unified allowlist UI (allow-only; L7b deferred)</h6>
+<p>Replaces today's redirect-heavy <code>/allowlist</code> +
+<code>/reblock</code> flow with in-place AJAX + per-rule provenance
+tracking + filter row.</p>
+<ul>
+<li><strong>Effort:</strong> ~6h</li>
+<li><strong>Touches:</strong> <code>app/main.py</code> (new
+<code>/api/portal/rule*</code> endpoints), new template + vanilla-JS for
+<code>/allowlist</code>, <code>devices.sqlite</code> new
+<code>rule_provenance</code> table</li>
+<li><strong>Required changes from review:</strong> L7b (block-rule add)
+deferred, default filter is "All clients" (fixes the doubleclick
+visibility surprise from 2026-05-27)</li>
+<li><strong>Spec:</strong>
+<code>docs/longterm/L7-unified-allowlist-ui.md</code></li>
+<li><strong>Review:</strong>
+<code>docs/longterm/reviews/L7-review-2026-05-27.md</code></li>
+</ul>
+</section>
+<section id="plan-4-l5--portal-cert-trust-enrollment-ux" class="level6">
+<h6>4. L5 — Portal cert trust enrollment UX</h6>
+<p>Polish layer: one-button install of <code>Ace Local Root CA</code>
+per device.</p>
+<ul>
+<li><strong>Effort:</strong> ~3.5h</li>
+<li><strong>Touches:</strong> <code>app/main.py</code>
+(<code>/setup</code> route enhancement), inline base64 screenshots per
+OS, <code>/install-root-ca</code> endpoint</li>
+<li><strong>Required changes from review:</strong> 403 for non-trusted
+source, CSP header, dedicated <code>trust-probe.invalid</code> SNI for
+the test button</li>
+<li><strong>Spec:</strong>
+<code>docs/longterm/L5-portal-cert-trust-enrollment.md</code></li>
+<li><strong>Review:</strong>
+<code>docs/longterm/reviews/L5-review-2026-05-27.md</code></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="plan-total-budget-for-the-implementation-session"
+class="level4">
+<h4>Total budget for the implementation session</h4>
+<p>~16 hours of focused work = two work days. Or pick L9 + L6 (the
+unblocking pair) as a half-day session, defer L7a + L5 to another
+half-day each.</p>
+</section>
+<section id="plan-whats-not-in-the-queue" class="level4">
+<h4>What's NOT in the queue</h4>
+<ul>
+<li><strong>L2</strong> — portal UX polish (per-category page, appeal
+form): speculative, ship only if usage justifies.</li>
+<li><strong>L3</strong> — HAProxy → nftables migration: actively
+recommended SKIP. Current HAProxy works, has tests, has logs. Pure
+aesthetics.</li>
+<li><strong>L4</strong> — multi-domain mdca support: ship only when
+adding a 2nd public hostname.</li>
+<li><strong>M4</strong> — per-device trust tightening: deprecated
+2026-05-27 per Ace.</li>
+<li><strong>L7b</strong> — block-rule add via portal: deferred
+indefinitely; block-rule management stays in the safety wrapper.</li>
+</ul>
+</section>
+<section
+id="plan-outstanding-tactical-items-do-these-first-when-sitting-down"
+class="level4">
+<h4>Outstanding tactical items (do these FIRST when sitting down)</h4>
+<p>These take &lt;15 min total before any of the L specs:</p>
+<ol type="1">
+<li><strong>Verify everything still works</strong> — run
+<code>PHASE5E_E2E_LIVE=1 pytest tests/phase5e/</code> (40 tests should
+pass).</li>
+<li><strong>Take a fresh AGH user_rules snapshot</strong> —
+<code>python3 scripts/agh-user-rules-backup.py</code> (verifies the
+daily LaunchAgent is still healthy).</li>
+<li><strong>Check watcher state</strong> — read
+<code>~/.openclaw/state/multivantage-probe/state.json</code> to confirm
+last 5min was a PASS.</li>
+<li><strong>Pull main</strong> on dns-block-portal, obsidian-vault,
+forge-workspace.</li>
+</ol>
+</section>
+<section id="plan-state-as-of-end-of-session-2026-05-27" class="level4">
+<h4>State as of end-of-session (2026-05-27)</h4>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AGH user_rules</td>
+<td>49 (verified clean, no test debris)</td>
+</tr>
+<tr>
+<td>dns-portal container</td>
+<td>healthy (with L8 success page)</td>
+</tr>
+<tr>
+<td>dns-sni-frontdoor addon</td>
+<td>healthy, default <code>192.168.1.0/24</code> trust</td>
+</tr>
+<tr>
+<td>AGH <code>blocking_ipv4</code></td>
+<td><code>68.185.70.45</code> (current WAN)</td>
+</tr>
+<tr>
+<td>Watchers (Mac Studio)</td>
+<td>all 14 LaunchAgents loaded; check
+<code>launchctl list | grep ai.openclaw</code></td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>40 passing, 62s suite</td>
+</tr>
+<tr>
+<td>Known issue</td>
+<td>L9 (device identity lost) — workaround in
+<code>DNS — Operations</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section><section class="doc" id="doc-prd"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">PRD (historical)</h2><div class="doc-badge"><span class="badge muted">📚 Historical record</span></div></header><section id="prd-dns-block-portal--product-requirements-historical"
 class="level3">
 <h3>DNS Block Portal — Product Requirements (historical)</h3>
 <blockquote>
@@ -3228,6 +3433,38 @@ browser DoH, IPv6, profile, DNS-over-TLS)</td>
 </tbody>
 </table>
 </section>
+<section id="ops-runbook-known-issue-device-scoped-controls-hidden-l9"
+class="level4">
+<h4>Known issue: device-scoped controls hidden (L9)</h4>
+<p><strong>Symptom:</strong> when you load
+<code>https://blocked.local.ace/</code> and log in, you see "Unblock
+everywhere" but NOT "Unblock on this device". Same root cause:
+<code>/allowlist</code> defaults to showing zero rules even when
+device-scoped <code>@@||X^$client=Y</code> rules exist.</p>
+<p><strong>Why:</strong> the portal app sees every request as coming
+from <code>127.0.0.1</code> (Caddy's in-container loopback peer), not
+the real LAN client IP. The L4 HAProxy front-door doesn't send PROXY
+protocol headers, so Caddy sees peer=192.168.1.5 (HAProxy egress).
+resolve_client() returns None, so device identity is unknown.</p>
+<p><strong>Workarounds (until L9.1 ships):</strong></p>
+<ul>
+<li>Block page: use <strong>"Unblock everywhere"</strong> instead of
+device-scoped unblock. Same effect for a household with one
+operator.</li>
+<li>Allowlist: use
+<strong><code>https://blocked.local.ace/allowlist?all=1</code></strong>
+to see every rule including device-scoped ones from other devices.</li>
+</ul>
+<p><strong>Permanent fix:</strong> L9.1 — add PROXY protocol on HAProxy
+<code>send-proxy-v2</code></p>
+<ul>
+<li>Caddy <code>listener_wrappers proxy_protocol</code> + uvicorn
+<code>--proxy-headers</code>. Spec:
+<code>~/Projects/dns-block-portal/docs/longterm/L9-real-client-ip-via-proxy-protocol.md</code>.
+Ship with L6 implementation window (bundled to avoid
+double-deploy).</li>
+</ul>
+</section>
 <section id="ops-runbook-recovery-playbook" class="level4">
 <h4>Recovery playbook</h4>
 <section id="ops-runbook-agh-user_rules-wiped" class="level5">
@@ -4739,7 +4976,7 @@ public hostname routes to NPM, not portal.</label></li>
 </ul>
 </section>
 </section>
-</section><section class="doc" id="doc-L5"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — Portal cert trust enrollment</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE</span></div></header><section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
+</section><section class="doc" id="doc-L5"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — Portal cert trust enrollment</h2><div class="doc-badge"><span class="badge review">📋 v2 · re-review: APPROVE · ship: #4 (~3.5h)</span></div></header><section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
 <h3>L5 — Portal cert trust enrollment UX</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
 sees a browser security warning on
@@ -4989,7 +5226,7 @@ fingerprint</label></li>
 "test trust" probe doesn't trigger the cache issue.</p>
 </section>
 </section>
-</section><section class="doc" id="doc-L5r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L5r-l5--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L5r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — review (v1) verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L5r-l5--senior-review-2026-05-27" class="level3">
 <h3>L5 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L5-portal-cert-trust-enrollment.md</code>
@@ -5233,7 +5470,7 @@ guidance for small low-risk docs). Model self-disclosed as
 Opus-required gate.</p>
 </section>
 </section>
-</section><section class="doc" id="doc-L6"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — Portal session persistence</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE</span></div></header><section id="L6-l6--portal-session-persistence" class="level3">
+</section><section class="doc" id="doc-L6"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — Portal session persistence</h2><div class="doc-badge"><span class="badge review">📋 v2 · re-review: APPROVE · ship: #2 (~3h, bundle with L9)</span></div></header><section id="L6-l6--portal-session-persistence" class="level3">
 <h3>L6 — Portal session persistence</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
 has to keep re-entering the admin secret on each block page.
@@ -5594,7 +5831,7 @@ redirect. But L6.1 + L6.2 ship independently and improve
 untrusted-device UX too (one warning instead of one-per-domain).</p>
 </section>
 </section>
-</section><section class="doc" id="doc-L6r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L6r-l6--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L6r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — review (v1) verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L6r-l6--senior-review-2026-05-27" class="level3">
 <h3>L6 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L6-portal-session-persistence.md</code>
@@ -5846,7 +6083,7 @@ effort, not a blocker.</li>
 </table>
 </section>
 </section>
-</section><section class="doc" id="doc-L7"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — Unified allowlist UI</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · re-review: APPROVE (L7a/L7b split)</span></div></header><section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
+</section><section class="doc" id="doc-L7"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — Unified allowlist UI</h2><div class="doc-badge"><span class="badge review">📋 v2 · re-review: APPROVE · ship L7a: #3 (~6h)</span></div></header><section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
 class="level3">
 <h3>L7 — Unified allowlist UI (one page, all CRUD)</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
@@ -6145,7 +6382,7 @@ snapshot)</label></li>
 AJAX call from a long-lived session.</p>
 </section>
 </section>
-</section><section class="doc" id="doc-L7r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 review (v1) — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L7r-l7--senior-review-2026-05-27" class="level3">
+</section><section class="doc" id="doc-L7r"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — review (v1) verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header><section id="L7r-l7--senior-review-2026-05-27" class="level3">
 <h3>L7 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
 <code>docs/longterm/L7-portal-allowlist-ui.md</code> (alias for
@@ -6736,7 +6973,205 @@ href="https://www.chromium.org/developers/design-documents/dns-prefetching/">htt
 </ul>
 </section>
 </section>
-</section><section class="doc" id="doc-verdict"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Consolidated v1 verdict L5/L6/L7</h2><div class="doc-badge"><span class="badge review">📝 Summary</span></div></header><section id="verdict-l5--l6--l7--consolidated-senior-review-verdict"
+</section><section class="doc" id="doc-L9"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L9 — Real client IP via PROXY protocol</h2><div class="doc-badge"><span class="badge urgent">🆕 NEW · ship: #1 (~3h) · pre-req for L6/L7</span></div></header><section
+id="L9-l9--real-client-ip-through-haproxy--caddy--uvicorn-via-proxy-protocol"
+class="level3">
+<h3>L9 — Real client IP through HAProxy → Caddy → uvicorn via PROXY
+protocol</h3>
+<p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Two
+symptoms from Ace using the live portal:</p>
+<ol type="1">
+<li><strong>Block page hides device-scoped unblock controls</strong>
+even when logged in. The "Unblock on this device" section never
+renders.</li>
+<li><strong><code>/allowlist</code> default view shows zero
+rules</strong> even when device-scoped
+<code>@@||X.com^$client=aces-mbp</code> rules exist.</li>
+</ol>
+<p><strong>Short answer:</strong> both symptoms have the same root
+cause. The portal app sees every request as coming from
+<code>127.0.0.1</code> (Caddy's in-container loopback peer), not the
+real LAN client IP. <code>resolve_client("127.0.0.1")</code> returns
+<code>None</code> → <code>persistent_client = None</code> →
+device-scoped logic is skipped.</p>
+<p>This is <strong>a real bug that was masked by Pre-Wave-3 unauth
+permissiveness</strong> (the old container served device controls
+without checking persistent_client existed). Wave-3's auth hardening
+tightened the rendering — and surfaced the latent IP-loss problem.</p>
+<section id="L9-the-ip-loss-chain" class="level4">
+<h4>The IP-loss chain</h4>
+<pre><code>LAN client (e.g. .18 Mac Studio)
+  │  TCP connect to .5:443
+  ▼
+UDM port-forward (DNAT) → 192.168.1.5:443 → HAProxy frontend on .5:10443
+  │  HAProxy is L4 (mode tcp), terminates TCP, opens NEW conn to backend
+  │  HAProxy server portal 192.168.1.5:9443  ← NO `send-proxy-v2`
+  ▼
+Caddy on .5:9443 sees TCP peer = 192.168.1.5 (HAProxy egress) ← real client IP LOST here
+  │  Caddy terminates TLS, opens HTTP conn to upstream
+  │  reverse_proxy http://127.0.0.1:18080 (no `header_up X-Forwarded-For`)
+  ▼
+uvicorn on 127.0.0.1:18080 sees TCP peer = 127.0.0.1 ← real client IP LOST AGAIN
+  │  FastAPI request.client.host = &quot;127.0.0.1&quot;
+  ▼
+app.main.index() calls resolve_client(&quot;127.0.0.1&quot;) → None
+  → persistent_client = None
+  → device_controls = &quot;&quot;  (line 235: `if persistent_client:`)
+  → /allowlist filter has nothing to match</code></pre>
+</section>
+<section id="L9-why-it-wasnt-caught-earlier" class="level4">
+<h4>Why it wasn't caught earlier</h4>
+<p>Pre-Wave-3, the auth gate
+(<code>if not csrf_token: return _admin_login_form()</code>) didn't
+exist. The deployed container was older code that rendered the unblock
+buttons unconditionally. Device-scoped unblock just used
+<code>request.client.host</code> (<code>.5</code>) as the scope-tag,
+which created <code>@@||X^$client=192.168.1.5</code> rules — visible to
+nobody but valid. Symptoms were nonexistent because the default view
+also keyed on <code>.5</code> and matched.</p>
+<p>Wave-3 fix (current container) cleaned up the auth path AND tightened
+rendering to skip device-scoped controls when
+<code>persistent_client</code> is None. That tightening exposed the
+upstream bug.</p>
+</section>
+<section id="L9-approach-options" class="level4">
+<h4>Approach options</h4>
+<section id="L9-l91--proxy-protocol-on-haproxy--caddy" class="level5">
+<h5>L9.1 — PROXY protocol on HAProxy → Caddy</h5>
+<p><strong>The right fix.</strong> End-to-end real-client-IP
+preservation.</p>
+<p><strong>Steps:</strong></p>
+<ol type="1">
+<li><p>Patch
+<code>ha-addon/dns-sni-frontdoor/haproxy.cfg.template</code>:</p>
+<div class="sourceCode" id="L9-cb2"><pre
+class="sourceCode diff"><code class="sourceCode diff"><span id="L9-cb2-1"><a href="#L9-cb2-1" aria-hidden="true" tabindex="-1"></a><span class="st">- server portal {{PORTAL_BACKEND_HOST}}:{{PORTAL_BACKEND_PORT}} check inter {{HEALTH_CHECK_INTERVAL}} fall 2 rise 2</span></span>
+<span id="L9-cb2-2"><a href="#L9-cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">+ server portal {{PORTAL_BACKEND_HOST}}:{{PORTAL_BACKEND_PORT}} check inter {{HEALTH_CHECK_INTERVAL}} fall 2 rise 2 send-proxy-v2</span></span></code></pre></div></li>
+<li><p>Patch <code>Caddyfile.ha100</code> (in
+<code>/share/dns-portal/</code>):</p>
+<pre class="caddy"><code>{
+  servers :9443 {
+    listener_wrappers {
+      proxy_protocol {
+        allow 192.168.1.5/32
+      }
+      tls
+    }
+    trusted_proxies static 127.0.0.1/32
+  }
+  ...
+}
+
+https://:9443 {
+  handle {
+    reverse_proxy http://127.0.0.1:18080 {
+      header_up X-Real-IP {client_ip}
+      header_up X-Forwarded-For {client_ip}
+      header_up X-Forwarded-Proto {scheme}
+    }
+  }
+}</code></pre></li>
+<li><p>Patch <code>deploy/entrypoint.sh</code> for uvicorn:</p>
+<div class="sourceCode" id="L9-cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="L9-cb4-1"><a href="#L9-cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uvicorn</span> app.main:app <span class="at">--proxy-headers</span> <span class="at">--forwarded-allow-ips</span> 127.0.0.1 ...</span></code></pre></div></li>
+<li><p>Rebuild the <code>dns-sni-frontdoor</code> addon image (bump
+version, push via HA Supervisor) AND rebuild <code>dns-portal</code>
+container (already in pipeline).</p></li>
+<li><p>Healthcheck for <code>addon_local_dns-sni-frontdoor</code> may
+need updating — PROXY-protocol-aware backends fail the existing TCP
+healthcheck silently unless we adjust (<code>check-send-proxy</code>
+flag).</p></li>
+<li><p>e2e test: POST <code>/unblock</code> from Mac Studio, audit entry
+should show <code>client_ip: 192.168.1.18</code> (not
+<code>.5</code>).</p></li>
+</ol>
+<p><strong>Risks:</strong></p>
+<ul>
+<li>Misconfigured PROXY protocol = silent connection refusal. Each layer
+must agree.</li>
+<li>Healthcheck dance: backend <code>check send-proxy-v2</code> means
+the health-check probe also sends PROXY headers. Caddy must accept them.
+Easy to break.</li>
+<li>Need to coordinate <code>dns-sni-frontdoor</code> addon version bump
+with portal Caddyfile update so they ship together.</li>
+</ul>
+<p><strong>Effort:</strong> 2-3 hours including addon rebuild + redeploy
++ verification + new e2e test.</p>
+</section>
+<section id="L9-l92--trust-the-haproxy-log-instead" class="level5">
+<h5>L9.2 — Trust the HAProxy log instead</h5>
+<p>Instead of preserving the real client IP through the stack, look it
+up out-of-band. When <code>/unblock</code> is hit, parse the most recent
+HAProxy log entry that matches the SNI + time window, extract the real
+<code>src=</code> IP, use that. Hacky, race-prone, defer.</p>
+<p><strong>Effort:</strong> 1-2 hours. Not recommended.</p>
+</section>
+<section id="L9-l93--accept-the-limitation-scope-all-rules-globally"
+class="level5">
+<h5>L9.3 — Accept the limitation, scope all rules globally</h5>
+<p>Drop the "device-scoped" feature. All <code>@@</code> rules become
+global. Symptoms disappear because there's no per-device dimension to
+fail at.</p>
+<p><strong>Tradeoff:</strong> loses the per-device privacy/audit
+benefit. Bad.</p>
+</section>
+<section id="L9-l94--cookie-based-device-identity" class="level5">
+<h5>L9.4 — Cookie-based device identity</h5>
+<p>Issue a long-lived cookie at first login that encodes the device. Use
+the cookie as device-identity instead of source-IP. PNA-immune,
+IP-loss-immune. Becomes part of L6 (session persistence).</p>
+<p><strong>Tradeoff:</strong> can't identify a brand-new device on its
+first visit. First visit defaults to global scope.</p>
+</section>
+</section>
+<section id="L9-recommendation" class="level4">
+<h4>Recommendation</h4>
+<p><strong>Ship L9.1 (PROXY protocol).</strong> It's the right fix and
+2-3 hours.</p>
+<p><strong>Sequencing:</strong> L9.1 should ship as part of L6
+implementation since both touch the portal container. Bundle them. Total
+L6+L9.1 effort: ~5h.</p>
+<p>Until L9.1 ships, document the limitation in
+<code>DNS — Operations.md</code>: "Device-scoped unblock and per-device
+allowlist filter currently render as if all clients are unidentified.
+This is a known IP-loss bug (L9); use <code>?all=1</code> on /allowlist
+or 'Unblock everywhere' on the block page as the workaround."</p>
+</section>
+<section id="L9-done-definition" class="level4">
+<h4>Done definition</h4>
+<ul class="task-list">
+<li><label><input type="checkbox" />HAProxy template patched with
+<code>send-proxy-v2</code></label></li>
+<li><label><input type="checkbox" />Caddyfile.ha100 patched with
+<code>listener_wrappers proxy_protocol</code></label></li>
+<li><label><input type="checkbox" />uvicorn entrypoint patched with
+<code>--proxy-headers --forwarded-allow-ips</code></label></li>
+<li><label><input type="checkbox" />dns-sni-frontdoor addon rebuilt +
+redeployed</label></li>
+<li><label><input type="checkbox" />dns-portal container rebuilt +
+redeployed</label></li>
+<li><label><input type="checkbox" />e2e test: POST /unblock from Mac
+Studio shows <code>audit.client_ip = "192.168.1.18"</code> and
+<code>audit.client = "aces-mac-studio"</code></label></li>
+<li><label><input type="checkbox" />e2e test: GET /allowlist (no
+<code>?all=1</code>) shows this-device-scoped rules</label></li>
+<li><label><input type="checkbox" />e2e test: block page renders
+"Unblock on this device" section when logged in from a known
+device</label></li>
+<li><label><input type="checkbox" />Healthcheck for dns-sni-frontdoor
+still passes</label></li>
+<li><label><input type="checkbox" /><code>DNS — Operations</code> limitation note
+removed</label></li>
+</ul>
+</section>
+<section id="L9-dependencies" class="level4">
+<h4>Dependencies</h4>
+<p>L9.1 implementation pairs naturally with L6 (session persistence)
+since both touch the dns-portal container build. Coordinate to ship
+together.</p>
+</section>
+</section>
+</section><section class="doc" id="doc-v1verdict"><header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Consolidated review verdict L5/L6/L7 (v1)</h2><div class="doc-badge"><span class="badge review">📝 Summary</span></div></header><section id="v1verdict-l5--l6--l7--consolidated-senior-review-verdict"
 class="level3">
 <h3>L5 / L6 / L7 — Consolidated Senior Review Verdict</h3>
 <p><strong>Date:</strong> 2026-05-27 <strong>Reviewer:</strong> Forge
@@ -6744,7 +7179,7 @@ class="level3">
 <strong>Runtime/model:</strong>
 <code>claude-api-proxy/claude-opus-4-7</code> (no subagent — each spec
 is &lt;250 lines, low-risk, well-isolated)</p>
-<section id="verdict-per-spec-verdicts" class="level4">
+<section id="v1verdict-per-spec-verdicts" class="level4">
 <h4>Per-spec verdicts</h4>
 <table>
 <thead>
@@ -6783,10 +7218,10 @@ session revoke story)</td>
 </tbody>
 </table>
 </section>
-<section id="verdict-common-themes-across-all-three" class="level4">
+<section id="v1verdict-common-themes-across-all-three" class="level4">
 <h4>Common themes across all three</h4>
 <section
-id="verdict-1-documentation-maturity-vs-implementation-maturity-gap"
+id="v1verdict-1-documentation-maturity-vs-implementation-maturity-gap"
 class="level5">
 <h5>1. Documentation maturity vs implementation maturity gap</h5>
 <p>All three specs are <strong>written like specs</strong> (good): clear
@@ -6799,7 +7234,7 @@ caught something that the spec author didn't think about because they
 were optimizing for UX, not security." Standard finding for UX-driven
 specs.</p>
 </section>
-<section id="verdict-2-existing-patterns-are-reusable" class="level5">
+<section id="v1verdict-2-existing-patterns-are-reusable" class="level5">
 <h5>2. Existing patterns are reusable</h5>
 <p>All three benefit from:</p>
 <ul>
@@ -6815,7 +7250,7 @@ existing pattern at X." Adding explicit "use
 <code>&lt;existing helper&gt;</code>" notes would help an implementer
 avoid divergence.</p>
 </section>
-<section id="verdict-3-tests-need-to-grow-alongside-features"
+<section id="v1verdict-3-tests-need-to-grow-alongside-features"
 class="level5">
 <h5>3. Tests need to grow alongside features</h5>
 <p>Current test count: 40 (post-L8). L5/L6/L7 together would add:</p>
@@ -6830,7 +7265,7 @@ persistence, provenance annotation)</li>
 <p>Total: ~28 new tests → suite would land at ~68 if all three ship.
 Healthy growth.</p>
 </section>
-<section id="verdict-4-dependency-chain-confirmed" class="level5">
+<section id="v1verdict-4-dependency-chain-confirmed" class="level5">
 <h5>4. Dependency chain confirmed</h5>
 <p>Spec dependency chain (per L5/L6/L7/L8 own dependency notes,
 validated by this review):</p>
@@ -6846,7 +7281,7 @@ immediately.</p>
 <p><strong>Recommended ship order:</strong> L6 → L7a (with L7b deferred)
 → L5.</p>
 </section>
-<section id="verdict-5-total-cost-of-ownership" class="level5">
+<section id="v1verdict-5-total-cost-of-ownership" class="level5">
 <h5>5. Total cost-of-ownership</h5>
 <p>If all three ship with the required changes applied:</p>
 <ul>
@@ -6860,7 +7295,7 @@ extended), 1 redirect handler, 1 install flow per OS. All co-located in
 </ul>
 </section>
 </section>
-<section id="verdict-reviewer-coverage-summary" class="level4">
+<section id="v1verdict-reviewer-coverage-summary" class="level4">
 <h4>Reviewer Coverage Summary</h4>
 <table>
 <thead>
@@ -6936,7 +7371,7 @@ specs). No subagent spawned. Model
 <code>claude-api-proxy/claude-opus-4-7</code> self-disclosed in runtime
 header. No Opus-required gate.</p>
 </section>
-<section id="verdict-final-recommendation" class="level4">
+<section id="v1verdict-final-recommendation" class="level4">
 <h4>Final recommendation</h4>
 <p><strong>APPROVE all three with the changes documented in each
 per-spec review.</strong> None block shipping; all should be folded into
