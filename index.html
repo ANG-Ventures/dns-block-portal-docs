@@ -1,11 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
+<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DNS Block Portal — Docs (PRD + Specs + Reviews + Operations)</title>
-<style>
-:root {
+<title>DNS Block Portal — Docs</title>
+<style>:root {
   color-scheme: light dark;
   --bg: #fafafa;
   --fg: #1a1a1a;
@@ -181,29 +177,20 @@ summary { cursor: pointer; font-weight: 600; }
 .content pre { position: relative; }
 .content pre:hover .copy-btn { opacity: 1; }
 
-
 .doc { margin: 4rem 0 0; padding-top: 1rem; border-top: 2px solid var(--border); }
 .doc:first-of-type { border-top: none; margin-top: 0; padding-top: 0; }
 .doc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
 .doc-title { margin: 0; font-size: 1.6rem; flex: 1 1 auto; }
 .doc-badge { display: flex; gap: 0.4rem; }
 .doc-back { font-size: 0.75rem; color: var(--muted); text-decoration: none; padding: 0.25rem 0.55rem; border-radius: 4px; border: 1px solid var(--border); }
-.doc-back:hover { color: var(--accent); }
 .docs-toc { padding-left: 0.25rem; list-style: none; }
 .docs-toc li.top { margin: 0.45rem 0 0.15rem; }
 .docs-toc li.top a { font-weight: 600; }
-.docs-toc li:not(.top) { padding-left: 0.85rem; opacity: 0.7; font-size: 0.83rem; }
 .badge.muted { background: var(--code-bg); color: var(--muted); border-color: var(--border); }
 .badge.review { background: #ede9fe; color: #6b21a8; border-color: #c4b5fd; }
-@media (prefers-color-scheme: dark) {
-  .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; }
-}
-
-</style>
-</head>
-<body>
-<div class="layout">
-<nav><h3>Documents</h3><ol class="docs-toc">
+@media (prefers-color-scheme: dark) { .badge.review { background: #4c1d95; color: #ede9fe; border-color: #7c3aed; } }
+</style></head>
+<body><div class="layout"><nav><h3>Documents</h3><ol class="docs-toc">
 <li class="top"><a href="#doc-prd">PRD (historical)</a></li>
 <li class="top"><a href="#doc-ops-index">Operations · Index</a></li>
 <li class="top"><a href="#doc-ops-arch">Operations · Architecture</a></li>
@@ -215,35 +202,29 @@ summary { cursor: pointer; font-weight: 600; }
 <li class="top"><a href="#doc-L3">L3 — HAProxy → nftables migration</a></li>
 <li class="top"><a href="#doc-L4">L4 — Multi-domain mdca support</a></li>
 <li class="top"><a href="#doc-L5">L5 — Portal cert trust enrollment</a></li>
-<li class="top"><a href="#doc-L5r">L5 review — senior verdict (2026-05-27)</a></li>
+<li class="top"><a href="#doc-L5r">L5 review — senior verdict</a></li>
 <li class="top"><a href="#doc-L6">L6 — Portal session persistence</a></li>
-<li class="top"><a href="#doc-L6r">L6 review — senior verdict (2026-05-27)</a></li>
+<li class="top"><a href="#doc-L6r">L6 review — senior verdict</a></li>
 <li class="top"><a href="#doc-L7">L7 — Unified allowlist UI</a></li>
-<li class="top"><a href="#doc-L7r">L7 review — senior verdict (2026-05-27)</a></li>
+<li class="top"><a href="#doc-L7r">L7 review — senior verdict</a></li>
 <li class="top"><a href="#doc-L8">L8 — Post-unblock cache busting</a></li>
 <li class="top"><a href="#doc-verdict">Consolidated review verdict L5/L6/L7</a></li>
 </ol></nav>
 <main id="top">
 <div class="hero">
-  <h1>DNS Block Portal</h1>
-  <div class="meta">Bundled docs · PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 senior review artifacts</div>
-  <div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div>
-  <div class="badges">
-    <span class="badge shipped">✅ Phases 5C/5D/5E shipped</span>
-    <span class="badge shipped">✅ Wave-2/3 shipped</span>
-    <span class="badge shipped">✅ L1 cert custody</span>
-    <span class="badge shipped">✅ L8 success page</span>
-    <span class="badge review">📋 L5/L6/L7 reviewed (APPROVE WITH CHANGES)</span>
-  </div>
-</div>
+<h1>DNS Block Portal</h1>
+<div class="meta">PRD + Operations triad + Watcher catalog + 9 long-term specs + 4 senior review artifacts (with revisions applied)</div>
+<div class="meta" style="margin-top: 0.3rem">Rendered 2026-05-27 · Source: <a href="https://github.com/ANG-Ventures/dns-block-portal">github.com/ANG-Ventures/dns-block-portal</a></div>
+<div class="badges">
+<span class="badge shipped">✅ Phases 5C/5D/5E</span>
+<span class="badge shipped">✅ Wave-2/3</span>
+<span class="badge shipped">✅ L1 cert custody</span>
+<span class="badge shipped">✅ L8 success page</span>
+<span class="badge review">📋 L5/L6/L7 v2 (review revisions applied)</span>
+</div></div>
 <div class="content">
-
 <section class="doc" id="doc-prd">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">PRD (historical)</h2>
-    <div class="doc-badge"><span class="badge muted">📚 Historical record</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">PRD (historical)</h2><div class="doc-badge"><span class="badge muted">📚 Historical record</span></div></header>
   <section id="prd-dns-block-portal--product-requirements-historical"
 class="level3">
 <h3>DNS Block Portal — Product Requirements (historical)</h3>
@@ -2638,13 +2619,8 @@ route/source behavior is proven.</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-ops-index">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">Operations · Index</h2>
-    <div class="doc-badge"><span class="badge live">🟢 Current</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Index</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
   <section id="ops-index-dns--index" class="level3">
 <h3>DNS — Index</h3>
 <blockquote>
@@ -2830,13 +2806,8 @@ user_rules snapshots (private; 03:00 PDT)</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-ops-arch">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">Operations · Architecture</h2>
-    <div class="doc-badge"><span class="badge live">🟢 Current</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Architecture</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
   <section id="ops-arch-dns--architecture" class="level3">
 <h3>DNS — Architecture</h3>
 <blockquote>
@@ -3127,13 +3098,8 @@ B)</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-ops-runbook">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">Operations · Runbook</h2>
-    <div class="doc-badge"><span class="badge live">🟢 Current</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Operations · Runbook</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
   <section id="ops-runbook-dns--operations" class="level3">
 <h3>DNS — Operations</h3>
 <blockquote>
@@ -3506,13 +3472,8 @@ wrapper, git-tracked snapshots)</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-ops-watchers">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">Watcher Catalog</h2>
-    <div class="doc-badge"><span class="badge live">🟢 Current</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Watcher Catalog</h2><div class="doc-badge"><span class="badge live">🟢 Current</span></div></header>
   <section id="ops-watchers-dns-block-portal--watcher-catalog"
 class="level3">
 <h3>DNS Block Portal — Watcher Catalog</h3>
@@ -4114,13 +4075,8 @@ Config".</p>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L1">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L1 — Portal cert custody</h2>
-    <div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Portal cert custody</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
   <section id="L1-l1--portal-caddy-cert-custody" class="level3">
 <h3>L1 — Portal Caddy cert custody</h3>
 <p><strong>Status:</strong> ✅ SHIPPED 2026-05-27 (Wave-3, same session
@@ -4320,13 +4276,8 @@ fingerprint.</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L1r">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L1 — Rotation playbook</h2>
-    <div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L1 — Rotation playbook</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
   <section id="L1r-l1-pki-rotation-playbook" class="level3">
 <h3>L1 PKI rotation playbook</h3>
 <blockquote>
@@ -4464,13 +4415,8 @@ from <code>PINNED_ROOT_FP</code>, it alerts to Discord
 </section>
 
 </section>
-
 <section class="doc" id="doc-L2">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L2 — Portal UX polish</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec only (speculative)</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L2 — Portal UX polish</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (speculative)</span></div></header>
   <section id="L2-l2--portal-ux-polish" class="level3">
 <h3>L2 — Portal UX polish</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative. <strong>Why
@@ -4583,13 +4529,8 @@ experience starts from a green padlock.</p>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L3">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L3 — HAProxy → nftables migration</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec only (not recommended)</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L3 — HAProxy → nftables migration</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (not recommended)</span></div></header>
   <section id="L3-l3--haproxy--nftables-migration" class="level3">
 <h3>L3 — HAProxy → nftables migration</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative — HAProxy
@@ -4727,13 +4668,8 @@ still get TCP-reject (not 200) for non-mdca SNI.</label></li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L4">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L4 — Multi-domain mdca support</h2>
-    <div class="doc-badge"><span class="badge spec">📋 Spec only (when needed)</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L4 — Multi-domain mdca support</h2><div class="doc-badge"><span class="badge spec">📋 Spec only (when needed)</span></div></header>
   <section id="L4-l4--multi-domain-mdca-support" class="level3">
 <h3>L4 — Multi-domain mdca support</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). Speculative — only needed
@@ -4862,13 +4798,8 @@ public hostname routes to NPM, not portal.</label></li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L5">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L5 — Portal cert trust enrollment</h2>
-    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 — Portal cert trust enrollment</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied</span></div></header>
   <section id="L5-l5--portal-cert-trust-enrollment-ux" class="level3">
 <h3>L5 — Portal cert trust enrollment UX</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
@@ -4997,6 +4928,70 @@ warning.</p>
 place. <strong>L5.5 doesn't work for our use case.</strong> Skip.</p>
 </section>
 </section>
+<section
+id="L5-review-revisions-2026-05-27-per-reviewsl5-review-2026-05-27md"
+class="level4">
+<h4>Review revisions (2026-05-27, per
+<code>reviews/L5-review-2026-05-27.md</code>)</h4>
+<p>The following 3 changes MUST land before implementation begins:</p>
+<section id="L5-r1--setup-access-policy" class="level5">
+<h5>R1 — <code>/setup</code> access policy</h5>
+<p><code>/setup</code> is reachable from any device in
+<code>192.168.1.0/24</code> (the HAProxy
+<code>trusted_portal_sources</code> LAN gate). For guests / non-trusted
+devices:</p>
+<ul>
+<li>Return a clear 403 page: "This DNS Portal is for trusted devices on
+Ace's home network. Ask the network operator to grant access."</li>
+<li>Do NOT serve the cert download to non-trusted clients.</li>
+<li>HAProxy <code>reject_unknown_sni</code> already handles WAN clients;
+the 403 is for the future case where we want non-LAN trusted devices
+(e.g. Tailnet-side LAN clients) without giving them full portal
+admin.</li>
+</ul>
+</section>
+<section id="L5-r2--security-threat-model-for-setup" class="level5">
+<h5>R2 — Security threat model for <code>/setup</code></h5>
+<ul>
+<li><strong>CSP header:</strong>
+<code>Content-Security-Policy: default-src 'self'; script-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'</code>
+(the <code>data:</code> allows base64-embedded screenshots;
+<code>'unsafe-inline'</code> on style is the existing portal pattern,
+acceptable since we control the HTML).</li>
+<li><strong>No third-party JS/CSS/fonts</strong> — inline everything or
+serve from same origin.</li>
+<li><strong>No key download:</strong> only <code>.crt</code> files.
+<code>intermediate.key</code> lives in 1Password and the portal Caddy
+bind-mount; it is NEVER served.</li>
+<li><strong>iOS <code>.mobileconfig</code> profile signing:</strong>
+track as a follow-up issue. Unsigned profile triggers an "Unverified
+Profile" warning on iOS but is otherwise functional. If we add an Apple
+Developer account, the warning goes away. Not a blocker.</li>
+</ul>
+</section>
+<section id="L5-r3--test-trust-probe-sni" class="level5">
+<h5>R3 — "Test trust" probe SNI</h5>
+<p>Use a dedicated synthetic SNI for the trust-test probe rather than a
+real blocked domain. Reasoning: a real blocked SNI like
+<code>doubleclick.net</code> would conflate "trust install worked" with
+"is doubleclick currently blocked."</p>
+<p>Implementation:</p>
+<ol type="1">
+<li>AGH rewrites <code>trust-probe.invalid</code> (RFC 6761 reserved
+TLD) to the WAN sinkhole IP via a permanent user_rule:
+<code>||trust-probe.invalid^</code> (added at L5 install time).</li>
+<li><code>/setup</code> test button does
+<code>fetch('https://trust-probe.invalid/healthz', {mode: 'no-cors'})</code>
+and checks for a successful TLS handshake (any response = trust works;
+opaque-response is fine).</li>
+<li>If TLS handshake fails (cert warning shown), the user sees a clear
+"Trust did NOT install — try again or see manual install steps."</li>
+<li>The probe creates an <code>audit.jsonl</code> row tagged
+<code>action: trust_test</code> so we can count successful installs over
+time (Required Change suggested by Product lens).</li>
+</ol>
+</section>
+</section>
 <section id="L5-recommendation" class="level4">
 <h4>Recommendation</h4>
 <p>Stack L5.1 + L5.2:</p>
@@ -5008,21 +5003,45 @@ next session, ship if Ace wants the polish. Worth 4-6 hours because
 every new household device benefits forever.</li>
 </ul>
 </section>
-<section id="L5-done-definition-if-pursuing-l52" class="level4">
-<h4>Done definition (if pursuing L5.2)</h4>
+<section
+id="L5-done-definition-if-pursuing-l52--incorporates-review-r1-r3"
+class="level4">
+<h4>Done definition (if pursuing L5.2 — incorporates review R1-R3)</h4>
 <ul class="task-list">
-<li><label><input type="checkbox" /><code>/setup</code> detects OS from
-UA and shows OS-specific install flow</label></li>
+<li><label><input type="checkbox" /><code>/setup</code> detects OS via
+<code>Sec-CH-UA-Platform</code> (preferred) with UA fallback; shows
+OS-specific install flow</label></li>
+<li><label><input type="checkbox" />Untrusted source → 403 with
+operator-contact message (R1)</label></li>
+<li><label><input type="checkbox" />CSP header set per R2; no
+third-party assets</label></li>
 <li><label><input type="checkbox" />One-button download of the right
-cert format</label></li>
-<li><label><input type="checkbox" />Inline screenshots showing the
-install steps for that OS</label></li>
+cert format
+(<code>.crt</code>/<code>.mobileconfig</code>/<code>.cer</code>)</label></li>
+<li><label><input type="checkbox" />Only the public root + intermediate
+<code>.crt</code> files are served — never the intermediate
+<code>.key</code> (R2)</label></li>
+<li><label><input type="checkbox" />Inline base64 screenshots showing
+the install steps for that OS</label></li>
+<li><label><input type="checkbox" />AGH user_rule
+<code>||trust-probe.invalid^</code> seeded at install time
+(R3)</label></li>
 <li><label><input type="checkbox" />Post-install "test trust" button
-that probes a different SNI and shows the user whether it
-worked</label></li>
-<li><label><input type="checkbox" />Doc references updated;
-<code>/install-root-ca</code> becomes the API endpoint that
-<code>/setup</code> consumes (cleaner separation)</label></li>
+probes <code>trust-probe.invalid</code> and emits
+<code>audit.jsonl</code> row tagged <code>action: trust_test</code> on
+success/fail (R3)</label></li>
+<li><label><input type="checkbox" /><code>/install-root-ca</code>
+becomes the API endpoint that <code>/setup</code> consumes (cleaner
+separation)</label></li>
+<li><label><input type="checkbox" /><strong>Manual gate:</strong> Ace
+installs the cert via <code>/setup</code> on at least 2 devices (1 macOS
++ 1 iOS), confirms green padlock on
+<code>https://blocked.local.ace/</code>. Without this, "shipped" is
+theoretical.</label></li>
+<li><label><input type="checkbox" />Pytest e2e: <code>/setup</code>
+returns correct OS-specific HTML per UA, 403 for untrusted source,
+<code>/install-root-ca</code> PEM matches 1P-pinned
+fingerprint</label></li>
 </ul>
 </section>
 <section id="L5-dependencies" class="level4">
@@ -5033,13 +5052,8 @@ worked</label></li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L5r">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L5 review — senior verdict (2026-05-27)</h2>
-    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L5 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
   <section id="L5r-l5--senior-review-2026-05-27" class="level3">
 <h3>L5 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
@@ -5286,13 +5300,8 @@ Opus-required gate.</p>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L6">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L6 — Portal session persistence</h2>
-    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 — Portal session persistence</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied</span></div></header>
   <section id="L6-l6--portal-session-persistence" class="level3">
 <h3>L6 — Portal session persistence</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong> Ace
@@ -5423,6 +5432,82 @@ hours total). That alone fixes 95% of the pain:</p>
 <p>Defer L6.4/L6.5 to "L2 — Portal UX polish" if/when we actually need
 it.</p>
 </section>
+<section
+id="L6-review-revisions-2026-05-27-per-reviewsl6-review-2026-05-27md"
+class="level4">
+<h4>Review revisions (2026-05-27, per
+<code>reviews/L6-review-2026-05-27.md</code>)</h4>
+<p>The following 3 changes MUST land before implementation begins:</p>
+<section id="L6-r1--hmac-signed-domain-to-close-open-redirect"
+class="level5">
+<h5>R1 — HMAC-signed <code>?domain=</code> to close open-redirect</h5>
+<p>Without this, an attacker could craft
+<code>https://blocked.local.ace/?domain=your-trusted-bank.com</code> to
+social-engineer the user into allowlisting an unintended domain. Today's
+spec just trusts the query param.</p>
+<p><strong>Implementation (Option A from review — simpler):</strong></p>
+<ol type="1">
+<li>Each blocked-SNI portal Caddy response includes a redirect with a
+signed token:
+<pre><code>Location: https://blocked.local.ace/?domain=doubleclick.net&amp;t=&lt;token&gt;
+t = base64url(hmac_sha256(secret=DNS_ADMIN_SESSION_SECRET, message=&quot;domain:doubleclick.net:&lt;expiry_unix&gt;&quot;))</code></pre></li>
+<li>The expiry is 5 minutes from issuance
+(<code>&lt;expiry_unix&gt;</code> is encoded in the token via second
+HMAC field or appended <code>&amp;exp=&lt;unix&gt;</code> validated by
+the same HMAC).</li>
+<li><code>blocked.local.ace</code> handler:
+<ul>
+<li>Parses <code>domain</code>, <code>exp</code>, <code>t</code>.</li>
+<li>Recomputes HMAC for <code>domain + exp</code>. Compare in constant
+time.</li>
+<li>Rejects if mismatch
+(<code>400 Bad Request: invalid redirect token</code>).</li>
+<li>Rejects if <code>exp &lt; now()</code>
+(<code>400 Bad Request: expired redirect token</code>).</li>
+</ul></li>
+<li>Direct navigation to <code>/?domain=X</code> without <code>t</code>
+→ ignore <code>domain</code>, render the generic admin form (no domain
+prefilled).</li>
+</ol>
+<p>This means an attacker can NOT craft a working <code>?domain=</code>
+URL because they don't have <code>DNS_ADMIN_SESSION_SECRET</code>. The
+token is single-purpose (only valid for the original SNI's redirect
+chain) and expires fast.</p>
+</section>
+<section id="L6-r2--l65-fingerprint-privacy-hardening" class="level5">
+<h5>R2 — L6.5 fingerprint privacy hardening</h5>
+<p>If we ever ship L6.5 (cookie-free fingerprint fallback), the
+fingerprint MUST use a daily-rotating salt so old audit-log fingerprints
+can't be cross-referenced back to a device weeks later.</p>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Salt = <code>HMAC(DNS_ADMIN_SESSION_SECRET, today_date_iso)</code>
+(rotates at midnight UTC).</li>
+<li>Fingerprint =
+<code>HMAC(salt, sec_ch_ua_platform + sec_ch_ua_mobile + client_ip)</code>.</li>
+<li>Sessions look up by fingerprint; on day rollover, fingerprints
+change → session lookup misses → user re-prompts ONCE per day.
+Acceptable for an admin session; preserves privacy in audit logs.</li>
+</ul>
+</section>
+<section id="L6-r3--30-day-cookie-revoke-story" class="level5">
+<h5>R3 — 30-day cookie revoke story</h5>
+<p>Long-lived cookies need a kill switch.</p>
+<p><strong>Implementation:</strong></p>
+<ol type="1">
+<li>Add a prominent <code>[Log out]</code> button at the bottom of every
+portal page (block page + allowlist + setup) that POSTs to
+<code>/admin/logout</code> and clears the cookie.</li>
+<li>Add admin action <code>POST /admin/sessions/revoke-all</code> that
+bumps a <code>DNS_ADMIN_SESSION_GENERATION</code> counter (a new env var
+or sqlite key). The session cookie HMAC includes this counter; bumping
+it invalidates every cookie ever issued.</li>
+<li>Update <code>docs/longterm/L1-rotation.md</code>-style runbook
+entry: "if you suspect a device with a session cookie is compromised,
+run revoke-all."</li>
+</ol>
+</section>
+</section>
 <section id="L6-pna-verification-matrix-gate-l61" class="level4">
 <h4>PNA verification matrix (gate L6.1)</h4>
 <p>The redirect goes <code>public-domain.tld</code> (public IP,
@@ -5512,22 +5597,36 @@ portal HTML.</li>
 <li>Session cookie set + reused across two blocked-SNI redirects.</li>
 </ul>
 </section>
-<section id="L6-done-definition-l61--l62" class="level4">
-<h4>Done definition (L6.1 + L6.2)</h4>
+<section id="L6-done-definition-l61--l62--incorporates-review-r1-r3"
+class="level4">
+<h4>Done definition (L6.1 + L6.2 — incorporates review R1-R3)</h4>
 <ul class="task-list">
 <li><label><input type="checkbox" />PNA verification matrix executed and
-PASSED in Brave + Chrome + Firefox.</label></li>
-<li><label><input type="checkbox" />FastAPI middleware/handler: when SNI
-!= <code>blocked.local.ace</code>, render a 302 redirect to
-<code>https://blocked.local.ace/?domain=&lt;original_sni&gt;</code>
-instead of the portal HTML.</label></li>
+PASSED in Brave + Chrome + Firefox</label></li>
+<li><label><input type="checkbox" />FastAPI middleware: when SNI !=
+<code>blocked.local.ace</code>, redirect 302 to
+<code>https://blocked.local.ace/?domain=&lt;sni&gt;&amp;exp=&lt;unix&gt;&amp;t=&lt;hmac&gt;</code>
+(R1)</label></li>
+<li><label><input type="checkbox" /><code>blocked.local.ace</code>
+handler validates <code>t</code> HMAC + <code>exp</code> freshness;
+rejects with 400 on tamper (R1)</label></li>
+<li><label><input type="checkbox" />Pytest:
+<code>test_unblock_redirect_token_required</code>,
+<code>test_unblock_redirect_token_tampered</code>,
+<code>test_unblock_redirect_token_expired</code> (R1)</label></li>
 <li><label><input
-type="checkbox" /><code>SESSION_MAX_AGE_SECONDS = 30 * 24 * 3600</code>
-with a logout button on the unblock page.</label></li>
-<li><label><input type="checkbox" />Pytest e2e: 302 mechanics + cookie
-reuse across redirects.</label></li>
-<li><label><input type="checkbox" />Updated <code>DNS — Operations</code>
-notes.</label></li>
+type="checkbox" /><code>SESSION_MAX_AGE_SECONDS = 30 * 24 * 3600</code></label></li>
+<li><label><input type="checkbox" /><code>[Log out]</code> button on
+every portal page (R3)</label></li>
+<li><label><input
+type="checkbox" /><code>POST /admin/sessions/revoke-all</code> endpoint
++ sqlite generation counter (R3)</label></li>
+<li><label><input type="checkbox" />Pytest: 302 mechanics + cookie reuse
+across redirects + revoke-all invalidates existing cookie</label></li>
+<li><label><input type="checkbox" />If L6.5 is shipped: daily-rotating
+salt for fingerprint (R2)</label></li>
+<li><label><input type="checkbox" />Updated <code>DNS — Operations</code> notes
+(recovery from accidental revoke-all)</label></li>
 </ul>
 </section>
 <section id="L6-dependencies" class="level4">
@@ -5540,13 +5639,8 @@ untrusted-device UX too (one warning instead of one-per-domain).</p>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L6r">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L6 review — senior verdict (2026-05-27)</h2>
-    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L6 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
   <section id="L6r-l6--senior-review-2026-05-27" class="level3">
 <h3>L6 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
@@ -5801,13 +5895,8 @@ effort, not a blocker.</li>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L7">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L7 — Unified allowlist UI</h2>
-    <div class="doc-badge"><span class="badge review">📋 Spec · review: APPROVE WITH CHANGES</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 — Unified allowlist UI</h2><div class="doc-badge"><span class="badge review">📋 Spec v2 · review revisions applied (L7a/L7b split)</span></div></header>
   <section id="L7-l7--unified-allowlist-ui-one-page-all-crud"
 class="level3">
 <h3>L7 — Unified allowlist UI (one page, all CRUD)</h3>
@@ -5922,6 +6011,98 @@ instead of rendering its own page. Or we can deprecate it entirely and
 route the block page's secondary buttons to the new API endpoints.</p>
 </section>
 </section>
+<section
+id="L7-review-revisions-2026-05-27-per-reviewsl7-review-2026-05-27md"
+class="level4">
+<h4>Review revisions (2026-05-27, per
+<code>reviews/L7-review-2026-05-27.md</code>)</h4>
+<p>The following 3 changes MUST land before implementation begins:</p>
+<section id="L7-r1--split-l7-into-l7a-and-l7b" class="level5">
+<h5>R1 — Split L7 into L7a and L7b</h5>
+<p>L7 as originally written mixes a UI redesign (low risk) with a new
+destructive capability ("add block rule from portal" — medium risk,
+needs its own threat model).</p>
+<p><strong>L7a (ships first):</strong></p>
+<ul>
+<li>Unified <code>/allowlist</code> page with add-allow form + filter
+row + in-place AJAX remove + Undo window</li>
+<li>Replaces the <code>/reblock</code> redirect with in-place toast
+feedback</li>
+<li>New endpoints: <code>/api/portal/rule</code> (add allow only),
+<code>/api/portal/rule/delete</code>,
+<code>/api/portal/rule/extend</code></li>
+<li>Effort: ~6h (was 1 day with L7b bundled)</li>
+</ul>
+<p><strong>L7b (deferred, separate spec when needed):</strong></p>
+<ul>
+<li>Add <code>Type: Block</code> radio capability</li>
+<li>Requires: confirmation prompt + second secret entry per block
+(defense against XSS hijack) OR routes through
+<code>agh-set-user-rules-safe.py</code> directly (which has
+shrink-gate)</li>
+<li>Threat model: must enumerate "what's the worst a XSS-on-allowlist
+attacker could do?" — today the answer is "add allow rules"; with L7b it
+becomes "add block rules to disrupt banking / critical services"</li>
+<li>Recommendation in review: defer indefinitely unless a real use case
+emerges. Block-rule management stays in the safety wrapper.</li>
+</ul>
+</section>
+<section id="L7-r2--rule-provenance-tracking" class="level5">
+<h5>R2 — Rule provenance tracking</h5>
+<p>The portal allowlist shows ALL <code>@@</code> user_rules, not just
+ones added via portal. If the portal lets users delete manually-added
+rules, the audit trail loses fidelity.</p>
+<p><strong>Implementation:</strong></p>
+<ol type="1">
+<li>New sqlite table in <code>devices.sqlite</code>:
+<div class="sourceCode" id="L7-cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="L7-cb3-1"><a href="#L7-cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">CREATE</span> <span class="kw">TABLE</span> rule_provenance (</span>
+<span id="L7-cb3-2"><a href="#L7-cb3-2" aria-hidden="true" tabindex="-1"></a>  rule_text TEXT <span class="kw">PRIMARY</span> <span class="kw">KEY</span>,</span>
+<span id="L7-cb3-3"><a href="#L7-cb3-3" aria-hidden="true" tabindex="-1"></a>  added_via TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,           <span class="co">-- &#39;portal&#39; | &#39;manual&#39; | &#39;unknown&#39;</span></span>
+<span id="L7-cb3-4"><a href="#L7-cb3-4" aria-hidden="true" tabindex="-1"></a>  added_at TEXT <span class="kw">NOT</span> <span class="kw">NULL</span>,            <span class="co">-- ISO timestamp</span></span>
+<span id="L7-cb3-5"><a href="#L7-cb3-5" aria-hidden="true" tabindex="-1"></a>  added_by_client TEXT,              <span class="co">-- AGH client name if &#39;portal&#39;</span></span>
+<span id="L7-cb3-6"><a href="#L7-cb3-6" aria-hidden="true" tabindex="-1"></a>  added_by_actor TEXT                <span class="co">-- IP that initiated the add</span></span>
+<span id="L7-cb3-7"><a href="#L7-cb3-7" aria-hidden="true" tabindex="-1"></a>);</span></code></pre></div></li>
+<li>When portal adds via <code>/api/portal/rule</code>, write a row with
+<code>added_via='portal'</code>.</li>
+<li>When portal deletes via <code>/api/portal/rule/delete</code>:
+<ul>
+<li>Look up the row.</li>
+<li>If <code>added_via='manual'</code>: show extra confirmation "This
+rule was not added via the portal. Delete anyway?" + log audit row with
+<code>original_provenance='manual'</code>.</li>
+<li>If <code>added_via='portal'</code>: delete normally.</li>
+</ul></li>
+<li>On portal startup, <strong>bootstrap</strong> the table: any
+user_rule present in AGH but not in <code>rule_provenance</code> gets
+row with <code>added_via='unknown'</code>.</li>
+<li>Allowlist view annotates each row with <code>[portal]</code>,
+<code>[manual]</code>, or <code>[unknown]</code> for visual
+clarity.</li>
+</ol>
+</section>
+<section id="L7-r3--undo-window-tuning" class="level5">
+<h5>R3 — Undo window tuning</h5>
+<p>Original spec says 5s undo window. Safety wrapper takes ~1.5s per
+call; undo within 5s under load is tight.</p>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Undo window = <strong>15 seconds</strong> (not 5).</li>
+<li>On Undo click: re-add the rule via <code>/api/portal/rule</code>
+(which uses the safety wrapper internally).</li>
+<li>If re-add fails (safety wrapper shrink-gate, network, etc.):
+<ul>
+<li>Toast: "Undo failed: <error>. Click here to manually re-add."</li>
+<li>The "click here" opens the add form with the rule prefilled.</li>
+</ul></li>
+<li>If the user deletes a <code>added_via='manual'</code> rule: skip the
+Undo option entirely (just delete; re-adding doesn't preserve manual
+metadata).</li>
+<li>Filter / search state persists across delete/undo (no full
+reload).</li>
+</ul>
+</section>
+</section>
 <section id="L7-effort" class="level4">
 <h4>Effort</h4>
 <ul>
@@ -5940,30 +6121,65 @@ route the block page's secondary buttons to the new API endpoints.</p>
 contained to one template + one new JS file (no framework — vanilla,
 matching existing style).</p>
 </section>
-<section id="L7-done-definition" class="level4">
-<h4>Done definition</h4>
+<section
+id="L7-done-definition-l7a--incorporates-review-r1-r3-l7b-deferred"
+class="level4">
+<h4>Done definition (L7a — incorporates review R1-R3; L7b deferred)</h4>
 <ul class="task-list">
 <li><label><input type="checkbox" /><code>/allowlist</code> shows the
-unified UI (add form + filter row + rule list)</label></li>
+unified UI: add-ALLOW form + filter row + rule list (NO block-rule add
+per R1)</label></li>
 <li><label><input type="checkbox" />In-place add via
 <code>/api/portal/rule</code> (no redirect)</label></li>
 <li><label><input type="checkbox" />In-place remove via
-<code>/api/portal/rule/delete</code> (no redirect; toast +
-Undo)</label></li>
-<li><label><input type="checkbox" />Block-type rules
-(<code>||domain^</code>) addable via the same form</label></li>
+<code>/api/portal/rule/delete</code> (no redirect; 15s toast + Undo per
+R3)</label></li>
+<li><label><input type="checkbox" /><code>devices.sqlite</code>
+rule_provenance table + bootstrap migration (R2)</label></li>
+<li><label><input type="checkbox" />Per-rule annotation
+<code>[portal]</code> / <code>[manual]</code> / <code>[unknown]</code>
+in the allowlist view (R2)</label></li>
+<li><label><input type="checkbox" />Extra-confirm prompt when deleting a
+<code>added_via='manual'</code> rule (R2)</label></li>
+<li><label><input type="checkbox" />All new endpoints
+<code>Depends(require_admin_mutation_auth)</code> PLUS CSRF token
+verification (not Bearer-only) for AJAX calls</label></li>
 <li><label><input type="checkbox" /><code>/unblock</code> from block
 page still works (back-compat)</label></li>
-<li><label><input type="checkbox" /><code>/reblock</code> either
-deprecated or just redirects to <code>/allowlist</code></label></li>
+<li><label><input type="checkbox" /><code>/reblock</code> returns 302 to
+<code>/allowlist</code> (no redundant confirmation page; deprecation
+path)</label></li>
 <li><label><input type="checkbox" />E2E tests:</label>
 <ul>
 <li>Add allow + verify in AGH</li>
-<li>Add block + verify in AGH</li>
 <li>Remove allow + verify gone from AGH</li>
-<li>Filter by type/client works</li>
-<li>Auth required for all mutations</li>
+<li>AJAX delete updates page without full reload</li>
+<li>Undo within 15s window succeeds; outside expires</li>
+<li>Undo failure shows fallback toast with re-add link</li>
+<li>Filter state persists across delete + undo</li>
+<li>Provenance annotation displays correctly (portal vs manual vs
+unknown)</li>
+<li>Extra-confirm fires for manual-add deletion</li>
+<li>Auth required for all mutations (Bearer OR CSRF + session)</li>
 </ul></li>
+<li><label><input type="checkbox" />Mobile responsive (stacked layout on
+&lt;600px width)</label></li>
+</ul>
+</section>
+<section id="L7-l7b-deferred-done-definition" class="level4">
+<h4>L7b (deferred) done definition</h4>
+<p>L7b is its own spec when/if a use case emerges. Out-of-scope for L7a.
+When scoped, L7b must additionally provide:</p>
+<ul class="task-list">
+<li><label><input type="checkbox" />Threat model document covering "XSS
+→ mass-block-banking-domain" attack</label></li>
+<li><label><input type="checkbox" />Block-rule add requires confirmation
+prompt + admin secret re-entry</label></li>
+<li><label><input type="checkbox" />Block-rule add routes through
+<code>agh-set-user-rules-safe.py</code> (which enforces shrink-gate +
+snapshot)</label></li>
+<li><label><input type="checkbox" />E2E test that adding
+<code>||critical-domain.com^</code> requires double-auth</label></li>
 </ul>
 </section>
 <section id="L7-dependencies" class="level4">
@@ -5974,13 +6190,8 @@ AJAX call from a long-lived session.</p>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L7r">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L7 review — senior verdict (2026-05-27)</h2>
-    <div class="doc-badge"><span class="badge review">📝 Review artifact</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L7 review — senior verdict</h2><div class="doc-badge"><span class="badge review">📝 Review artifact</span></div></header>
   <section id="L7r-l7--senior-review-2026-05-27" class="level3">
 <h3>L7 — Senior Review (2026-05-27)</h3>
 <p><strong>PRD:</strong>
@@ -6247,13 +6458,8 @@ three)</td>
 </section>
 
 </section>
-
 <section class="doc" id="doc-L8">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">L8 — Post-unblock cache busting</h2>
-    <div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">L8 — Post-unblock cache busting</h2><div class="doc-badge"><span class="badge shipped">✅ Shipped 2026-05-27</span></div></header>
   <section id="L8-l8--post-unblock-cache-busting" class="level3">
 <h3>L8 — Post-unblock cache busting</h3>
 <p><strong>Status:</strong> SPEC (2026-05-27). <strong>Ask:</strong>
@@ -6583,13 +6789,8 @@ href="https://www.chromium.org/developers/design-documents/dns-prefetching/">htt
 </section>
 
 </section>
-
 <section class="doc" id="doc-verdict">
-  <header class="doc-header">
-    <a class="doc-back" href="#top">↑ top</a>
-    <h2 class="doc-title">Consolidated review verdict L5/L6/L7</h2>
-    <div class="doc-badge"><span class="badge review">📝 Summary</span></div>
-  </header>
+  <header class="doc-header"><a class="doc-back" href="#top">↑ top</a><h2 class="doc-title">Consolidated review verdict L5/L6/L7</h2><div class="doc-badge"><span class="badge review">📝 Summary</span></div></header>
   <section id="verdict-l5--l6--l7--consolidated-senior-review-verdict"
 class="level3">
 <h3>L5 / L6 / L7 — Consolidated Senior Review Verdict</h3>
@@ -6806,26 +7007,14 @@ then L5. Total ~2 work days with required changes integrated.</p>
 </section>
 </section>
 
-</section>
-
-</div>
-</main>
-</div>
+</section></div></main></div>
 <script>
 document.querySelectorAll('pre').forEach(function(pre) {
-  var btn = document.createElement('button');
-  btn.className = 'copy-btn';
-  btn.textContent = 'Copy';
+  var btn = document.createElement('button'); btn.className = 'copy-btn'; btn.textContent = 'Copy';
   btn.addEventListener('click', function() {
-    var code = pre.querySelector('code');
-    var text = code ? code.textContent : pre.textContent;
-    navigator.clipboard.writeText(text).then(function() {
-      btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-    });
+    var code = pre.querySelector('code'); var text = code ? code.textContent : pre.textContent;
+    navigator.clipboard.writeText(text).then(function() { btn.textContent = 'Copied!'; setTimeout(function() { btn.textContent = 'Copy'; }, 1500); });
   });
   pre.appendChild(btn);
 });
-</script>
-</body>
-</html>
+</script></body></html>
